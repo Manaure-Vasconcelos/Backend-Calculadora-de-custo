@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { IngredientProtocol } from 'src/interfaces/ingredient-protocol';
+import { IngredientProtocol } from '../interfaces/ingredient-protocol';
 
 @Injectable()
 export class IngredientService implements IngredientProtocol {
   constructor(
-    public describe: string,
-    public marketWeight: number,
-    public marketPrice: number,
-    public grossWeight: number,
+    public describe: string = 'Comida 1',
+    public marketWeight: number = 6,
+    public marketPrice: number = 10,
+    public grossWeight: number = 5,
     public _realAmount?: number,
   ) {}
 

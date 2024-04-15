@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { IngredientProtocol } from 'src/interfaces/ingredient-protocol';
+import { IngredientService } from '../ingredient/ingredient.service';
+import { IngredientProtocol } from '../interfaces/ingredient-protocol';
+import { TableIngredientsProtocol } from '../interfaces/table-ingredient-protocol';
 
 @Injectable()
-export class TableIngredientsService {
+export class TableIngredientsService implements TableIngredientsProtocol {
   private readonly _ingredients: IngredientProtocol[] = [];
   public _valuePartialOfRecipe: number = 0;
   // valor parcial da receita e usar pela intancia no arquivo index.
-  constructor(public readonly ingredientService: IngredientProtocol) {}
+  constructor(public readonly ingredientService: IngredientService) {}
 
   setIngredient(ingredient: IngredientProtocol) {
     this._ingredients.push(ingredient);
@@ -15,7 +17,7 @@ export class TableIngredientsService {
     this.setIngredientInTheContents(...this._ingredients);
   }
 
-  getIngredient(): IngredientProtocol[] {
+  getIngredients(): IngredientProtocol[] {
     return this._ingredients;
   }
 

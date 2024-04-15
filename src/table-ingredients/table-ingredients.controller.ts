@@ -1,14 +1,32 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
+import { IngredientProtocol } from '../interfaces/ingredient-protocol';
+import { TableIngredientsService } from './table-ingredients.service';
 
 @Controller('table-ingredients')
 export class TableIngredientsController {
-  @Get()
-  getValuePartialOfRecipe() {
-    return 'Obtendo valor parcial da receita.';
+  constructor(
+    private readonly tableIngredientsService: TableIngredientsService,
+  ) {}
+
+  @Post('/ingredients')
+  setIngredient(ingredient: IngredientProtocol) {
+    this.tableIngredientsService.setIngredient(ingredient);
+    return 'Adicionando um ingrediente';
   }
 
   @Get('/ingredients')
   getIngredients() {
-    return 'Obtendo os ingredients da receita.';
+    return this.tableIngredientsService.getIngredients();
+  }
+
+  @Post()
+  setValuePartial() {
+    this.tableIngredientsService.setValuePartialOfRecipe();
+    return 'Adicionando valor parcial.';
+  }
+
+  @Get('/value-partial')
+  getValuePartialOfRecipe() {
+    return this.tableIngredientsService.getValuePartialOfRecipe();
   }
 }
