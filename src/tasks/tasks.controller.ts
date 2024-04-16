@@ -1,11 +1,50 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { TasksService } from './tasks.service';
+import { TaskPutDto } from './dto/task-put-dto';
+import { TaskDto } from './dto/task-dto';
 
-@Controller({})
+@Controller('/tasks')
 export class TasksController {
   constructor(public tasksService: TasksService) {}
-  @Get('/tasks')
-  getTasks() {
-    return this.tasksService.getTasks();
+  // Retorna algo de algum lugar. Banco de dados.
+  @Get()
+  getAllTasks(@Query() query: TaskDto) {
+    console.log(query);
+    return this.tasksService.getAllTasks();
+  }
+
+  @Get('/:id')
+  getTask(@Param('id') id: string) {
+    return this.tasksService.getTask(parseInt(id));
+  }
+  // Seta informações, envio de forms.
+  @Post()
+  createTask(@Body() task: TaskDto) {
+    return this.tasksService.createTask(task);
+  }
+  // Atualiza total.
+  @Put() // {title: 'task1', status: false} => {title: 'Done', status: true}
+  updateTasks() {
+    return this.tasksService.updateTask();
+  }
+  // Deleta
+  @Delete()
+  deleteTask() {
+    return this.tasksService.deleteTask();
+  }
+  // Atualiza somente uma parte.
+  @Patch() // {title: 'task1', status: false} => {title: 'task1', status: true}
+  updateTaskStatus(@Body() task: TaskPutDto) {
+    return this.tasksService.updateStatusTask(task);
   }
 }
