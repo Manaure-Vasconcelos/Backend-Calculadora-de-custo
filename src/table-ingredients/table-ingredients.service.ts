@@ -1,23 +1,32 @@
 import { Injectable } from '@nestjs/common';
+import { TableIngredientsDTO } from '../interfaces/table-ingredient-dto';
+import { IngredientServiceDTO } from '../interfaces/ingredient-service-dto';
 import { IngredientService } from '../ingredient/ingredient.service';
-import { IngredientProtocol } from '../interfaces/ingredient-protocol';
-import { TableIngredientsProtocol } from '../interfaces/table-ingredient-protocol';
 
 @Injectable()
-export class TableIngredientsService implements TableIngredientsProtocol {
-  private readonly _ingredients: IngredientProtocol[] = [];
+export class TableIngredientsService extends TableIngredientsDTO {
+  private readonly _ingredients: IngredientServiceDTO[] = [];
   public _valuePartialOfRecipe: number = 0;
-  // valor parcial da receita e usar pela intancia no arquivo index.
-  constructor(public readonly ingredientService: IngredientService) {}
 
-  setIngredient(ingredient: IngredientProtocol) {
-    this._ingredients.push(ingredient);
+  createIngredient(ingredient: IngredientServiceDTO) {
+    const result = new IngredientService(
+      ingredient.describe,
+      ingredient.marketWeight,
+      ingredient.marketPrice,
+      ingredient.grossWeight,
+    );
+    this.setIngredient(result);
+    return ingredient;
+  }
+
+  setIngredient(ingredient: IngredientServiceDTO) {
     ingredient.setRealAmount();
+    this._ingredients.push(ingredient);
     this.setValuePartialOfRecipe();
     this.setIngredientInTheContents(...this._ingredients);
   }
 
-  getIngredients(): IngredientProtocol[] {
+  getIngredients(): IngredientServiceDTO[] {
     return this._ingredients;
   }
 
@@ -32,7 +41,7 @@ export class TableIngredientsService implements TableIngredientsProtocol {
     return this._valuePartialOfRecipe;
   }
 
-  setIngredientInTheContents(...ingredients: IngredientProtocol[]): void {
+  setIngredientInTheContents(...ingredients: IngredientServiceDTO[]): void {
     for (const current of ingredients) {
       console.log(current.describe);
     }

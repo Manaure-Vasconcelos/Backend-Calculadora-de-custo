@@ -1,24 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { IngredientProtocol } from '../interfaces/ingredient-protocol';
+import { IngredientServiceDTO } from '../interfaces/ingredient-service-dto';
 
 @Injectable()
-export class IngredientService implements IngredientProtocol {
+export class IngredientService extends IngredientServiceDTO {
   constructor(
-    public describe: string = 'Comida 1',
-    public marketWeight: number = 6,
-    public marketPrice: number = 10,
-    public grossWeight: number = 5,
+    public describe: string,
+    public marketWeight: number,
+    public marketPrice: number,
+    public grossWeight: number,
     public _realAmount?: number,
-  ) {}
+  ) {
+    super();
+  }
 
   setRealAmount(): void {
     this._realAmount =
       (this.marketPrice * this.grossWeight) / this.marketWeight;
   }
-  /*   totalAmountPerIngredient(ingredient: IngredientProtocol): number {
-    return (
-      (ingredient.marketPrice * ingredient.grossWeight) /
-      ingredient.marketWeight
-    );
-  } */
 }

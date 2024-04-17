@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TableIngredientsController } from './table-ingredients.controller';
-import { IngredientService } from '../ingredient/ingredient.service';
 import { TableIngredientsService } from './table-ingredients.service';
 
 @Module({
+  imports: [],
   controllers: [TableIngredientsController],
-  providers: [IngredientService, TableIngredientsService],
+  providers: [TableIngredientsService],
 })
 export class TableIngredientsModule {}
