@@ -1,36 +1,48 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { TableIngredientsDTO } from '../interfaces/table-ingredient-dto';
 import { IngredientDTO } from '../interfaces/ingredient-service-dto';
 
 @Injectable()
 export class TableIngredientsService extends TableIngredientsDTO {
-  private readonly _ingredients: IngredientDTO[] = [];
+  private readonly ingredients: IngredientDTO[] = [];
   public _valuePartialOfRecipe: number = 0;
 
   createIngredient(receivedValues: IngredientDTO) {
     const ingredient = { ...receivedValues };
-    this.setRealAmount(ingredient);
+    ingredient._realAmount = this.setRealAmount(ingredient);
     this.setIngredient(ingredient);
   }
 
-  setRealAmount(ingredient: IngredientDTO): void {
-    ingredient._realAmount =
+  setRealAmount(ingredient: IngredientDTO): number {
+    return (
       (ingredient.marketPrice * ingredient.grossWeight) /
-      ingredient.marketWeight;
+      ingredient.marketWeight
+    );
   }
 
-  setIngredient(ingredient: IngredientDTO) {
-    this._ingredients.push(ingredient);
+  setIngredient(ingredient: IngredientDTO): void {
+    this.ingredients.push({ ...ingredient, id: this.ingredients.length + 1 });
     this.setValuePartialOfRecipe();
-    this.setIngredientInTheContents(...this._ingredients);
+    this.setIngredientInTheContents(...this.ingredients);
   }
 
-  getIngredients(): IngredientDTO[] {
-    return this._ingredients;
+  getAllIngredients() {
+    if (!this.ingredients.length)
+      return new NotFoundException('Primeiro adicione um ingrediente.');
+    return this.ingredients;
+  }
+
+  getIngredient(id: number) {
+    const ingredientFound = this.ingredients.find(
+      (ingredient) => ingredient.id === id,
+    );
+    console.log(ingredientFound);
+    if (!ingredientFound) return new NotFoundException(`Task ${id} not found`);
+    return ingredientFound;
   }
 
   setValuePartialOfRecipe(): void {
-    this._valuePartialOfRecipe = this._ingredients.reduce(
+    this._valuePartialOfRecipe = this.ingredients.reduce(
       (prev, next) => prev + (next._realAmount ?? 0),
       0,
     );
@@ -42,9 +54,8 @@ export class TableIngredientsService extends TableIngredientsDTO {
 
   setIngredientInTheContents(...ingredients: IngredientDTO[]): void {
     for (const current of ingredients) {
-      console.log(current.describe);
+      // Vai setar no html o elemento.
     }
-    // Vai setar no html o elemento.
     /* 
       for (const currentIngredient of ingredients) {
       row.innerHTML.text = currentIngredient

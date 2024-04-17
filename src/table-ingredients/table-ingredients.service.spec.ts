@@ -8,7 +8,7 @@ describe('TableIngredientsService', () => {
   it('should setting ingredient in array', () => {
     const sut = createSut();
 
-    const ingredients = sut.getIngredients();
+    const ingredients = sut.getAllIngredients();
     sut.setIngredient(food1);
     expect(ingredients).toEqual([food1]);
   });

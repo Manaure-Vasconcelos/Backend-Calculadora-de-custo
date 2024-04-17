@@ -4,9 +4,7 @@ export abstract class TableIngredientsDTO {
   createIngredient(ingredient: IngredientDTO): any {}
   setRealAmount(ingredient: IngredientDTO): void {}
   setIngredient(ingredient: IngredientDTO): void {}
-  getIngredients(): IngredientDTO[] {
-    return [];
-  }
+  getAllIngredients(): any {}
   setValuePartialOfRecipe(): void {}
   getValuePartialOfRecipe(): number {
     return 0;
