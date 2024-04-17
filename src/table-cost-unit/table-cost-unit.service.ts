@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { TableIngredientsDTO } from '../interfaces/table-ingredient-dto';
 import { TableCostUnitDTO } from '../interfaces/table-cost-unit-dto';
+import { TableIngredientsService } from 'src/table-ingredients/table-ingredients.service';
 
 @Injectable()
 export class TableCostUnitService extends TableCostUnitDTO {
@@ -10,7 +10,9 @@ export class TableCostUnitService extends TableCostUnitDTO {
 
   // isso é uma injeção de dependencia => é uma forma mais "fechada".
   // Pq a costUnit depende de outra class, o melhor seria criar uma abstração da classe
-  constructor(public readonly tableOfIngredients: TableIngredientsDTO) {
+  constructor(
+    public readonly tableIngredientsService: TableIngredientsService,
+  ) {
     super();
   }
 
@@ -45,11 +47,11 @@ export class TableCostUnitService extends TableCostUnitDTO {
     if (
       !this._servings ||
       !this._packaging ||
-      !this.tableOfIngredients.getValuePartialOfRecipe()
+      !this.tableIngredientsService.getValuePartialOfRecipe()
     )
       return 0;
     const valueCostUnit =
-      this.tableOfIngredients.getValuePartialOfRecipe() / this._servings +
+      this.tableIngredientsService.getValuePartialOfRecipe() / this._servings +
       this._packaging;
     return valueCostUnit;
   }

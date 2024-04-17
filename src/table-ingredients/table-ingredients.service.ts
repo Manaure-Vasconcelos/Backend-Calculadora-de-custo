@@ -1,32 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { TableIngredientsDTO } from '../interfaces/table-ingredient-dto';
-import { IngredientServiceDTO } from '../interfaces/ingredient-service-dto';
-import { IngredientService } from '../ingredient/ingredient.service';
+import { IngredientDTO } from '../interfaces/ingredient-service-dto';
 
 @Injectable()
 export class TableIngredientsService extends TableIngredientsDTO {
-  private readonly _ingredients: IngredientServiceDTO[] = [];
+  private readonly _ingredients: IngredientDTO[] = [];
   public _valuePartialOfRecipe: number = 0;
 
-  createIngredient(ingredient: IngredientServiceDTO) {
-    const result = new IngredientService(
-      ingredient.describe,
-      ingredient.marketWeight,
-      ingredient.marketPrice,
-      ingredient.grossWeight,
-    );
-    this.setIngredient(result);
-    return ingredient;
+  createIngredient(receivedValues: IngredientDTO) {
+    const ingredient = { ...receivedValues };
+    this.setRealAmount(ingredient);
+    this.setIngredient(ingredient);
   }
 
-  setIngredient(ingredient: IngredientServiceDTO) {
-    ingredient.setRealAmount();
+  setRealAmount(ingredient: IngredientDTO): void {
+    ingredient._realAmount =
+      (ingredient.marketPrice * ingredient.grossWeight) /
+      ingredient.marketWeight;
+  }
+
+  setIngredient(ingredient: IngredientDTO) {
     this._ingredients.push(ingredient);
     this.setValuePartialOfRecipe();
     this.setIngredientInTheContents(...this._ingredients);
   }
 
-  getIngredients(): IngredientServiceDTO[] {
+  getIngredients(): IngredientDTO[] {
     return this._ingredients;
   }
 
@@ -41,7 +40,7 @@ export class TableIngredientsService extends TableIngredientsDTO {
     return this._valuePartialOfRecipe;
   }
 
-  setIngredientInTheContents(...ingredients: IngredientServiceDTO[]): void {
+  setIngredientInTheContents(...ingredients: IngredientDTO[]): void {
     for (const current of ingredients) {
       console.log(current.describe);
     }

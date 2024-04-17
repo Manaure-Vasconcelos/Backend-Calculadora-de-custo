@@ -1,7 +1,7 @@
 import { TableIngredientsDTO } from './table-ingredient-dto';
 
 export abstract class TableCostUnitDTO {
-  tableOfIngredients: TableIngredientsDTO;
+  tableIngredientsService: TableIngredientsDTO;
   setServings(value: number): void {}
   getServings(): number {
     return 0;

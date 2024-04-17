@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { IngredientDTO } from '../interfaces/ingredient-service-dto';
 import { TableIngredientsService } from './table-ingredients.service';
-import { IngredientServiceDTO } from '../interfaces/ingredient-service-dto';
 
 @Controller('table-ingredients')
 export class TableIngredientsController {
@@ -9,7 +9,7 @@ export class TableIngredientsController {
   ) {}
 
   @Post('/ingredients')
-  createIngredient(@Body() ingredient: IngredientServiceDTO) {
+  createIngredient(@Body() ingredient: IngredientDTO) {
     this.tableIngredientsService.createIngredient(ingredient);
     return 'Adicionando um ingrediente';
   }
