@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Put,
@@ -20,12 +21,13 @@ export class TasksController {
   @Get()
   getAllTasks(@Query() query: TaskDto) {
     console.log(query);
+    console.log(this.tasksService.getAllTasks());
     return this.tasksService.getAllTasks();
   }
 
   @Get('/:id')
-  getTask(@Param('id') id: string) {
-    return this.tasksService.getTask(parseInt(id));
+  getTask(@Param('id', ParseIntPipe) id: number) {
+    return this.tasksService.getTask(id);
   }
   // Seta informações, envio de forms.
   @Post()

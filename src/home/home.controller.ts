@@ -1,4 +1,11 @@
-import { Controller, Get, Req, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  NotFoundException,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
 
 @Controller('/home')
@@ -8,5 +15,17 @@ export class HomeController {
     response.status(200).json({
       message: 'Home page',
     });
+  }
+
+  @Get('/notfound')
+  @HttpCode(404)
+  notFound() {
+    return new NotFoundException('Não encontrado.');
+  }
+
+  @Get('error')
+  @HttpCode(500)
+  error() {
+    return new NotFoundException('Rota não encontrada.');
   }
 }
