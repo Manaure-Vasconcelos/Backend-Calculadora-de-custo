@@ -1,16 +1,9 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, MinLength } from 'class-validator';
 
 export abstract class IngredientDTO {
   @IsString()
   @IsNotEmpty()
   @MinLength(2)
-  @MaxLength(20)
   describe: string;
 
   @IsNotEmpty()

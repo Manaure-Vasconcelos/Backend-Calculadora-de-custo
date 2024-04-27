@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { TableIngredientsDTO } from '../interfaces/table-ingredient-dto';
 import { IngredientDTO } from '../interfaces/ingredient-service-dto';
+import { prisma } from '../db';
 
 @Injectable()
 export class TableIngredientsService extends TableIngredientsDTO {
@@ -8,22 +9,21 @@ export class TableIngredientsService extends TableIngredientsDTO {
   public _valuePartialOfRecipe: number = 0;
 
   createIngredient(receivedValues: IngredientDTO) {
-    const ingredient = { ...receivedValues };
-    ingredient._realAmount = this.setRealAmount(ingredient);
-    this.setIngredient(ingredient);
+    const ingredient = this.setRealAmount(receivedValues);
+    this.setIngredient(ingredient); // injetar prisma
   }
 
-  setRealAmount(ingredient: IngredientDTO): number {
-    return (
-      (ingredient.marketPrice * ingredient.grossWeight) /
-      ingredient.marketWeight
-    );
+  setRealAmount(receivedValues: IngredientDTO): IngredientDTO {
+    const ingredientPrev = { ...receivedValues };
+    ingredientPrev._realAmount =
+      (receivedValues.marketPrice * receivedValues.grossWeight) /
+      receivedValues.marketWeight;
+    return ingredientPrev;
   }
 
   setIngredient(ingredient: IngredientDTO): void {
     this.ingredients.push({ ...ingredient, id: this.ingredients.length + 1 });
     this.setValuePartialOfRecipe();
-    this.setIngredientInTheContents(...this.ingredients);
   }
 
   getAllIngredients() {
@@ -36,8 +36,8 @@ export class TableIngredientsService extends TableIngredientsDTO {
     const ingredientFound = this.ingredients.find(
       (ingredient) => ingredient.id === id,
     );
-    console.log(ingredientFound);
-    if (!ingredientFound) return new NotFoundException(`Task ${id} not found`);
+    if (!ingredientFound)
+      return new NotFoundException(`Ingredient ${id} not found`);
     return ingredientFound;
   }
 
@@ -46,21 +46,21 @@ export class TableIngredientsService extends TableIngredientsDTO {
       (prev, next) => prev + (next._realAmount ?? 0),
       0,
     );
+    // valor da receita tem que salvar em recipe.
   }
 
   getValuePartialOfRecipe(): number {
-    return this._valuePartialOfRecipe;
+    return this._valuePartialOfRecipe; // busca da recipe.
   }
 
-  setIngredientInTheContents(...ingredients: IngredientDTO[]): void {
+  /* setIngredientInTheContents(...ingredients: IngredientDTO[]): void {
     for (const current of ingredients) {
       // Vai setar no html o elemento.
     }
-    /* 
+
       for (const currentIngredient of ingredients) {
       row.innerHTML.text = currentIngredient
       Ou em uma lista/tabela de 0 1 2 3 4 5 6 7 8 9 10 | e toda vez que chamada ele seta os valores novamente.
       Atualizando sempre do índice 0.
-    */
-  }
+    } */
 }
