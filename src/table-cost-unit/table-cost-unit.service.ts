@@ -1,20 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { TableCostUnitDTO } from '../interfaces/table-cost-unit-dto';
-import { TableIngredientsService } from 'src/table-ingredients/table-ingredients.service';
+import { TableCostUnit } from '../interfaces/table-cost-unit';
+import { IngredientsService } from '../table-ingredients/ingredients.service';
 
 @Injectable()
-export class TableCostUnitService extends TableCostUnitDTO {
+export class TableCostUnitService implements TableCostUnit {
   private _servings: number = 0;
   private _packaging: number = 0;
   public _costUnit: number = 0;
 
   // isso é uma injeção de dependencia => é uma forma mais "fechada".
   // Pq a costUnit depende de outra class, o melhor seria criar uma abstração da classe
-  constructor(
-    public readonly tableIngredientsService: TableIngredientsService,
-  ) {
-    super();
-  }
+  constructor(public readonly tableIngredientsService: IngredientsService) {}
 
   setServings(value: number): void {
     this._servings = value;

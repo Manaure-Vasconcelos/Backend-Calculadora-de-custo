@@ -1,7 +1,7 @@
-import { TableIngredientsDTO } from './table-ingredient-dto';
+import { IngredientService } from './ingredient-service';
 
-export abstract class TableCostUnitDTO {
-  tableIngredientsService: TableIngredientsDTO;
+export interface TableCostUnit {
+  tableIngredientsService: IngredientService;
   setServings(value: number): void {}
   getServings(): number {
     return 0;

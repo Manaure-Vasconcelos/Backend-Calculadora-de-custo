@@ -1,6 +1,6 @@
-import { IngredientDTO } from './ingredient-service-dto';
+import { IngredientDTO } from '../table-ingredients/DTO/ingredient-dto';
 
-export abstract class TableIngredientsDTO {
+export interface IngredientService {
   createIngredient(ingredient: IngredientDTO): any {}
   setRealAmount(ingredient: IngredientDTO): void {}
   setIngredient(ingredient: IngredientDTO): void {}

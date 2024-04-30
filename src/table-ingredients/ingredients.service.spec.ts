@@ -1,8 +1,8 @@
 import { IngredientService } from '../ingredient/ingredient.service';
-import { TableIngredientsService } from './table-ingredients.service';
+import { IngredientsService } from './ingredients.service';
 
 const food1 = new IngredientService('comida1', 6, 10, 3);
-const createSut = () => new TableIngredientsService(food1);
+const createSut = () => new IngredientsService(food1);
 
 describe('TableIngredientsService', () => {
   it('should setting ingredient in array', () => {
@@ -28,7 +28,7 @@ describe('TableIngredientsService', () => {
       'setRealAmount',
     );
     const methodSetValuePartialSpy = jest
-      .spyOn(TableIngredientsService.prototype, 'setValuePartialOfRecipe')
+      .spyOn(IngredientsService.prototype, 'setValuePartialOfRecipe')
       .mockImplementation(() => {});
     sut.setIngredient(food1);
 

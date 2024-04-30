@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { TableIngredientsDTO } from '../interfaces/table-ingredient-dto';
-import { IngredientDTO } from '../interfaces/ingredient-service-dto';
+import { IngredientService } from '../interfaces/ingredient-service';
+import { IngredientDTO } from './DTO/ingredient-dto';
 import { prisma } from '../db';
 
 @Injectable()
-export class TableIngredientsService extends TableIngredientsDTO {
+export class IngredientsService implements IngredientService {
   private readonly ingredients: IngredientDTO[] = [];
   public _valuePartialOfRecipe: number = 0;
 
