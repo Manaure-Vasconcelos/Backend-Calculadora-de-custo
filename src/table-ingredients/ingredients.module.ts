@@ -7,4 +7,4 @@ import { IngredientsService } from './ingredients.service';
   controllers: [IngredientsController],
   providers: [IngredientsService],
 })
-export class TableIngredientsModule {}
+export class IngredientsModule {}

@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
-import { TableIngredientsModule } from './table-ingredients/ingredients.module';
+import { IngredientsModule } from './table-ingredients/ingredients.module';
 import { TableCostUnitModule } from './table-cost-unit/table-cost-unit.module';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
 import { RecipesModule } from './recipes/recipes.module';
+import { PrismaService } from './dataBase/prisma.service';
 
 @Module({
-  imports: [TableIngredientsModule, TableCostUnitModule, UsersModule, RecipesModule],
-  controllers: [UsersController],
-  providers: [UsersService],
+  imports: [IngredientsModule, TableCostUnitModule, UsersModule, RecipesModule],
+  controllers: [],
+  providers: [PrismaService],
 })
 export class AppModule {}

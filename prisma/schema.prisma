@@ -3,39 +3,38 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-model ingredients {
-  id            Int      @id @default(autoincrement()) @db.UnsignedInt
-  name          String   @db.VarChar(100)
-  market_weigth Decimal  @db.Decimal(10, 2)
-  market_price  Decimal  @db.Decimal(10, 2)
-  gross_weigth  Decimal  @db.Decimal(10, 2)
-  real_amount   Decimal? @db.Decimal(10, 2)
-  recipe_id     Int      @db.UnsignedInt
-  recipes       recipes  @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ingredients_recipes_FK")
-
-  @@index([recipe_id], map: "ingredients_recipes_FK")
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  recipes   Recipes[]
 }
 
-model recipes {
-  id               Int           @id @default(autoincrement()) @db.UnsignedInt
-  title_recipe     String        @unique(map: "recipes_unique") @db.VarChar(150)
-  describe_recipes String?       @db.Text
-  user_id          Int           @db.UnsignedInt
-  ingredients      ingredients[]
-  users            users         @relation(fields: [user_id], references: [id], onDelete: NoAction, map: "recipes_users_FK")
-
-  @@index([user_id], map: "recipes_users_FK")
+model Recipes {
+  id          Int          @id @default(autoincrement())
+  title       String       @unique
+  describe    String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  userId      Int
+  ingredients Ingredient[]
+  user        User?        @relation(fields: [userId], references: [id])
 }
 
-model users {
-  id            Int       @id @default(autoincrement()) @db.UnsignedInt
-  name          String    @db.VarChar(100)
-  email         String    @unique(map: "users_unique") @db.VarChar(150)
-  password_hash String    @db.VarChar(100)
-  createdAt     DateTime  @default(now()) @db.DateTime(0)
-  recipes       recipes[]
+model Ingredient {
+  id           Int      @id @default(autoincrement())
+  name         String
+  marketWeight Decimal  @map("marketWeight")
+  marketPrice  Decimal  @map("marketPrice")
+  grossWeight  Decimal  @map("grossWeight")
+  realAmount   Decimal  @map("realAmount")
+  recipeId     Int
+  recipes      Recipes? @relation(fields: [recipeId], references: [id])
 }

@@ -1,9 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { prisma } from '../db';
 import { userDTO } from './DTO/user-dto';
+import { PrismaService } from 'src/dataBase/prisma.service';
 
 @Injectable()
 export class UsersService {
+  constructor(private prisma: PrismaService) {}
+
   async createUser(user: userDTO) {
     // trata o password_hash e depois setar.
     try {
