@@ -13,5 +13,5 @@ export abstract class userDTO {
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
-  password_hash: string;
+  password: string;
 }

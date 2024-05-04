@@ -10,7 +10,7 @@ export class UsersService {
   async createUser(user: userDTO) {
     // trata o password_hash e depois setar.
     try {
-      const userCreated = await prisma.users.create({ data: user });
+      const userCreated = await prisma.user.create({ data: user });
       return userCreated;
     } catch (err) {
       throw new NotFoundException(
@@ -20,21 +20,29 @@ export class UsersService {
   }
 
   async getAllUsers() {
-    const users = await prisma.users.findMany();
-    if (!users.length)
+    try {
+      const users = await prisma.user.findMany();
+      return users;
+    } catch (error) {
       return new NotFoundException('Não existe nenhum usuário.');
-    return users;
+    }
   }
 
   async getUser(idUser: number) {
-    const user = await prisma.users.findFirst({ where: { id: idUser } });
-    if (!user) return new NotFoundException(`Não existe nenhum usuário.`);
-    return user;
+    try {
+      const user = await prisma.user.findFirst({
+        where: { id: idUser },
+        include: { recipes: true },
+      });
+      return user;
+    } catch (error) {
+      return new NotFoundException(`Não existe nenhum usuário.`);
+    }
   }
 
   async deleteUser(idUser: number) {
     try {
-      const userDelete = await prisma.users.delete({ where: { id: idUser } });
+      const userDelete = await prisma.user.delete({ where: { id: idUser } });
       return userDelete;
     } catch (err) {
       throw new NotFoundException('Não foi possível delete o usuário.');
@@ -43,7 +51,7 @@ export class UsersService {
 
   async updateUser(idUser: number, userUpdate: string) {
     try {
-      const updateUser = await prisma.users.update({
+      const updateUser = await prisma.user.update({
         where: { id: idUser },
         data: userUpdate,
       });
