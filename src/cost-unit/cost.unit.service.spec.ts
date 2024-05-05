@@ -1,6 +1,6 @@
 import { IngredientService } from '../ingredient/ingredient.service';
-import { IngredientsService } from '../table-ingredients/ingredients.service';
-import { TableCostUnitService } from './table-cost-unit.service';
+import { IngredientsService } from '../ingredients/ingredients.service';
+import { TableCostUnitService } from './cost.unit.service';
 
 const comida1 = new IngredientService('comida1', 6, 10, 3);
 const tableOfIngredients = new IngredientsService(comida1);

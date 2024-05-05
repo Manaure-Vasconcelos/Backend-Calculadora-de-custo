@@ -4,7 +4,7 @@ export abstract class IngredientDTO {
   @IsString()
   @IsNotEmpty()
   @MinLength(2)
-  describe: string;
+  name: string;
 
   @IsNotEmpty()
   @IsNumber()

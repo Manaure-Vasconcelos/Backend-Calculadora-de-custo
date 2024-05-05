@@ -8,7 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { userDTO } from './DTO/user-dto';
+import { userDTO } from '../DTO/user-dto';
 
 @Controller('users')
 export class UsersController {

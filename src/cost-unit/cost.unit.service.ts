@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TableCostUnit } from '../interfaces/table-cost-unit';
-import { IngredientsService } from '../table-ingredients/ingredients.service';
+import { IngredientsService } from '../ingredients/ingredients.service';
 
 @Injectable()
 export class TableCostUnitService implements TableCostUnit {

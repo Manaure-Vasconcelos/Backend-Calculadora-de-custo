@@ -1,4 +1,4 @@
-import { IngredientDTO } from '../table-ingredients/DTO/ingredient-dto';
+import { IngredientDTO } from '../DTO/ingredient-dto';
 
 export interface IngredientService {
   createIngredient(ingredient: IngredientDTO): any {}

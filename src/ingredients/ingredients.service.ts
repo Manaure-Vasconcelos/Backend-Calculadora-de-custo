@@ -1,29 +1,41 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IngredientService } from '../interfaces/ingredient-service';
-import { IngredientDTO } from './DTO/ingredient-dto';
-import { prisma } from '../db';
+import { IngredientDTO } from '../DTO/ingredient-dto';
+import { PrismaService } from '../dataBase/prisma.service';
+import { RealAmountService } from './realAmount.service';
 
 @Injectable()
 export class IngredientsService implements IngredientService {
   private readonly ingredients: IngredientDTO[] = [];
   public _valuePartialOfRecipe: number = 0;
 
-  createIngredient(receivedValues: IngredientDTO) {
-    const ingredient = this.setRealAmount(receivedValues);
-    this.setIngredient(ingredient); // injetar prisma
-  }
+  constructor(
+    private prisma: PrismaService,
+    private realAmount: RealAmountService,
+  ) {}
 
-  setRealAmount(receivedValues: IngredientDTO): IngredientDTO {
-    const ingredientPrev = { ...receivedValues };
-    ingredientPrev._realAmount =
-      (receivedValues.marketPrice * receivedValues.grossWeight) /
-      receivedValues.marketWeight;
-    return ingredientPrev;
-  }
+  async createIngredient(receivedValues: IngredientDTO) {
+    const { name, marketWeight, marketPrice, grossWeight } = receivedValues;
 
-  setIngredient(ingredient: IngredientDTO): void {
-    this.ingredients.push({ ...ingredient, id: this.ingredients.length + 1 });
-    this.setValuePartialOfRecipe();
+    const realAmount = this.realAmount.calculate(
+      marketPrice,
+      marketWeight,
+      grossWeight,
+    );
+
+    const newIngredient = await this.prisma.ingredient.create({
+      data: {
+        name,
+        marketWeight,
+        marketPrice,
+        grossWeight,
+        realAmount,
+        //recipeId,
+      },
+    });
+    return newIngredient;
+    // inserir recipe no ingredient
+    // ao criar setar o total da receita.
   }
 
   getAllIngredients() {
