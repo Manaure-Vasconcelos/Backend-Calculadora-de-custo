@@ -8,13 +8,14 @@ import {
   Put,
 } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
+import { RecipesDTO } from 'src/DTO/recipe-dto';
 
 @Controller('recipes')
 export class RecipesController {
   constructor(private recipesService: RecipesService) {}
 
   @Post() // tenho que receber o password e fazer o tratamento para hash e então setar na db.
-  async createRecipe(@Body() dataRecipe: any): Promise<any> {
+  async createRecipe(@Body() dataRecipe: RecipesDTO): Promise<any> {
     const recipeCreated = await this.recipesService.createRecipe(dataRecipe);
     return recipeCreated;
   }
@@ -40,7 +41,7 @@ export class RecipesController {
   @Put('/:id')
   async updateRecipe(
     @Param('id') idRecipe: string,
-    @Body() dataRecipe: string,
+    @Body() dataRecipe: RecipesDTO,
   ) {
     const updatedRecipe = await this.recipesService.updateRecipe(
       +idRecipe,

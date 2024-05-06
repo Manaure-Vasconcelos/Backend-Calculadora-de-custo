@@ -1,12 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { prisma } from '../db';
+import { RecipesDTO } from 'src/DTO/recipe-dto';
 
 @Injectable()
 export class RecipesService {
-  async createRecipe(dataRecipe: any) {
-    // trata o password_hash e depois setar.
+  // criar o valor parcial da receita aqui.
+  // tudo que for receita ser lidado aqui.
+  async createRecipe(receivedRecipe: RecipesDTO) {
     try {
-      const recipeCreated = await prisma.recipes.create({ data: dataRecipe });
+      const { title, describe, userId } = receivedRecipe;
+      const recipeCreated = await prisma.recipes.create({
+        data: { title, describe, userId },
+      });
       return recipeCreated;
     } catch (err) {
       throw new NotFoundException(
@@ -16,15 +21,22 @@ export class RecipesService {
   }
 
   async getAllRecipes() {
-    const recipes = await prisma.recipes.findMany();
-    if (!recipes.length)
+    try {
+      const recipes = await prisma.recipes.findMany({
+        include: { ingredients: true },
+      });
+      return recipes;
+    } catch (error) {
       return new NotFoundException('Não existe nenhuma receita cadastrada.');
-    return recipes;
+    }
   }
 
-  async getRecipe(idRecipe: number) {
+  async getRecipe(receivedId: number) {
     // pesquisar por nome
-    const recipe = await prisma.recipes.findFirst({ where: { id: idRecipe } });
+    const recipe = await prisma.recipes.findFirst({
+      where: { id: receivedId },
+      include: { ingredients: true },
+    });
     if (!recipe)
       return new NotFoundException(
         `Não existe nenhuma receita correspondente.`,
@@ -32,10 +44,10 @@ export class RecipesService {
     return recipe;
   }
 
-  async deleteRecipe(idRecipe: any) {
+  async deleteRecipe(receivedId: number) {
     try {
       const recipeDeleted = await prisma.recipes.delete({
-        where: { id: idRecipe },
+        where: { id: receivedId },
       });
       return recipeDeleted;
     } catch (err) {
@@ -43,11 +55,12 @@ export class RecipesService {
     }
   }
 
-  async updateRecipe(idRecipe: number, RecipeUpdate: any) {
+  async updateRecipe(receivedId: number, recipeUpdate: RecipesDTO) {
     try {
+      const { title, describe, userId } = recipeUpdate;
       const updatedRecipe = await prisma.recipes.update({
-        where: { id: idRecipe },
-        data: RecipeUpdate,
+        where: { id: receivedId },
+        data: { title, describe, userId },
       });
       return updatedRecipe;
     } catch (err) {
@@ -55,3 +68,5 @@ export class RecipesService {
     }
   }
 }
+
+// inserir valor da receita => soma o realmAmount de cada ingredient da receita.

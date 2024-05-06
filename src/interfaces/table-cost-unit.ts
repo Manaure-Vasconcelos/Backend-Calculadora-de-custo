@@ -1,7 +1,7 @@
 import { IngredientService } from './ingredient-service';
 
 export interface TableCostUnit {
-  tableIngredientsService: IngredientService;
+  /* tableIngredientsService: IngredientService;
   setServings(value: number): void {}
   getServings(): number {
     return 0;
@@ -16,5 +16,5 @@ export interface TableCostUnit {
   }
   costUnit(): number {
     return 0;
-  }
+  } */
 }

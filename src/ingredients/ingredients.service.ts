@@ -38,19 +38,55 @@ export class IngredientsService implements IngredientService {
     // ao criar setar o total da receita.
   }
 
-  getAllIngredients() {
-    if (!this.ingredients.length)
+  async getAllIngredients() {
+    try {
+      const allIngredients = await this.prisma.ingredient.findMany();
+      return allIngredients;
+    } catch (error) {
       return new NotFoundException('Primeiro adicione um ingrediente.');
-    return this.ingredients;
+    }
   }
 
-  getIngredient(id: number) {
-    const ingredientFound = this.ingredients.find(
-      (ingredient) => ingredient.id === id,
-    );
-    if (!ingredientFound)
-      return new NotFoundException(`Ingredient ${id} not found`);
-    return ingredientFound;
+  async getIngredient(receivedId: number) {
+    try {
+      const ingredientFound = await this.prisma.ingredient.findFirst({
+        where: { id: receivedId },
+      });
+      return ingredientFound;
+    } catch (error) {
+      return new NotFoundException(`Ingredient ${receivedId} not found`);
+    }
+  }
+
+  async deleteIngredient(receivedId: number) {
+    try {
+      const deletedIngredient = await this.prisma.ingredient.delete({
+        where: { id: receivedId },
+      });
+      return deletedIngredient;
+    } catch (error) {
+      return new NotFoundException(`Ingredient ${receivedId} not found`);
+    }
+  }
+
+  async updateIngredient(receivedId: number, receivedValues: IngredientDTO) {
+    try {
+      const { name, marketWeight, marketPrice, grossWeight } = receivedValues;
+
+      const realAmount = await this.realAmount.updating(
+        receivedId,
+        marketWeight,
+        marketPrice,
+        grossWeight,
+      );
+      const updatedIngredient = await this.prisma.ingredient.update({
+        where: { id: receivedId },
+        data: { name, marketWeight, marketPrice, grossWeight, realAmount },
+      });
+      return updatedIngredient;
+    } catch (error) {
+      return new NotFoundException(`Não foi possível atualizar o ingrediente.`);
+    }
   }
 
   setValuePartialOfRecipe(): void {
@@ -59,10 +95,12 @@ export class IngredientsService implements IngredientService {
       0,
     );
     // valor da receita tem que salvar em recipe.
+    // lidar com isso em receitas
   }
 
   getValuePartialOfRecipe(): number {
     return this._valuePartialOfRecipe; // busca da recipe.
+    // lidar com isso em receitas
   }
 
   /* setIngredientInTheContents(...ingredients: IngredientDTO[]): void {

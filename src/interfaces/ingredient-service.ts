@@ -1,7 +1,7 @@
 import { IngredientDTO } from '../DTO/ingredient-dto';
 
 export interface IngredientService {
-  createIngredient(ingredient: IngredientDTO): any {}
+  /* createIngredient(ingredient: IngredientDTO): any {}
   setRealAmount(ingredient: IngredientDTO): void {}
   setIngredient(ingredient: IngredientDTO): void {}
   getAllIngredients(): any {}
@@ -9,5 +9,5 @@ export interface IngredientService {
   getValuePartialOfRecipe(): number {
     return 0;
   }
-  setIngredientInTheContents(...ingredients: IngredientDTO[]): void {}
+  setIngredientInTheContents(...ingredients: IngredientDTO[]): void {} */
 }

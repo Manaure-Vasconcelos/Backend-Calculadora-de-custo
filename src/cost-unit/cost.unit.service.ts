@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { TableCostUnit } from '../interfaces/table-cost-unit';
-import { IngredientsService } from '../ingredients/ingredients.service';
 
 @Injectable()
 export class TableCostUnitService implements TableCostUnit {
-  private _servings: number = 0;
+  /* private _servings: number = 0;
   private _packaging: number = 0;
   public _costUnit: number = 0;
 
   // isso é uma injeção de dependencia => é uma forma mais "fechada".
   // Pq a costUnit depende de outra class, o melhor seria criar uma abstração da classe
-  constructor(public readonly tableIngredientsService: IngredientsService) {}
 
   setServings(value: number): void {
     this._servings = value;
@@ -52,5 +50,5 @@ export class TableCostUnitService implements TableCostUnit {
     return valueCostUnit;
   }
 
-  addCostUnit() {}
+  addCostUnit() {} */
 }

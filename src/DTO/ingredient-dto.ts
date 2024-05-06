@@ -5,7 +5,7 @@ export abstract class IngredientDTO {
   @IsNotEmpty()
   @MinLength(2)
   name: string;
-
+s
   @IsNotEmpty()
   @IsNumber()
   marketWeight: number;

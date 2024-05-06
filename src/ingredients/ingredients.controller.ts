@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { IngredientDTO } from '../DTO/ingredient-dto';
 import { IngredientsService } from './ingredients.service';
 
@@ -8,19 +8,27 @@ export class IngredientsController {
 
   @Post()
   createIngredient(@Body() ingredient: IngredientDTO) {
-    this.ingredientsService.createIngredient(ingredient);
-    return 'Adicionando um ingrediente';
+    const ingredientCreated =
+      this.ingredientsService.createIngredient(ingredient);
+    return ingredientCreated;
   }
 
   @Get()
   getAllIngredients() {
-    return this.ingredientsService.getAllIngredients();
+    const allIngredients = this.ingredientsService.getAllIngredients();
+    return allIngredients;
   }
 
   @Get('/:id')
-  getIngredient(@Param('id') id: string) {
-    console.log(id, typeof id);
-    return this.ingredientsService.getIngredient(parseInt(id));
+  getIngredient(@Param('id') receivedId: string) {
+    const sigleIngredient = this.ingredientsService.getIngredient(+receivedId);
+    return sigleIngredient;
+  }
+
+  @Delete('/:id')
+  deleteIngredient(@Param('id') receivedId: string) {
+    const sigleIngredient = this.ingredientsService.getIngredient(+receivedId);
+    return sigleIngredient;
   }
 
   @Post()
