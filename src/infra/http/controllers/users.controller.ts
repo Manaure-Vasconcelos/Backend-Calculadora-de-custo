@@ -7,15 +7,15 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { userDTO } from '../DTO/user-dto';
+import { UsersService } from '../../../application/use-cases/user/users.service';
+import { UserDTO } from '../DTOs/user-dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Post() // tenho que receber o password e fazer o tratamento para hash e então setar na db.
-  async createUsers(@Body() user: userDTO): Promise<userDTO> {
+  async createUsers(@Body() user: UserDTO): Promise<UserDTO> {
     const userCreated = await this.usersService.createUser(user);
     return userCreated;
   }

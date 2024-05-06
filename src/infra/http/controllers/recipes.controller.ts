@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { RecipesService } from './recipes.service';
+import { RecipesService } from '../../../application/use-cases/recipes/recipes.service';
 import { RecipesDTO } from 'src/DTO/recipe-dto';
 
 @Controller('recipes')

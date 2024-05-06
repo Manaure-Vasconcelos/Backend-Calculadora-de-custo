@@ -1,22 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { prisma } from '../db';
-import { userDTO } from '../DTO/user-dto';
-import { PrismaService } from 'src/dataBase/prisma.service';
+import { UserDTO } from '../../../infra/http/DTOs/user-dto';
+import { UserRepository } from '../../repositories/user-repository';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private userRepository: UserRepository) {}
 
-  async createUser(user: userDTO) {
+  async createUser(user: UserDTO) {
+    const { name, email, password } = user;
+    const userCreated = await this.userRepository.create(name, email, password);
+    return userCreated;
     // trata o password_hash e depois setar.
-    try {
+    /*  try {
       const userCreated = await prisma.user.create({ data: user });
       return userCreated;
     } catch (err) {
       throw new NotFoundException(
         'Não foi possível criar o usuário, confira os dados inseridos.',
       );
-    }
+    } */
   }
 
   async getAllUsers() {
@@ -28,7 +30,7 @@ export class UsersService {
     }
   }
 
-  async getUser(idUser: number) {
+  async findUser(idUser: number) {
     try {
       const user = await prisma.user.findFirst({
         where: { id: idUser },

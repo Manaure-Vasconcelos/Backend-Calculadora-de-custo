@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { prisma } from '../db';
+import { prisma } from '../../../db';
 import { RecipesDTO } from 'src/DTO/recipe-dto';
 
 @Injectable()

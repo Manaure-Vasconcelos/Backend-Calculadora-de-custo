@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
-export abstract class userDTO {
+export abstract class UserDTO {
   @IsString()
   @IsNotEmpty()
   @MinLength(2)

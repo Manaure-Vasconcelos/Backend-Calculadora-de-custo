@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { IngredientService } from '../interfaces/ingredient-service';
-import { IngredientDTO } from '../DTO/ingredient-dto';
+import { IngredientService } from '../../../interfaces/ingredient-service';
+import { IngredientDTO } from '../../../infra/http/DTOs/ingredient-dto';
 import { PrismaService } from '../dataBase/prisma.service';
 import { RealAmountService } from './realAmount.service';
 
