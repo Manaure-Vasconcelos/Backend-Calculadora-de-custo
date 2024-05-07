@@ -1,21 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/application/repositories/user-repository';
-
-// implementa a interface aqui mesmo.
-interface UserRequest {
-  name: string;
-  email: string;
-  password: string;
-}
-
-interface UserResponse {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { UserRequest } from 'src/common/interfaces/userRequest';
+import { UserResponse } from 'src/common/interfaces/userResponse';
 
 @Injectable()
 export class CreateUser {

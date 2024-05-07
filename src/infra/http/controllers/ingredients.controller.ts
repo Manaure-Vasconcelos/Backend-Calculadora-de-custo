@@ -1,13 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { IngredientDTO } from '../DTOs/ingredient-dto';
-import { IngredientsService } from '../../../application/use-cases/ingredients/ingredients.service';
 
 @Controller('/ingredients')
 export class IngredientsController {
-  constructor(private readonly ingredientsService: IngredientsService) {}
+  constructor() {}
 
   @Post()
-  createIngredient(@Body() ingredient: IngredientDTO) {
+  create(@Body() ingredient: IngredientDTO) {
     const ingredientCreated =
       this.ingredientsService.createIngredient(ingredient);
     return ingredientCreated;

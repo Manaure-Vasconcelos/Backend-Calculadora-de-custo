@@ -1,25 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { prisma } from 'src/db';
+import { IngredientsRepository } from 'src/application/repositories/ingredients-repository';
+import { IngredientRequest } from 'src/common/interfaces/ingredientRequest';
 
 @Injectable()
-export class RealAmountService implements RealAmountService {
-  calculate(
-    marketPrice: number,
-    marketWeight: number,
-    grossWeight: number,
-  ): number {
+export class RealAmountService {
+  constructor(private ingredientRepository: IngredientsRepository) {}
+
+  calculate(receivedValues: IngredientRequest): number {
+    const { marketPrice, marketWeight, grossWeight } = receivedValues;
     return (marketPrice * grossWeight) / marketWeight;
   }
 
-  async updating(
-    idIngredient: number,
-    marketWeight: number,
-    marketPrice: number,
-    grossWeight: number,
-  ) {
-    const existingIngredient = await prisma.ingredient.findUnique({
-      where: { id: +idIngredient },
-    });
+  async updating(receivedValues: IngredientRequest, idIngredient: number) {
+    let { marketWeight, marketPrice, grossWeight } = receivedValues;
+    const existingIngredient =
+      await this.ingredientRepository.singleIngredient(idIngredient);
 
     if (marketWeight === undefined)
       marketWeight = Number(existingIngredient?.marketWeight);

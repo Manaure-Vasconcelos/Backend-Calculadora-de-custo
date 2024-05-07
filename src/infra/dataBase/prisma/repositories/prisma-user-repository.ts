@@ -13,11 +13,6 @@ export class PrismaUserRepository implements UserRepository {
     });
     if (!userCreated) return null;
     return userCreated;
-    /*     } catch (err) {
-      throw new NotFoundException(
-        'Não foi possível criar o usuário, confira os dados inseridos.',
-      );
-    } */
   }
 
   async findUserWithRecipes(idUser: number) {

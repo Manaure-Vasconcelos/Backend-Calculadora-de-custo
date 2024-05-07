@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsNumber, IsString, MinLength } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Length } from 'class-validator';
 
 export abstract class IngredientDTO {
   @IsString()
   @IsNotEmpty()
-  @MinLength(2)
+  @Length(2, 50)
   name: string;
 
   @IsNotEmpty()
@@ -18,6 +18,5 @@ export abstract class IngredientDTO {
   @IsNotEmpty()
   grossWeight: number;
 
-  _realAmount?: number;
-  id?: number;
+  recipeId: number;
 }
