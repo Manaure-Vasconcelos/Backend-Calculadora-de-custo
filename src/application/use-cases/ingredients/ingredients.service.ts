@@ -1,4 +1,4 @@
-export class IngredientsService implements IngredientService {
+/* export class IngredientsService implements IngredientService {
   // Get value && update value
   setValuePartialOfRecipe(): void {
     this._valuePartialOfRecipe = this.ingredients.reduce(
@@ -14,3 +14,4 @@ export class IngredientsService implements IngredientService {
     // lidar com isso em receitas
   }
 }
+ */

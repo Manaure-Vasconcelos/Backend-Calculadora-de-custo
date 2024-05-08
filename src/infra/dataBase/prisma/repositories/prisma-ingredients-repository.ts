@@ -8,15 +8,12 @@ import { IngredientResponse } from 'src/common/interfaces/ingredientResponse';
 export class PrismaIngredientsRepository implements IngredientsRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(receivedValues: any): Promise<IngredientResponse> {
-    const {
-      name,
-      marketWeight,
-      marketPrice,
-      grossWeight,
-      realAmount,
-      recipeId,
-    } = receivedValues;
+  async create(
+    receivedValues: IngredientRequest,
+    realAmount: number,
+  ): Promise<IngredientResponse> {
+    const { name, marketWeight, marketPrice, grossWeight, recipeId } =
+      receivedValues;
 
     const newIngredient = await this.prisma.ingredient.create({
       data: {
@@ -29,11 +26,6 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
       },
     });
     return newIngredient;
-  }
-
-  async allIngredients(): Promise<any> {
-    const allIngredients = await this.prisma.ingredient.findMany();
-    return allIngredients;
   }
 
   async singleIngredient(receivedId: number): Promise<IngredientResponse> {
@@ -51,20 +43,21 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
   }
 
   async update(
-    receivedId: number,
     receivedValues: IngredientRequest,
+    receivedId: number,
+    newRealAmount: number,
   ): Promise<any> {
     const { name, marketWeight, marketPrice, grossWeight } = receivedValues;
 
-    const realAmount = await this.realAmount.updating(
-      receivedId,
-      marketWeight,
-      marketPrice,
-      grossWeight,
-    );
     const updatedIngredient = await this.prisma.ingredient.update({
       where: { id: receivedId },
-      data: { name, marketWeight, marketPrice, grossWeight, realAmount },
+      data: {
+        name,
+        marketWeight,
+        marketPrice,
+        grossWeight,
+        realAmount: newRealAmount,
+      },
     });
     return updatedIngredient;
   }

@@ -1,36 +1,58 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { IngredientDTO } from '../DTOs/ingredient-dto';
+import { CreateIngredient } from 'src/application/use-cases/ingredients/create-ingredient';
+import { GetSingleIngredient } from './../../../application/use-cases/ingredients/get-single-ingredient';
+import { DeleteIngredient } from './../../../application/use-cases/ingredients/delete-ingredient';
+import { UpdateIngredient } from './../../../application/use-cases/ingredients/update-ingredient';
 
 @Controller('/ingredients')
 export class IngredientsController {
-  constructor() {}
+  constructor(
+    private createIngredients: CreateIngredient,
+    private getSingleIngredient: GetSingleIngredient,
+    private deleteIngredient: DeleteIngredient,
+    private updateIngredient: UpdateIngredient,
+  ) {}
 
   @Post()
   create(@Body() ingredient: IngredientDTO) {
-    const ingredientCreated =
-      this.ingredientsService.createIngredient(ingredient);
+    const ingredientCreated = this.createIngredients.execute(ingredient);
     return ingredientCreated;
-  }
-
-  @Get()
-  getAllIngredients() {
-    const allIngredients = this.ingredientsService.getAllIngredients();
-    return allIngredients;
   }
 
   @Get('/:id')
   getIngredient(@Param('id') receivedId: string) {
-    const sigleIngredient = this.ingredientsService.getIngredient(+receivedId);
+    const sigleIngredient = this.getSingleIngredient.execute(receivedId);
     return sigleIngredient;
   }
 
   @Delete('/:id')
-  deleteIngredient(@Param('id') receivedId: string) {
-    const sigleIngredient = this.ingredientsService.getIngredient(+receivedId);
+  delete(@Param('id') receivedId: string) {
+    const deletedIngredient = this.deleteIngredient.execute(receivedId);
+    return deletedIngredient;
+  }
+
+  @Put('/:id')
+  update(
+    @Param('id') receivedId: string,
+    @Body() receivedValues: IngredientDTO,
+  ) {
+    const sigleIngredient = this.updateIngredient.execute(
+      receivedId,
+      receivedValues,
+    );
     return sigleIngredient;
   }
 
-  @Post()
+  /*   @Post()
   setValuePartial() {
     this.ingredientsService.setValuePartialOfRecipe();
     return 'Adicionando valor parcial.';
@@ -39,5 +61,5 @@ export class IngredientsController {
   @Get('/value-partial')
   getValuePartialOfRecipe() {
     return this.ingredientsService.getValuePartialOfRecipe();
-  }
+  } */
 }

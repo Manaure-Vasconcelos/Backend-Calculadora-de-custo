@@ -2,25 +2,26 @@ import { Injectable } from '@nestjs/common';
 import { IngredientsRepository } from 'src/application/repositories/ingredients-repository';
 import { IngredientRequest } from 'src/common/interfaces/ingredientRequest';
 import { RealAmountService } from './realAmount.service';
-import { IngredientResponse } from 'src/common/interfaces/ingredientResponse';
 
 @Injectable()
-export class CreateIngredient {
+export class UpdateIngredient {
   constructor(
     private ingredientsRepository: IngredientsRepository,
     private realAmount: RealAmountService,
   ) {}
 
-  async execute(
-    receivedValues: IngredientRequest,
-  ): Promise<IngredientResponse> {
-    const realAmount = this.realAmount.calculate(receivedValues);
-
-    const createdIngredient = await this.ingredientsRepository.create(
+  async execute(receivedId: string, receivedValues: IngredientRequest) {
+    const newRealAmount = await this.realAmount.updating(
       receivedValues,
-      realAmount,
+      +receivedId,
     );
 
-    return createdIngredient;
+    const updatedIngredient = this.ingredientsRepository.update(
+      receivedValues,
+      +receivedId,
+      newRealAmount,
+    );
+
+    return updatedIngredient;
   }
 }

@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { TableCostUnit } from '../interfaces/table-cost-unit';
 
 @Injectable()
-export class TableCostUnitService implements TableCostUnit {
+export class TableCostUnitService {
   /* private _servings: number = 0;
   private _packaging: number = 0;
   public _costUnit: number = 0;
