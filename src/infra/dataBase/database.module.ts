@@ -14,6 +14,6 @@ import { IngredientsRepository } from 'src/application/repositories/ingredients-
     { provide: RecipesRepository, useClass: PrismaRecipesRepository },
     { provide: IngredientsRepository, useClass: PrismaIngredientsRepository },
   ],
-  exports: [UserRepository, RecipesRepository],
+  exports: [UserRepository, RecipesRepository, IngredientsRepository],
 })
 export class DatabaseModule {}
