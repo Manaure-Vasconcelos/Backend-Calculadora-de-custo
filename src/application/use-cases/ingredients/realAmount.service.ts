@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { IngredientsRepository } from 'src/application/repositories/ingredients-repository';
 import { IngredientRequest } from 'src/common/interfaces/ingredientRequest';
+import { IngredientUpdatingRequest } from 'src/common/interfaces/ingredientUpdateRequest';
 
 @Injectable()
 export class RealAmountService {
@@ -11,7 +12,10 @@ export class RealAmountService {
     return (marketPrice * grossWeight) / marketWeight;
   }
 
-  async updating(receivedValues: IngredientRequest, idIngredient: number) {
+  async updating(
+    receivedValues: IngredientUpdatingRequest,
+    idIngredient: number,
+  ) {
     let { marketWeight, marketPrice, grossWeight } = receivedValues;
     const existingIngredient =
       await this.ingredientRepository.singleIngredient(idIngredient);

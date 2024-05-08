@@ -12,6 +12,7 @@ import { CreateIngredient } from 'src/application/use-cases/ingredients/create-i
 import { GetSingleIngredient } from './../../../application/use-cases/ingredients/get-single-ingredient';
 import { DeleteIngredient } from './../../../application/use-cases/ingredients/delete-ingredient';
 import { UpdateIngredient } from './../../../application/use-cases/ingredients/update-ingredient';
+import { IngredientUpdatingDTO } from '../DTOs/ingredient-update';
 
 @Controller('/ingredients')
 export class IngredientsController {
@@ -43,7 +44,7 @@ export class IngredientsController {
   @Put('/:id')
   update(
     @Param('id') receivedId: string,
-    @Body() receivedValues: IngredientDTO,
+    @Body() receivedValues: IngredientUpdatingDTO,
   ) {
     const sigleIngredient = this.updateIngredient.execute(
       receivedId,

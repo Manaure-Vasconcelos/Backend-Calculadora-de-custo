@@ -8,12 +8,7 @@ export class CreateRecipe {
   constructor(private recipesRepository: RecipesRepository) {}
 
   async execute(receivedValues: RecipeRequest): Promise<RecipeResponse> {
-    const { title, describe, userId } = receivedValues;
-    const newRecipe = await this.recipesRepository.create(
-      title,
-      describe,
-      userId,
-    );
+    const newRecipe = await this.recipesRepository.create(receivedValues);
     return newRecipe;
   }
 }

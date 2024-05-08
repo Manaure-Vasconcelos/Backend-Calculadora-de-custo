@@ -1,13 +1,20 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export abstract class RecipesDTO {
   @IsNotEmpty()
   @IsString()
+  @Length(3, 50)
   title: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  describe: string;
+  describe?: string;
 
   @IsNotEmpty()
   @IsNumber()

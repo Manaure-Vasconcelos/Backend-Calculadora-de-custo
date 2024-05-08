@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { AllRecipes } from 'src/application/use-cases/recipes/get-all-recipes';
+import { AllRecipes } from 'src/application/use-cases/recipes/get-all-recipes-from-user';
 import { CreateRecipe } from './../../../application/use-cases/recipes/create-recipe';
 import { RecipesDTO } from '../DTOs/recipe-dto';
 import { RecipesWithIngredients } from 'src/application/use-cases/recipes/get-recipe-with-ingredients';
@@ -29,15 +29,16 @@ export class RecipesController {
   async createRecipes(@Body() receivedValues: RecipesDTO): Promise<any> {
     const recipeCreated = await this.createRecipe.execute(receivedValues);
     return recipeCreated;
+    // criar uma receita no usuario logado.
   }
 
-  @Get()
-  async getAllRecipes() {
-    const allRecipes = this.allRecipes.execute();
+  @Get('/:id') // todas as receitas do usuario logado.
+  async getAllRecipes(@Param('id') receivedId: string) {
+    const allRecipes = this.allRecipes.execute(receivedId);
     return allRecipes;
   }
 
-  @Get('/:id')
+  @Get('/with/:id') // criar uma rota mais armonica.
   async getRecipeWithIngredients(@Param('id') receivedId: string) {
     const recipe = this.recipeWithIngredients.execute(receivedId);
     return recipe;

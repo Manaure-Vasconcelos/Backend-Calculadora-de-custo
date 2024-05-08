@@ -18,5 +18,7 @@ export abstract class IngredientDTO {
   @IsNotEmpty()
   grossWeight: number;
 
+  @IsNumber()
+  @IsNotEmpty()
   recipeId: number;
 }

@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma.service';
 import { IngredientsRepository } from 'src/application/repositories/ingredients-repository';
 import { IngredientRequest } from 'src/common/interfaces/ingredientRequest';
 import { IngredientResponse } from 'src/common/interfaces/ingredientResponse';
+import { IngredientUpdatingRequest } from 'src/common/interfaces/ingredientUpdateRequest';
 
 @Injectable()
 export class PrismaIngredientsRepository implements IngredientsRepository {
@@ -43,7 +44,7 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
   }
 
   async update(
-    receivedValues: IngredientRequest,
+    receivedValues: IngredientUpdatingRequest,
     receivedId: number,
     newRealAmount: number,
   ): Promise<any> {

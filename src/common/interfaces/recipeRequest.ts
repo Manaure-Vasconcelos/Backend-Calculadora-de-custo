@@ -1,5 +1,5 @@
 export interface RecipeRequest {
   title: string;
-  describe: string;
+  describe?: string;
   userId: number;
 }

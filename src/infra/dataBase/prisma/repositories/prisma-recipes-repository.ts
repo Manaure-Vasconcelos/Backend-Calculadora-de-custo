@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { RecipesRepository } from 'src/application/repositories/recipes-repository';
 import { RecipesDTO } from 'src/infra/http/DTOs/recipe-dto';
 import { PrismaService } from '../prisma.service';
+import { RecipeRequest } from 'src/common/interfaces/recipeRequest';
 //aqui eu faço somente as solicitações diretamente.
 // nos use-case eu faço as requisições e as verificações.
 // se eu quiser todas as receitas do user => posso pedir uma receita especifica e setar em uma constante e depois executar algo nela novamente.
@@ -10,18 +11,21 @@ import { PrismaService } from '../prisma.service';
 export class PrismaRecipesRepository implements RecipesRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(title: string, describe: string, userId: number): Promise<any> {
+  async create(receivedValues: RecipeRequest): Promise<any> {
+    const { title, describe, userId } = receivedValues;
     const recipeCreated = await this.prisma.recipes.create({
       data: { title, describe, userId },
     });
     return recipeCreated;
   }
-  async allRecipes(): Promise<any> {
+  async allRecipesFromUser(receivedId: number): Promise<any> {
     const recipes = await this.prisma.recipes.findMany({
+      where: { userId: receivedId },
       include: { ingredients: true },
     });
     return recipes;
   }
+
   async getRecipe(receivedId: number): Promise<any> {
     const recipe = await this.prisma.recipes.findFirst({
       where: { id: receivedId },
@@ -29,6 +33,7 @@ export class PrismaRecipesRepository implements RecipesRepository {
     });
     return recipe;
   }
+
   async delete(receivedId: number): Promise<any> {
     const recipeDeleted = await this.prisma.recipes.delete({
       where: { id: receivedId },

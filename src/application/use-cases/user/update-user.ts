@@ -1,18 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/application/repositories/user-repository';
+import { UserUpdateRequest } from 'src/common/interfaces/userUpdateRequest';
 
-interface UserRequest {
-  name: string;
-  email: string;
-  password: string;
-}
 @Injectable()
 export class UpdateUser {
   constructor(private userRepository: UserRepository) {}
 
-  async execute(idUser: number, receivedValues: UserRequest) {
+  async execute(idUser: string, receivedValues: UserUpdateRequest) {
     const updatedUser = await this.userRepository.update(
-      idUser,
+      +idUser,
       receivedValues,
     );
     return updatedUser;

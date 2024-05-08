@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/application/repositories/user-repository';
 
 @Injectable()
-export class UserWithRecipes {
+export class GetUser {
   constructor(private userRepository: UserRepository) {}
 
   async execute(receivedId: number) {
