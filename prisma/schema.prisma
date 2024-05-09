@@ -19,7 +19,7 @@ model User {
 
 model Recipes {
   id           Int          @id @default(autoincrement())
-  title        String       @unique
+  title        String       
   describe     String?
   userId       Int
   valuePartial Int?
