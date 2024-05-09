@@ -6,5 +6,6 @@ export interface IngredientResponse {
   marketWeight: Decimal;
   marketPrice: Decimal;
   grossWeight: Decimal;
+  realAmount: Decimal;
   recipeId: number;
 }

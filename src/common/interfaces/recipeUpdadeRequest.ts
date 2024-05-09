@@ -1,5 +1,5 @@
-export interface RecipeRequest {
-  title: string;
+export interface recipeUpdatingRequest {
+  title?: string;
   describe?: string;
   valuePartial?: number;
   userId: number;

@@ -18,13 +18,13 @@ export class UpdateIngredient {
       +receivedId,
     );
 
-    const updatedIngredient = this.ingredientsRepository.update(
-      receivedValues,
+    const updatedIngredient = await this.ingredientsRepository.update(
       +receivedId,
+      receivedValues,
       newRealAmount,
     );
 
-    await this.updatingValuePartial.execute(+receivedId);
+    await this.updatingValuePartial.execute(updatedIngredient.recipeId);
 
     return updatedIngredient;
   }

@@ -10,8 +10,8 @@ export abstract class IngredientsRepository {
   abstract singleIngredient(receivedId: number): Promise<IngredientResponse>;
   abstract delete(receivedId: number): Promise<any>;
   abstract update(
-    receivedValues: IngredientUpdatingRequest,
     receivedId: number,
+    receivedValues: IngredientUpdatingRequest,
     newRealAmount: number,
   ): Promise<any>;
 }

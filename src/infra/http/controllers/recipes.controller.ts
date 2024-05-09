@@ -12,8 +12,8 @@ import { CreateRecipe } from './../../../application/use-cases/recipes/create-re
 import { RecipesDTO } from '../DTOs/recipe-dto';
 import { RecipesWithIngredients } from 'src/application/use-cases/recipes/get-recipe-with-ingredients';
 import { DeleteRecipe } from 'src/application/use-cases/recipes/delete-recipe';
-import { RecipeRequest } from 'src/common/interfaces/recipeRequest';
 import { UpdateRecipe } from 'src/application/use-cases/recipes/update-recipe';
+import { RecipesUpdatingDTO } from '../DTOs/recipe-update-dto';
 
 @Controller('recipes')
 export class RecipesController {
@@ -32,13 +32,13 @@ export class RecipesController {
     // criar uma receita no usuario logado.
   }
 
-  @Get('/:id') // todas as receitas do usuario logado.
+  @Get('/all/:id') // todas as receitas do usuario logado.
   async getAllRecipes(@Param('id') receivedId: string) {
     const allRecipes = this.allRecipes.execute(receivedId);
     return allRecipes;
   }
 
-  @Get('/with/:id') // criar uma rota mais armonica.
+  @Get('/:id') // criar uma rota mais armonica.
   async getRecipeWithIngredients(@Param('id') receivedId: string) {
     const recipe = this.recipeWithIngredients.execute(receivedId);
     return recipe;
@@ -53,7 +53,7 @@ export class RecipesController {
   @Put('/:id')
   async update(
     @Param('id') receivedId: string,
-    @Body() receivedValues: RecipeRequest,
+    @Body() receivedValues: RecipesUpdatingDTO,
   ) {
     const updatedRecipe = await this.updateRecipe.execute(
       receivedId,

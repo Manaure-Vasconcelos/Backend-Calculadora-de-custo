@@ -1,12 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { RecipesRepository } from 'src/application/repositories/recipes-repository';
-import { RecipesDTO } from 'src/infra/http/DTOs/recipe-dto';
 import { PrismaService } from '../prisma.service';
 import { RecipeRequest } from 'src/common/interfaces/recipeRequest';
-//aqui eu faço somente as solicitações diretamente.
-// nos use-case eu faço as requisições e as verificações.
-// se eu quiser todas as receitas do user => posso pedir uma receita especifica e setar em uma constante e depois executar algo nela novamente.
-// se necessário em use-cases pode usar mais de 1 chamado do repository.
+import { recipeUpdatingRequest } from 'src/common/interfaces/recipeUpdadeRequest';
+
 @Injectable()
 export class PrismaRecipesRepository implements RecipesRepository {
   constructor(private prisma: PrismaService) {}
@@ -41,11 +38,14 @@ export class PrismaRecipesRepository implements RecipesRepository {
     return recipeDeleted;
   }
 
-  async update(receivedId: number, recipeUpdate: RecipesDTO): Promise<any> {
-    const { title, describe, userId } = recipeUpdate;
+  async update(
+    receivedId: number,
+    recipeUpdate: recipeUpdatingRequest,
+  ): Promise<any> {
+    const { title, describe, valuePartial, userId } = recipeUpdate;
     const updatedRecipe = await this.prisma.recipes.update({
       where: { id: receivedId },
-      data: { title, describe, userId },
+      data: { title, describe, valuePartial, userId },
     });
     return updatedRecipe;
   }

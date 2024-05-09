@@ -44,8 +44,8 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
   }
 
   async update(
-    receivedValues: IngredientUpdatingRequest,
     receivedId: number,
+    receivedValues: IngredientUpdatingRequest,
     newRealAmount: number,
   ): Promise<any> {
     const { name, marketWeight, marketPrice, grossWeight } = receivedValues;

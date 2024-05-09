@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { RecipesRepository } from 'src/application/repositories/recipes-repository';
-import { RecipeRequest } from 'src/common/interfaces/recipeRequest';
 import { RecipeResponse } from 'src/common/interfaces/recipeResponse';
+import { recipeUpdatingRequest } from 'src/common/interfaces/recipeUpdadeRequest';
 
 @Injectable()
 export class UpdateRecipe {
@@ -9,7 +9,7 @@ export class UpdateRecipe {
 
   async execute(
     receivedId: string,
-    receivedValues: RecipeRequest,
+    receivedValues: recipeUpdatingRequest,
   ): Promise<RecipeResponse> {
     const updatedRecipe = await this.recipesRepository.update(
       +receivedId,
