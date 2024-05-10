@@ -1,16 +1,24 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { UsersDto } from './dto/users-dto';
+import { Injectable } from '@nestjs/common';
+
+// This should be a real class/interface representing a user entity
+export type User = any;
 
 @Injectable()
 export class UsersService {
-  private users = [];
-  getUsers() {
-    if (!this.users.length) return new NotFoundException('Users is empty');
-    return this.users;
-  }
+  private readonly users = [
+    {
+      userId: 1,
+      username: 'john',
+      password: 'changeme',
+    },
+    {
+      userId: 2,
+      username: 'maria',
+      password: 'guess',
+    },
+  ];
 
-  createUser(user: UsersDto) {
-    this.users.push({ ...user, id: this.users.length + 1 });
-    return user;
+  async findOne(username: string): Promise<User | undefined> {
+    return this.users.find((user) => user.username === username);
   }
 }
