@@ -7,26 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int       @id @default(autoincrement())
-  name      String
-  email     String    @unique
-  password  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  recipes   Recipes[]
+model Users {
+  id           Int       @id @default(autoincrement())
+  name         String
+  email        String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  recipes      Recipes[]
 }
 
 model Recipes {
   id           Int          @id @default(autoincrement())
-  title        String       
+  title        String
   describe     String?
   userId       Int
   valuePartial Int?
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
   ingredients  Ingredient[]
-  user         User?        @relation(fields: [userId], references: [id])
+  user         Users?        @relation(fields: [userId], references: [id])
 }
 
 model Ingredient {

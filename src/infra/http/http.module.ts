@@ -18,10 +18,27 @@ import { CreateIngredient } from 'src/application/use-cases/ingredients/create-i
 import { GetSingleIngredient } from 'src/application/use-cases/ingredients/get-single-ingredient';
 import { RealAmountService } from 'src/application/use-cases/ingredients/realAmount.service';
 import { UpdatingValuePartial } from 'src/application/use-cases/recipes/update-value-partial';
+import { AuthController } from './controllers/auth.controller';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from 'src/auth/jwt.strategy';
+import { jwtConstants } from 'src/auth/constants';
 
 @Module({
-  imports: [DatabaseModule],
-  controllers: [UsersController, RecipesController, IngredientsController],
+  imports: [
+    DatabaseModule,
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '1m' },
+    }),
+  ],
+  controllers: [
+    UsersController,
+    RecipesController,
+    IngredientsController,
+    AuthController,
+  ],
   providers: [
     CreateUser,
     GetUser,
@@ -38,6 +55,8 @@ import { UpdatingValuePartial } from 'src/application/use-cases/recipes/update-v
     DeleteIngredient,
     UpdateIngredient,
     RealAmountService,
+    AuthService,
+    JwtStrategy,
   ],
 })
 export class HttpModule {}

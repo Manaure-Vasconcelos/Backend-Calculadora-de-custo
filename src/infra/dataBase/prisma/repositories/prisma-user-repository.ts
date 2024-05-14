@@ -2,22 +2,27 @@ import { UserRepository } from '../../../../application/repositories/user-reposi
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { UserUpdateRequest } from 'src/common/interfaces/userUpdateRequest';
+import { UserResponse } from 'src/common/interfaces/userResponse';
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(name: string, email: string, password: string): Promise<any> {
-    const userCreated = await this.prisma.user.create({
-      data: { name, email, password },
+  async create(
+    name: string,
+    email: string,
+    passwordHash: string,
+  ): Promise<UserResponse> {
+    const userCreated = await this.prisma.users.create({
+      data: { name, email, passwordHash },
     });
     if (!userCreated) return null;
     return userCreated;
   }
 
-  async findUserWithRecipes(receivedId: number) {
-    const user = await this.prisma.user.findFirst({
-      where: { id: receivedId },
+  async findUserWithRecipes(receivedEmail: string): Promise<UserResponse> {
+    const user = await this.prisma.users.findUnique({
+      where: { email: receivedEmail },
       include: { recipes: true },
     });
     if (!user) return null;
@@ -25,7 +30,7 @@ export class PrismaUserRepository implements UserRepository {
   }
 
   async delete(receivedId: number) {
-    const deletedUser = await this.prisma.user.delete({
+    const deletedUser = await this.prisma.users.delete({
       where: { id: receivedId },
     });
     if (!deletedUser) return null;
@@ -36,10 +41,10 @@ export class PrismaUserRepository implements UserRepository {
     receivedId: number,
     receivedValues: UserUpdateRequest,
   ): Promise<any> {
-    const { name, email, password } = receivedValues;
-    const updateUser = await this.prisma.user.update({
+    const { name, email, password: passwordHash } = receivedValues;
+    const updateUser = await this.prisma.users.update({
       where: { id: receivedId },
-      data: { name, email, password },
+      data: { name, email, passwordHash },
     });
     if (!updateUser) return null;
     return updateUser;
