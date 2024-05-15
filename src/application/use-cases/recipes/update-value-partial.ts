@@ -6,8 +6,8 @@ export class UpdatingValuePartial {
   // sempre ao criar e atualizar ser chamado.
   constructor(private recipesRepository: RecipesRepository) {}
 
-  async execute(receivedId: number): Promise<void> {
-    const recipe = await this.recipesRepository.getRecipe(receivedId);
+  async execute(recipeId: number): Promise<void> {
+    const recipe = await this.recipesRepository.getRecipe(recipeId);
 
     if (!recipe.ingredients) {
       throw new Error('nao tem nada');
@@ -19,7 +19,7 @@ export class UpdatingValuePartial {
       0,
     );
 
-    await this.recipesRepository.update(receivedId, {
+    await this.recipesRepository.update(recipeId, {
       ...recipe,
       valuePartial,
     });

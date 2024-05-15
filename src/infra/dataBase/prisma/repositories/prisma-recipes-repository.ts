@@ -8,8 +8,8 @@ import { recipeUpdatingRequest } from 'src/common/interfaces/recipeUpdadeRequest
 export class PrismaRecipesRepository implements RecipesRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(receivedValues: RecipeRequest): Promise<any> {
-    const { title, describe, userId } = receivedValues;
+  async create(userId: number, receivedValues: RecipeRequest): Promise<any> {
+    const { title, describe } = receivedValues;
     const recipeCreated = await this.prisma.recipes.create({
       data: { title, describe, userId },
     });
@@ -42,10 +42,10 @@ export class PrismaRecipesRepository implements RecipesRepository {
     receivedId: number,
     recipeUpdate: recipeUpdatingRequest,
   ): Promise<any> {
-    const { title, describe, valuePartial, userId } = recipeUpdate;
+    const { title, describe, valuePartial } = recipeUpdate;
     const updatedRecipe = await this.prisma.recipes.update({
       where: { id: receivedId },
-      data: { title, describe, valuePartial, userId },
+      data: { title, describe, valuePartial },
     });
     return updatedRecipe;
   }

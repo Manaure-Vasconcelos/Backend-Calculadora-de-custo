@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Length,
-} from 'class-validator';
+import { IsNumber, IsOptional, IsString, Length } from 'class-validator';
 
 export abstract class RecipesUpdatingDTO {
   @IsOptional()
@@ -19,8 +13,4 @@ export abstract class RecipesUpdatingDTO {
   @IsOptional()
   @IsNumber()
   valuePartial?: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  userId: number;
 }

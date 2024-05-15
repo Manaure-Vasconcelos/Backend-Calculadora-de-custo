@@ -3,5 +3,4 @@ export interface IngredientRequest {
   marketWeight: number;
   marketPrice: number;
   grossWeight: number;
-  recipeId: number;
 }

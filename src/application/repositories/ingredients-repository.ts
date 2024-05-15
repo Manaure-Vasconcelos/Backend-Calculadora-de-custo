@@ -4,6 +4,7 @@ import { IngredientUpdatingRequest } from 'src/common/interfaces/ingredientUpdat
 
 export abstract class IngredientsRepository {
   abstract create(
+    recipeId: number,
     receivedValues: IngredientRequest,
     realAmount: number,
   ): Promise<any>;

@@ -10,11 +10,11 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(
+    recipeId: number,
     receivedValues: IngredientRequest,
     realAmount: number,
   ): Promise<IngredientResponse> {
-    const { name, marketWeight, marketPrice, grossWeight, recipeId } =
-      receivedValues;
+    const { name, marketWeight, marketPrice, grossWeight } = receivedValues;
 
     const newIngredient = await this.prisma.ingredient.create({
       data: {

@@ -7,8 +7,14 @@ import { RecipeResponse } from 'src/common/interfaces/recipeResponse';
 export class CreateRecipe {
   constructor(private recipesRepository: RecipesRepository) {}
 
-  async execute(receivedValues: RecipeRequest): Promise<RecipeResponse> {
-    const newRecipe = await this.recipesRepository.create(receivedValues);
+  async execute(
+    userId: number,
+    receivedValues: RecipeRequest,
+  ): Promise<RecipeResponse> {
+    const newRecipe = await this.recipesRepository.create(
+      userId,
+      receivedValues,
+    );
     return newRecipe;
   }
 }

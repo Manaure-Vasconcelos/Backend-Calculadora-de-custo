@@ -6,9 +6,9 @@ import { RecipeResponse } from 'src/common/interfaces/recipeResponse';
 export class AllRecipes {
   constructor(private recipesRepository: RecipesRepository) {}
 
-  async execute(receivedId: string): Promise<RecipeResponse> {
+  async execute(receivedId: number): Promise<RecipeResponse> {
     const newRecipe =
-      await this.recipesRepository.allRecipesFromUser(+receivedId);
+      await this.recipesRepository.allRecipesFromUser(receivedId);
     return newRecipe;
   }
 }

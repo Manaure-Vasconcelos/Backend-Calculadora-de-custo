@@ -6,6 +6,8 @@ import {
   Param,
   Post,
   Put,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { IngredientDTO } from '../DTOs/ingredient-dto';
 import { CreateIngredient } from 'src/application/use-cases/ingredients/create-ingredient';
@@ -13,6 +15,7 @@ import { GetSingleIngredient } from './../../../application/use-cases/ingredient
 import { DeleteIngredient } from './../../../application/use-cases/ingredients/delete-ingredient';
 import { UpdateIngredient } from './../../../application/use-cases/ingredients/update-ingredient';
 import { IngredientUpdatingDTO } from '../DTOs/ingredient-update';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('/ingredients')
 export class IngredientsController {
@@ -23,24 +26,31 @@ export class IngredientsController {
     private updateIngredient: UpdateIngredient,
   ) {}
 
-  @Post()
-  create(@Body() ingredient: IngredientDTO) {
-    const ingredientCreated = this.createIngredients.execute(ingredient);
+  @UseGuards(JwtAuthGuard)
+  @Post('/:id')
+  create(@Param('id') recipeId: string, @Body() ingredient: IngredientDTO) {
+    const ingredientCreated = this.createIngredients.execute(
+      recipeId,
+      ingredient,
+    );
     return ingredientCreated;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   getIngredient(@Param('id') receivedId: string) {
     const sigleIngredient = this.getSingleIngredient.execute(receivedId);
     return sigleIngredient;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   delete(@Param('id') receivedId: string) {
     const deletedIngredient = this.deleteIngredient.execute(receivedId);
     return deletedIngredient;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   update(
     @Param('id') receivedId: string,
@@ -52,15 +62,4 @@ export class IngredientsController {
     );
     return sigleIngredient;
   }
-
-  /*   @Post()
-  setValuePartial() {
-    this.ingredientsService.setValuePartialOfRecipe();
-    return 'Adicionando valor parcial.';
-  }
-
-  @Get('/value-partial')
-  getValuePartialOfRecipe() {
-    return this.ingredientsService.getValuePartialOfRecipe();
-  } */
 }

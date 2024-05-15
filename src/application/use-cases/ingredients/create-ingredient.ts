@@ -14,16 +14,18 @@ export class CreateIngredient {
   ) {}
 
   async execute(
+    recipeId: string,
     receivedValues: IngredientRequest,
   ): Promise<IngredientResponse> {
     const realAmount = this.realAmount.calculate(receivedValues);
 
     const createdIngredient = await this.ingredientsRepository.create(
+      +recipeId,
       receivedValues,
       realAmount,
     );
 
-    await this.updatingValuePartial.execute(receivedValues.recipeId);
+    await this.updatingValuePartial.execute(+recipeId);
 
     return createdIngredient;
   }

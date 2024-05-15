@@ -6,6 +6,8 @@ import {
   Param,
   Post,
   Put,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { AllRecipes } from 'src/application/use-cases/recipes/get-all-recipes-from-user';
 import { CreateRecipe } from './../../../application/use-cases/recipes/create-recipe';
@@ -14,6 +16,7 @@ import { RecipesWithIngredients } from 'src/application/use-cases/recipes/get-re
 import { DeleteRecipe } from 'src/application/use-cases/recipes/delete-recipe';
 import { UpdateRecipe } from 'src/application/use-cases/recipes/update-recipe';
 import { RecipesUpdatingDTO } from '../DTOs/recipe-update-dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('recipes')
 export class RecipesController {
@@ -25,31 +28,45 @@ export class RecipesController {
     private updateRecipe: UpdateRecipe,
   ) {}
 
-  @Post() // tenho que receber o password e fazer o tratamento para hash e então setar na db.
-  async createRecipes(@Body() receivedValues: RecipesDTO): Promise<any> {
-    const recipeCreated = await this.createRecipe.execute(receivedValues);
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  async createRecipes(
+    @Request() req: any,
+    @Body() receivedValues: RecipesDTO,
+  ): Promise<any> {
+    const recipeCreated = await this.createRecipe.execute(
+      req.user.id,
+      receivedValues,
+    );
     return recipeCreated;
     // criar uma receita no usuario logado.
   }
 
-  @Get('/all/:id') // todas as receitas do usuario logado.
-  async getAllRecipes(@Param('id') receivedId: string) {
-    const allRecipes = this.allRecipes.execute(receivedId);
+  @UseGuards(JwtAuthGuard)
+  @Get('/all') // todas as receitas do usuario logado.
+  async getAllRecipes(@Request() req: any) {
+    const allRecipes = this.allRecipes.execute(req.user.id);
     return allRecipes;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:id') // criar uma rota mais armonica.
-  async getRecipeWithIngredients(@Param('id') receivedId: string) {
-    const recipe = this.recipeWithIngredients.execute(receivedId);
+  async getRecipeWithIngredients(
+    @Request() req: any,
+    @Param('id') recipeId: string,
+  ) {
+    const recipe = this.recipeWithIngredients.execute(recipeId);
     return recipe;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async delete(@Param('id') receivedId: string) {
     const deletedRecipe = await this.deleteRecipe.execute(receivedId);
     return deletedRecipe;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   async update(
     @Param('id') receivedId: string,

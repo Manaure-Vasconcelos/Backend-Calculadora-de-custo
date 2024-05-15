@@ -15,8 +15,4 @@ export abstract class RecipesDTO {
   @IsOptional()
   @IsString()
   describe?: string;
-
-  @IsNotEmpty()
-  @IsNumber()
-  userId: number;
 }
