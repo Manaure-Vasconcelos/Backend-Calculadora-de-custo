@@ -6,7 +6,6 @@ import {
   Param,
   Post,
   Put,
-  Request,
   UseGuards,
 } from '@nestjs/common';
 import { IngredientDTO } from '../DTOs/ingredient-dto';
