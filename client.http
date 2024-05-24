@@ -1,8 +1,8 @@
 @base_url = http://localhost:3000
+@authToken = {{signIn.request.body.access_token}}
 
 # @name signIn
-
-POST {{base_url}}
+POST http://localhost:3000
 Content-Type: application/json
 
 {
@@ -13,7 +13,6 @@ Content-Type: application/json
 ###
 
 # @name register
-
 POST {{base_url}}
 Content-Type: application/json
 {
