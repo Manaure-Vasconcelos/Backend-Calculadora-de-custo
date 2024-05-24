@@ -29,11 +29,17 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     DatabaseModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '20m' },
-      }),
       inject: [ConfigService],
+      global: true,
+      async useFactory(configService: ConfigService) {
+        const privateKey = configService.get<string>('JWT_PRIVATE_KEY');
+        const publicKey = configService.get<string>('JWT_PUBLIC_KEY');
+        return {
+          signOptions: { algorithm: 'RS256', expiresIn: '20m' },
+          privateKey: Buffer.from(privateKey, 'base64'),
+          publicKey: Buffer.from(publicKey, 'base64'),
+        };
+      },
     }),
   ],
   controllers: [

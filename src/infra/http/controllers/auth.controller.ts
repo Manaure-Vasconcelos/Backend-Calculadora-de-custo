@@ -1,6 +1,7 @@
 import { Body, Controller, Post, HttpException } from '@nestjs/common';
 import { AuthService } from '../../../auth/auth.service';
 import { UserDTO } from '../DTOs/user-dto';
+import { RegisterUserDTO } from '../DTOs/register-user-dto';
 
 @Controller('auth')
 export class AuthController {
@@ -21,7 +22,7 @@ export class AuthController {
   }
 
   @Post('register')
-  register(@Body() receivedValues: UserDTO) {
+  register(@Body() receivedValues: RegisterUserDTO) {
     try {
       const user = this.authService.register(receivedValues);
       return user;

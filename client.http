@@ -1,0 +1,23 @@
+@base_url = http://localhost:3000
+
+# @name signIn
+
+POST {{base_url}}
+Content-Type: application/json
+
+{
+  email: "manaurevasc@gmail.com",
+  password: "123456789"
+}
+
+###
+
+# @name register
+
+POST {{base_url}}
+Content-Type: application/json
+{
+  name: "manaure",
+  email: "manaurevasc97@gmail.com",
+  password: "123456789"
+}
