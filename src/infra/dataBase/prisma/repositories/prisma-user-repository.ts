@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { UserUpdateRequest } from 'src/common/interfaces/userUpdateRequest';
 import { UserResponse } from 'src/common/interfaces/userResponse';
+import { randomUUID } from 'node:crypto';
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
@@ -13,8 +14,9 @@ export class PrismaUserRepository implements UserRepository {
     email: string,
     passwordHash: string,
   ): Promise<UserResponse> {
+    const userId = randomUUID();
     const userCreated = await this.prisma.users.create({
-      data: { name, email, passwordHash },
+      data: { id: userId, name, email, passwordHash },
     });
     if (!userCreated) return null;
     return userCreated;
@@ -29,7 +31,7 @@ export class PrismaUserRepository implements UserRepository {
     return user;
   }
 
-  async delete(receivedId: number) {
+  async delete(receivedId: string) {
     const deletedUser = await this.prisma.users.delete({
       where: { id: receivedId },
     });
@@ -38,7 +40,7 @@ export class PrismaUserRepository implements UserRepository {
   }
 
   async update(
-    receivedId: number,
+    receivedId: string,
     receivedValues: UserUpdateRequest,
   ): Promise<any> {
     const { name, email, password: passwordHash } = receivedValues;

@@ -15,7 +15,7 @@ export class UpdateIngredient {
   async execute(receivedId: string, receivedValues: IngredientUpdatingRequest) {
     const newRealAmount = await this.realAmount.updating(
       receivedValues,
-      +receivedId,
+      receivedId,
     );
 
     const updatedIngredient = await this.ingredientsRepository.update(

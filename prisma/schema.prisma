@@ -18,7 +18,7 @@ model Users {
 }
 
 model Recipes {
-  id           String   @id
+  id           Int   @id @default(autoincrement())
   title        String
   describe     String?
   userId       String
@@ -32,13 +32,13 @@ model Recipes {
 }
 
 model Ingredient {
-  id           String   @id
+  id           Int @id @default(autoincrement())
   name         String
-  marketWeight Int  @map("marketWeight")
-  marketPrice  Int  @map("marketPrice")
-  grossWeight  Int  @map("grossWeight")
-  realAmount   Int  @map("realAmount")
-  recipeId     String
+  marketWeight Int    @map("marketWeight")
+  marketPrice  Int    @map("marketPrice")
+  grossWeight  Int    @map("grossWeight")
+  realAmount   Int    @map("realAmount")
+  recipeId     Int
 
-  recipes      Recipes? @relation(fields: [recipeId], references: [id])
+  recipes Recipes? @relation(fields: [recipeId], references: [id])
 }

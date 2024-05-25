@@ -3,19 +3,23 @@ import { RecipesRepository } from 'src/application/repositories/recipes-reposito
 import { PrismaService } from '../prisma.service';
 import { RecipeRequest } from 'src/common/interfaces/recipeRequest';
 import { recipeUpdatingRequest } from 'src/common/interfaces/recipeUpdadeRequest';
+import { RecipeResponse } from 'src/common/interfaces/recipeResponse';
 
 @Injectable()
 export class PrismaRecipesRepository implements RecipesRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(userId: number, receivedValues: RecipeRequest): Promise<any> {
+  async create(
+    userId: string,
+    receivedValues: RecipeRequest,
+  ): Promise<RecipeResponse> {
     const { title, describe } = receivedValues;
     const recipeCreated = await this.prisma.recipes.create({
       data: { title, describe, userId },
     });
     return recipeCreated;
   }
-  async allRecipesFromUser(receivedId: number): Promise<any> {
+  async allRecipesFromUser(receivedId: string): Promise<any> {
     const recipes = await this.prisma.recipes.findMany({
       where: { userId: receivedId },
       include: { ingredients: true },

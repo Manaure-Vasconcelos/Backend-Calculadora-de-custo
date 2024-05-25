@@ -8,7 +8,7 @@ export class UpdateUser {
 
   async execute(idUser: string, receivedValues: UserUpdateRequest) {
     const updatedUser = await this.userRepository.update(
-      +idUser,
+      idUser,
       receivedValues,
     );
     return updatedUser;

@@ -13,8 +13,9 @@ Content-Type: application/json
 ###
 
 # @name register
-POST {{base_url}}
+POST http://localhost:3000/auth/register
 Content-Type: application/json
+
 {
   name: "manaure",
   email: "manaurevasc97@gmail.com",

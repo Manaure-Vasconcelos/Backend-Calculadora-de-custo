@@ -14,11 +14,11 @@ export class RealAmountService {
 
   async updating(
     receivedValues: IngredientUpdatingRequest,
-    idIngredient: number,
+    idIngredient: string,
   ) {
     let { marketWeight, marketPrice, grossWeight } = receivedValues;
     const existingIngredient =
-      await this.ingredientRepository.singleIngredient(idIngredient);
+      await this.ingredientRepository.singleIngredient(+idIngredient);
 
     if (marketWeight === undefined)
       marketWeight = Number(existingIngredient?.marketWeight);

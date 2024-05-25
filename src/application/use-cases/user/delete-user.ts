@@ -6,7 +6,7 @@ export class DeleteUser {
   constructor(private userRepository: UserRepository) {}
 
   async execute(receivedId: string) {
-    const deletedUser = await this.userRepository.delete(+receivedId);
+    const deletedUser = await this.userRepository.delete(receivedId);
     return deletedUser;
   }
 }

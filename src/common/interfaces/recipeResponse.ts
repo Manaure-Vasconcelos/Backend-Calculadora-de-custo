@@ -3,7 +3,7 @@ export interface RecipeResponse {
   title: string;
   describe: string | null;
   valuePartial: number | null;
-  userId: number;
+  userId: string;
   createdAt: Date;
   updatedAt: Date;
 }
