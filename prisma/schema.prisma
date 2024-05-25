@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Users {
-  id           Int       @id @default(autoincrement())
+  id           String    @id
   name         String
   email        String    @unique
   passwordHash String
@@ -18,24 +18,27 @@ model Users {
 }
 
 model Recipes {
-  id           Int          @id @default(autoincrement())
+  id           String   @id
   title        String
   describe     String?
-  userId       Int
+  userId       String
   valuePartial Int?
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  ingredients  Ingredient[]
-  user         Users?        @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  ingredients Ingredient[]
+
+  user Users? @relation(fields: [userId], references: [id])
 }
 
 model Ingredient {
-  id           Int      @id @default(autoincrement())
+  id           String   @id
   name         String
-  marketWeight Decimal  @map("marketWeight")
-  marketPrice  Decimal  @map("marketPrice")
-  grossWeight  Decimal  @map("grossWeight")
-  realAmount   Decimal  @map("realAmount")
-  recipeId     Int
+  marketWeight Int  @map("marketWeight")
+  marketPrice  Int  @map("marketPrice")
+  grossWeight  Int  @map("grossWeight")
+  realAmount   Int  @map("realAmount")
+  recipeId     String
+
   recipes      Recipes? @relation(fields: [recipeId], references: [id])
 }
