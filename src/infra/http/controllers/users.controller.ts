@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
   Put,
   Request,
   UseGuards,
@@ -23,21 +22,21 @@ export class UsersController {
   ) {}
 
   @UseGuards(JwtAuthGuard)
-  @Get('with-recipe')
+  @Get()
   async post(@Request() req: any) {
     const user = this.getUser.execute(req.user.email);
     return user;
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete('delete')
+  @Delete()
   async delete(@Request() req: any) {
     const deleteUser = await this.deleteUser.execute(req.user.id);
     return deleteUser;
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put('update')
+  @Put()
   async update(@Request() req: any, @Body() receivedValues: UserUpdatingDTO) {
     const updateUser = await this.updateUser.execute(
       req.user.id,

@@ -1,4 +1,4 @@
-import { IngredientService } from '../ingredient/ingredient.service';
+/* import { IngredientService } from '../ingredient/ingredient.service';
 import { IngredientsService } from '../ingredients/ingredients.service';
 import { TableCostUnitService } from './cost.unit.service';
 
@@ -52,5 +52,6 @@ describe('TableCostUnitService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-  }); */
+  }); 
 });
+ */

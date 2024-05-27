@@ -1,5 +1,6 @@
 {
   "workbench.iconTheme": "material-icon-theme",
-  "material-icon-theme.activeIconPack": "nest"
+  "material-icon-theme.activeIconPack": "nest",
+  "genieai.openai.model": "gpt-3.5-turbo",
+  "genieai.openai.temperature": 0.5
 }
-

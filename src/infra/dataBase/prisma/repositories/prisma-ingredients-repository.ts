@@ -36,7 +36,7 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
     return ingredientFound;
   }
 
-  async delete(receivedId: number): Promise<any> {
+  async delete(receivedId: number): Promise<IngredientResponse> {
     const deletedIngredient = await this.prisma.ingredient.delete({
       where: { id: receivedId },
     });

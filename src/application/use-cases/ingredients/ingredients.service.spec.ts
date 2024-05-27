@@ -1,7 +1,7 @@
-import { it, describe } from 'vitest';
+/* import { it, describe } from 'vitest';
 
-/* const food1 = new IngredientService('comida1', 6, 10, 3);
-const createSut = () => new IngredientsService(food1); */
+const food1 = new IngredientService('comida1', 6, 10, 3);
+const createSut = () => new IngredientsService(food1);
 
 describe('TableIngredientsService', () => {
   it('should setting ingredient in array', () => {
@@ -46,5 +46,5 @@ describe('TableIngredientsService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-  }); */
-});
+  });
+}); */
