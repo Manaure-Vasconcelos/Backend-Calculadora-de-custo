@@ -3,7 +3,6 @@ import {
   UnauthorizedException,
   InternalServerErrorException,
   ConflictException,
-  BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUser } from '../application/use-cases/user/create-user';
@@ -13,8 +12,6 @@ import { LoginUserDTO } from 'src/infra/http/DTOs/user-dto';
 import { loginResponse } from 'src/common/interfaces/LoginResponse';
 import { HashPassword } from './hashPassword';
 import { UserResponse } from 'src/common/interfaces/userResponse';
-import { observeNotification } from 'rxjs/internal/Notification';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class AuthService {

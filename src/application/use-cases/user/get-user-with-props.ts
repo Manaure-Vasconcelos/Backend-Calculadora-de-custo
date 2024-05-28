@@ -6,16 +6,21 @@ import {
 import { UserRepository } from 'src/application/repositories/user-repository';
 
 @Injectable()
-export class DeleteUser {
+export class GetUserWithProps {
   constructor(private userRepository: UserRepository) {}
 
   async execute(receivedId: string) {
     try {
-      await this.userRepository.delete(receivedId);
+      const userWithPros =
+        await this.userRepository.findUserWithProps(receivedId);
+
+      if (!userWithPros) throw new NotFoundException('NotFound User');
+
+      return userWithPros;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
 
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('Error executing getUser');
     }
   }
 }

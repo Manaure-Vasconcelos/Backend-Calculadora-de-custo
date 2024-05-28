@@ -24,6 +24,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HashPassword } from 'src/auth/hashPassword';
+import { GetUserWithProps } from 'src/application/use-cases/user/get-user-with-props';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { HashPassword } from 'src/auth/hashPassword';
   providers: [
     CreateUser,
     GetUser,
+    GetUserWithProps,
     DeleteUser,
     UpdateUser,
     AllRecipes,

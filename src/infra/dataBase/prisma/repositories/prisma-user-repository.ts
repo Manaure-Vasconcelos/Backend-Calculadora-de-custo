@@ -9,6 +9,7 @@ import { PrismaService } from '../prisma.service';
 import { UserUpdateRequest } from 'src/common/interfaces/userUpdateRequest';
 import { UserResponse } from 'src/common/interfaces/userResponse';
 import { randomUUID } from 'node:crypto';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
@@ -33,15 +34,15 @@ export class PrismaUserRepository implements UserRepository {
     }
   }
 
-  async findUserWithRecipes(receivedEmail: string): Promise<UserResponse> {
+  async findUserWithProps(receivedId: string): Promise<UserResponse> {
     try {
       const user = await this.prisma.users.findUnique({
-        where: { email: receivedEmail },
+        where: { id: receivedId },
         include: { recipes: true },
       });
       return user;
     } catch (error) {
-      throw new NotFoundException('Not find');
+      throw new InternalServerErrorException('Error finding user');
     }
   }
 
@@ -62,9 +63,16 @@ export class PrismaUserRepository implements UserRepository {
         where: { id: receivedId },
       });
     } catch (error) {
-      throw new InternalServerErrorException({
-        message: 'Not success deleting',
-      });
+      if (error instanceof PrismaClientKnownRequestError) {
+        // P2025 é o código de erro do Prisma para "Record to delete does not exist."
+        if (error.code === 'P2025') {
+          throw new NotFoundException({
+            message: 'User not founded',
+          });
+        }
+      }
+
+      throw new InternalServerErrorException('Error on delete user');
     }
   }
 
