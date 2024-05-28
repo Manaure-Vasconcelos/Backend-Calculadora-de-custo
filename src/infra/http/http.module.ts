@@ -23,6 +23,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { HashPassword } from 'src/auth/hashPassword';
 
 @Module({
   imports: [
@@ -66,6 +67,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     RealAmountService,
     AuthService,
     JwtStrategy,
+    HashPassword,
   ],
 })
 export class HttpModule {}

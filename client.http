@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
   "email": "manaurevasc@gmail.com",
-  "password": "123456789"
+  "password": "12345678"
 }
 
 ###
@@ -52,7 +52,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 # Salvar o id da receita para buscar posteriormente.
-# Antes de salvar verificar se ja existe uma receita existente. 
+# Antes de salvar verificar se ja existe uma receita existente.
 # @name create-recipe
 POST {{recipes_base_url}}
 Content-Type: application/json

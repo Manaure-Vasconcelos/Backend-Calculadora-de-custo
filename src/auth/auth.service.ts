@@ -1,13 +1,20 @@
 import {
   Injectable,
   UnauthorizedException,
-  NotAcceptableException,
+  InternalServerErrorException,
+  ConflictException,
+  BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateUser } from '../application/use-cases/user/create-user';
 import { GetUser } from '../application/use-cases/user/get-user';
-import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { UserDTO } from 'src/infra/http/DTOs/user-dto';
+import { LoginUserDTO } from 'src/infra/http/DTOs/user-dto';
+import { loginResponse } from 'src/common/interfaces/LoginResponse';
+import { HashPassword } from './hashPassword';
+import { UserResponse } from 'src/common/interfaces/userResponse';
+import { observeNotification } from 'rxjs/internal/Notification';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -15,35 +22,56 @@ export class AuthService {
     private createUser: CreateUser,
     private getUser: GetUser,
     private jwtService: JwtService,
+    private hashPassword: HashPassword,
   ) {}
 
-  async sigIn({ email, password }) {
-    const user = await this.getUser.execute(email);
-    if (user && (await bcrypt.compare(password, user.passwordHash))) {
+  async sigIn({ email, password }): Promise<loginResponse> {
+    try {
+      const user = await this.getUser.execute(email);
+
+      const isEqualPassword = await this.hashPassword.compare(
+        password,
+        user.passwordHash,
+      );
+
+      if (!isEqualPassword) throw new UnauthorizedException('Invalid Password');
+
       const { passwordHash, ...result } = user;
       const payload = {
         sub: result.id,
-        username: result.name,
-        useremail: result.email,
       };
       return {
         access_token: await this.jwtService.signAsync(payload),
       };
+    } catch (error) {
+      if (
+        error instanceof UnauthorizedException ||
+        error instanceof NotFoundException
+      )
+        throw error;
+
+      throw new InternalServerErrorException();
     }
-    return new UnauthorizedException();
   }
 
-  async register(user: UserDTO) {
-    const { password, ...result } = user;
+  async register(user: LoginUserDTO): Promise<UserResponse> {
+    try {
+      const { password, ...result } = user;
 
-    const salt = bcrypt.genSaltSync(10);
-    const passwordHash = bcrypt.hashSync(password, salt);
+      const passwordHash = this.hashPassword.create(password);
 
-    const userCreated = await this.createUser.execute({
-      ...result,
-      passwordHash: passwordHash,
-    });
-    if (!userCreated) return new NotAcceptableException();
-    return userCreated;
+      const userCreated = await this.createUser.execute({
+        ...result,
+        passwordHash: passwordHash,
+      });
+      return userCreated;
+    } catch (error) {
+      if (error instanceof ConflictException)
+        throw new ConflictException('Email already exists.');
+
+      throw new InternalServerErrorException(
+        'Failed to execute user creation.',
+      );
+    }
   }
 }

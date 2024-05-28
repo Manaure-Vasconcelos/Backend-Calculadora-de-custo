@@ -1,37 +1,56 @@
-import { Body, Controller, Post, HttpException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  HttpException,
+  ConflictException,
+  HttpStatus,
+  UnauthorizedException,
+  NotFoundException,
+} from '@nestjs/common';
 import { AuthService } from '../../../auth/auth.service';
-import { UserDTO } from '../DTOs/user-dto';
+import { LoginUserDTO } from '../DTOs/user-dto';
 import { RegisterUserDTO } from '../DTOs/register-user-dto';
+import { loginResponse } from 'src/common/interfaces/LoginResponse';
+import { UserResponse } from 'src/common/interfaces/userResponse';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  signIn(@Body() login: UserDTO) {
+  signIn(@Body() login: LoginUserDTO): Promise<loginResponse> {
     try {
       const token = this.authService.sigIn(login);
       return token;
     } catch (error) {
-      // verificar a msg de erro do service.
-      if (error.message === 'Invalid credentials') {
-        throw new HttpException('Unauthorized', 401);
-      }
-      throw new HttpException('Internal Server Error', 500);
+      if (
+        error instanceof UnauthorizedException ||
+        error instanceof NotFoundException
+      )
+        throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+
+      throw new HttpException(
+        'Internal Server Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
   @Post('register')
-  register(@Body() receivedValues: RegisterUserDTO) {
+  register(@Body() receivedValues: RegisterUserDTO): Promise<UserResponse> {
     try {
       const user = this.authService.register(receivedValues);
       return user;
     } catch (error) {
       // verificar a msg de erro do service.
-      if (error.message === 'User already exists') {
-        throw new HttpException('Conflict', 409);
-      }
-      throw new HttpException('Internal Server Error', 500);
+      if (error instanceof ConflictException)
+        throw new HttpException('Email already exists.', HttpStatus.CONFLICT);
+
+      throw new HttpException(
+        'Internal Server Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
