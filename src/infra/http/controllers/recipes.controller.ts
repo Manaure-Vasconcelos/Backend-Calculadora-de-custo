@@ -39,18 +39,17 @@ export class RecipesController {
       receivedValues,
     );
     return recipeCreated;
-    // criar uma receita no usuario logado.
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/all') // todas as receitas do usuario logado.
+  @Get('/all')
   async getAllRecipes(@Request() req: any) {
     const allRecipes = this.allRecipes.execute(req.user.id);
     return allRecipes;
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/:id') // criar uma rota mais armonica.
+  @Get('/:id')
   async getRecipeWithIngredients(
     @Request() req: any,
     @Param('id') recipeId: string,
