@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { Password } from './password';
 import { Email } from './email';
 import { Name } from './name';
+import { Replace } from 'src/helpers/Replace';
 
 interface UserProps {
   id: string;
@@ -14,8 +15,12 @@ interface UserProps {
 export class UserEntity {
   private props: UserProps;
 
-  constructor(props: UserProps) {
-    this.props = props;
+  constructor(props: Replace<UserProps, { id?: string; createAt?: Date }>) {
+    this.props = {
+      id: props.id ?? randomUUID(),
+      ...props,
+      createAt: props.createAt ?? new Date(),
+    };
   }
 
   set id(id: string) {
@@ -57,11 +62,9 @@ export class UserEntity {
 
 // Sendo instanciado no service e envia para a db
 const user = new UserEntity({
-  id: randomUUID(),
   name: new Name('manaure'),
   email: new Email('manaure@gmail.com'),
   password: new Password('Manaure97@'),
-  createAt: new Date(),
 });
 
 console.log(user);
