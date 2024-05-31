@@ -38,10 +38,9 @@ export class AuthController {
   }
 
   @Post('register')
-  register(@Body() receivedValues: RegisterUserDTO): Promise<UserResponse> {
+  register(@Body() receivedValues: RegisterUserDTO): void {
     try {
-      const user = this.authService.register(receivedValues);
-      return user;
+      this.authService.subscribe(receivedValues);
     } catch (error) {
       // verificar a msg de erro do service.
       if (error instanceof ConflictException)

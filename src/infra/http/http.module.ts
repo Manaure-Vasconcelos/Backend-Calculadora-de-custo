@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { IngredientsController } from './controllers/ingredients.controller';
 import { UsersController } from './controllers/users.controller';
 import { RecipesController } from './controllers/recipes.controller';
-import { CreateUser } from 'src/application/use-cases/user/create-user';
 import { GetUser } from 'src/application/use-cases/user/get-user';
 import { DeleteUser } from 'src/application/use-cases/user/delete-user';
 import { UpdateUser } from 'src/application/use-cases/user/update-user';
@@ -52,7 +51,6 @@ import { GetUserWithProps } from 'src/application/use-cases/user/get-user-with-p
     AuthController,
   ],
   providers: [
-    CreateUser,
     GetUser,
     GetUserWithProps,
     DeleteUser,

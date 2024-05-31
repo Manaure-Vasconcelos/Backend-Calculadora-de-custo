@@ -5,18 +5,19 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUser } from '../application/use-cases/user/create-user';
 import { GetUser } from '../application/use-cases/user/get-user';
 import { JwtService } from '@nestjs/jwt';
-import { LoginUserDTO } from 'src/infra/http/DTOs/user-dto';
 import { loginResponse } from 'src/common/interfaces/LoginResponse';
 import { HashPassword } from './hashPassword';
-import { UserResponse } from 'src/common/interfaces/userResponse';
+import { UserRequest } from '@common/interfaces/userRequest';
+import { UserRepository } from '@application/repositories/user-repository';
+import { Password } from '@application/entities/user/password';
+import { UserEntity } from '@application/entities/user/user.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private createUser: CreateUser,
+    private userRepository: UserRepository,
     private getUser: GetUser,
     private jwtService: JwtService,
     private hashPassword: HashPassword,
@@ -51,17 +52,19 @@ export class AuthService {
     }
   }
 
-  async register(user: LoginUserDTO): Promise<UserResponse> {
+  async subscribe(user: UserRequest): Promise<void> {
     try {
       const { password, ...result } = user;
 
-      const passwordHash = this.hashPassword.create(password);
+      const pass = new Password(password);
 
-      const userCreated = await this.createUser.execute({
-        ...result,
-        passwordHash: passwordHash,
+      const temp = new UserEntity({
+        name: user.name,
+        email: user.email,
+        password: pass,
       });
-      return userCreated;
+
+      this.userRepository.create(temp);
     } catch (error) {
       if (error instanceof ConflictException)
         throw new ConflictException('Email already exists.');

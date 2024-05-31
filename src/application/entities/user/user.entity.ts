@@ -57,14 +57,3 @@ export class UserEntity {
     return this.props.createAt;
   }
 }
-
-// Sendo instanciado no service e envia para a db
-const hashPassword = new Password('Manaure97@');
-
-const user = new UserEntity({
-  name: 'manaure',
-  email: 'manaure@gmail.com',
-  password: hashPassword,
-});
-
-console.log(user);

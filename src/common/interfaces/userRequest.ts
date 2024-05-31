@@ -1,5 +1,5 @@
 export interface UserRequest {
   name: string;
   email: string;
-  passwordHash: string;
+  password: string;
 }

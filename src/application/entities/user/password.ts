@@ -1,9 +1,18 @@
 import * as bcrypt from 'bcryptjs';
-export class Password {
-  private readonly passwordHash: string;
 
-  get value(): string {
-    return this.passwordHash;
+export class Password {
+  private readonly password: string;
+
+  constructor(password: string) {
+    const isValid = this.validatePassword(password);
+
+    if (!isValid) throw new Error('Invalid password');
+
+    this.password = Password.hashPassword(password);
+  }
+
+  get hashedValue(): string {
+    return this.password;
   }
 
   validatePassword(password: string): boolean {
@@ -21,22 +30,14 @@ export class Password {
     return true;
   }
 
-  constructor(password: string) {
-    const isValid = this.validatePassword(password);
-
-    if (!isValid) throw new Error('Invalid password');
-
-    const hash = HashPassword(password);
-
-    this.passwordHash = hash;
+  static hashPassword(password: string) {
+    const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(password, salt);
   }
-}
 
-function HashPassword(password: string) {
-  const salt = bcrypt.genSaltSync(10);
-
-  const passwordHash = bcrypt.hashSync(password, salt);
-  return passwordHash;
+  comparePassword(password: string, hashedPassword: string) {
+    return bcrypt.compareSync(password, hashedPassword);
+  }
 }
 
 /* async compare(password: string, passwordHash: string): Promise<boolean> {

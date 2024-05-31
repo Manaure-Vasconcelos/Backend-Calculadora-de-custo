@@ -8,24 +8,21 @@ import {
 import { PrismaService } from '../prisma.service';
 import { UserUpdateRequest } from 'src/common/interfaces/userUpdateRequest';
 import { UserResponse } from 'src/common/interfaces/userResponse';
-import { randomUUID } from 'node:crypto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { UserEntity } from '@application/entities/user/user.entity';
+import { PrismaUserMapper } from '../mappers/prisma-user-mapper';
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(
-    name: string,
-    email: string,
-    passwordHash: string,
-  ): Promise<UserResponse> {
+  async create(user: UserEntity): Promise<void> {
     try {
-      const userId = randomUUID();
-      const userCreated = await this.prisma.users.create({
-        data: { id: userId, name, email, passwordHash },
+      const raw = PrismaUserMapper.toPrisma(user);
+
+      await this.prisma.users.create({
+        data: raw,
       });
-      return userCreated;
     } catch (error: any) {
       if (error.code === 'P2002')
         throw new ConflictException('Email already exists.');

@@ -20,9 +20,9 @@ POST {{base_url}}/register
 Content-Type: application/json
 
 {
-  "name": "manaure",
-  "email": "manaurevasc97@gmail.com",
-  "password": "123456789"
+  "name": "novouser",
+  "email": "novoemail@gmail.com",
+  "password": "Password123@"
 }
 
 ###
