@@ -29,7 +29,9 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
     return newIngredient;
   }
 
-  async singleIngredient(receivedId: number): Promise<IngredientResponse> {
+  async singleIngredient(
+    receivedId: number,
+  ): Promise<IngredientResponse | null> {
     const ingredientFound = await this.prisma.ingredient.findFirst({
       where: { id: receivedId },
     });

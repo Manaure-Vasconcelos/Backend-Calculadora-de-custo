@@ -36,6 +36,7 @@ import { GetUserWithProps } from 'src/application/use-cases/user/get-user-with-p
       async useFactory(configService: ConfigService) {
         const privateKey = configService.get<string>('JWT_PRIVATE_KEY');
         const publicKey = configService.get<string>('JWT_PUBLIC_KEY');
+        if (!privateKey || !publicKey) throw new Error();
         return {
           signOptions: { algorithm: 'RS256', expiresIn: '20m' },
           privateKey: Buffer.from(privateKey, 'base64'),

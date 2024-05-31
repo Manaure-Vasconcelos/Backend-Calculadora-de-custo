@@ -1,8 +1,9 @@
+import * as bcrypt from 'bcryptjs';
 export class Password {
-  private readonly password: string;
+  private readonly passwordHash: string;
 
   get value(): string {
-    return this.password;
+    return this.passwordHash;
   }
 
   validatePassword(password: string): boolean {
@@ -23,10 +24,26 @@ export class Password {
   constructor(password: string) {
     const isValid = this.validatePassword(password);
 
-    /* const isValidValues = this. */
-
     if (!isValid) throw new Error('Invalid password');
 
-    this.password = password;
+    const hash = HashPassword(password);
+
+    this.passwordHash = hash;
   }
 }
+
+function HashPassword(password: string) {
+  const salt = bcrypt.genSaltSync(10);
+
+  const passwordHash = bcrypt.hashSync(password, salt);
+  return passwordHash;
+}
+
+/* async compare(password: string, passwordHash: string): Promise<boolean> {
+    try {
+      const isEqual = await bcrypt.compare(password, passwordHash);
+      return isEqual;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
+  } */

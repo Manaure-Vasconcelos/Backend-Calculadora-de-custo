@@ -8,7 +8,9 @@ export abstract class IngredientsRepository {
     receivedValues: IngredientRequest,
     realAmount: number,
   ): Promise<any>;
-  abstract singleIngredient(receivedId: number): Promise<IngredientResponse>;
+  abstract singleIngredient(
+    receivedId: number,
+  ): Promise<IngredientResponse | null>;
   abstract delete(receivedId: number): Promise<any>;
   abstract update(
     receivedId: number,

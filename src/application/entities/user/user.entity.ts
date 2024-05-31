@@ -1,13 +1,11 @@
 import { randomUUID } from 'node:crypto';
 import { Password } from './password';
-import { Email } from './email';
-import { Name } from './name';
 import { Replace } from 'src/helpers/Replace';
 
 interface UserProps {
   id: string;
-  name: Name;
-  email: Email;
+  name: string;
+  email: string;
   password: Password;
   createAt: Date;
 }
@@ -31,19 +29,19 @@ export class UserEntity {
     return this.props.id;
   }
 
-  set name(name: Name) {
+  set name(name: string) {
     this.props.name = name;
   }
 
-  get name(): Name {
+  get name(): string {
     return this.props.name;
   }
 
-  set email(email: Email) {
+  set email(email: string) {
     this.props.email = email;
   }
 
-  get email(): Email {
+  get email(): string {
     return this.props.email;
   }
 
@@ -61,10 +59,12 @@ export class UserEntity {
 }
 
 // Sendo instanciado no service e envia para a db
+const hashPassword = new Password('Manaure97@');
+
 const user = new UserEntity({
-  name: new Name('manaure'),
-  email: new Email('manaure@gmail.com'),
-  password: new Password('Manaure97@'),
+  name: 'manaure',
+  email: 'manaure@gmail.com',
+  password: hashPassword,
 });
 
 console.log(user);

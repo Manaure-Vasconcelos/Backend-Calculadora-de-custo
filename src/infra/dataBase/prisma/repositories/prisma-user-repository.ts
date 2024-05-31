@@ -1,4 +1,4 @@
-import { UserRepository } from '../../../../application/repositories/user-repository';
+import { UserRepository } from '@application/repositories/user-repository';
 import {
   ConflictException,
   Injectable,
@@ -26,7 +26,7 @@ export class PrismaUserRepository implements UserRepository {
         data: { id: userId, name, email, passwordHash },
       });
       return userCreated;
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === 'P2002')
         throw new ConflictException('Email already exists.');
 
@@ -34,7 +34,7 @@ export class PrismaUserRepository implements UserRepository {
     }
   }
 
-  async findUserWithProps(receivedId: string): Promise<UserResponse> {
+  async findUserWithProps(receivedId: string): Promise<UserResponse | null> {
     try {
       const user = await this.prisma.users.findUnique({
         where: { id: receivedId },
@@ -46,7 +46,7 @@ export class PrismaUserRepository implements UserRepository {
     }
   }
 
-  async findUser(receivedEmail: string): Promise<UserResponse> {
+  async findUser(receivedEmail: string): Promise<UserResponse | null> {
     try {
       const user = await this.prisma.users.findUnique({
         where: { email: receivedEmail },
