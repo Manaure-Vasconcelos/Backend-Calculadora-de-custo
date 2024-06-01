@@ -6,7 +6,7 @@ interface UserProps {
   id: string;
   name: string;
   email: string;
-  password: Password;
+  password: Password | string;
   createAt: Date;
 }
 
@@ -49,7 +49,7 @@ export class UserEntity {
     this.props.password = password;
   }
 
-  get password(): Password {
+  get password(): Password | string {
     return this.props.password;
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Injectable,
   UnauthorizedException,
@@ -35,6 +36,7 @@ export class AuthService {
       if (!isEqualPassword) throw new UnauthorizedException('Invalid Password');
 
       const { passwordHash, ...result } = user;
+
       const payload = {
         sub: result.id,
       };
@@ -54,7 +56,7 @@ export class AuthService {
 
   async subscribe(user: UserRequest): Promise<void> {
     try {
-      const { password, ...result } = user;
+      const { password } = user;
 
       const pass = new Password(password);
 

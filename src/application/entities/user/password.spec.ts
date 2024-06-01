@@ -26,4 +26,12 @@ describe('Password class props', () => {
       new Password('Password1');
     }).toThrow();
   });
+
+  it('It should be expected that the password matches the hashPassword value.', () => {
+    const pass = new Password('Password123@');
+
+    const isEqual = pass.comparePassword('Password123@', pass.hashedValue);
+
+    expect(isEqual).toBe(true);
+  });
 });

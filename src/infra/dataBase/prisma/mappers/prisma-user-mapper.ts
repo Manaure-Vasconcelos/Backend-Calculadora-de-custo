@@ -6,7 +6,10 @@ export class PrismaUserMapper {
       id: user.id,
       name: user.name,
       email: user.email,
-      passwordHash: user.password.hashedValue,
+      passwordHash:
+        typeof user.password !== 'string'
+          ? user.password.hashedValue
+          : user.password,
     };
   }
   /*

@@ -12,7 +12,6 @@ import { AuthService } from '../../../auth/auth.service';
 import { LoginUserDTO } from '../DTOs/user-dto';
 import { RegisterUserDTO } from '../DTOs/register-user-dto';
 import { loginResponse } from 'src/common/interfaces/LoginResponse';
-import { UserResponse } from 'src/common/interfaces/userResponse';
 
 @Controller('auth')
 export class AuthController {
