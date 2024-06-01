@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { IngredientsController } from './controllers/ingredients.controller';
 import { UsersController } from './controllers/users.controller';
 import { RecipesController } from './controllers/recipes.controller';
-import { GetUser } from 'src/application/use-cases/user/get-user';
+import { GetUser } from '@application/use-cases/user/get-acount';
 import { DeleteUser } from 'src/application/use-cases/user/delete-user';
-import { UpdateUser } from 'src/application/use-cases/user/update-user';
+import { UpdateUser } from '@application/use-cases/user/update';
 import { DatabaseModule } from '../dataBase/database.module';
 import { AllRecipes } from 'src/application/use-cases/recipes/get-all-recipes-from-user';
 import { CreateRecipe } from 'src/application/use-cases/recipes/create-recipe';
@@ -23,7 +23,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HashPassword } from 'src/auth/hashPassword';
-import { GetUserWithProps } from 'src/application/use-cases/user/get-user-with-props';
+import { GetUserWithProps } from '@application/use-cases/user/get-profile';
 
 @Module({
   imports: [

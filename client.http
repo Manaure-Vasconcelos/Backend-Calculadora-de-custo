@@ -9,8 +9,8 @@ POST {{base_url}}/login
 Content-Type: application/json
 
 {
-  "email": "manaurevasc97@gmail.com",
-  "password": "123456789"
+  "email": "novoemail6@gmail.com",
+  "password": "Password123@"
 }
 
 ###
@@ -21,7 +21,7 @@ Content-Type: application/json
 
 {
   "name": "novouser",
-  "email": "novoemail2@gmail.com",
+  "email": "novoemail6@gmail.com",
   "password": "Password123@"
 }
 
@@ -40,7 +40,8 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-	"name": "manaure novo"
+	"name": "manaure senha nova",
+  "password": "Novasenha123@"
 }
 
 ###

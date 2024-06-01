@@ -12,10 +12,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { DeleteUser } from 'src/application/use-cases/user/delete-user';
-import { UpdateUser } from 'src/application/use-cases/user/update-user';
+import { UpdateUser } from '@application/use-cases/user/update';
 import { UserUpdatingDTO } from '../DTOs/user-update-dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { GetUserWithProps } from 'src/application/use-cases/user/get-user-with-props';
+import { GetUserWithProps } from '@application/use-cases/user/get-profile';
 
 @Controller('user')
 export class UsersController {
@@ -59,10 +59,12 @@ export class UsersController {
   @Put()
   async update(@Request() req: any, @Body() receivedValues: UserUpdatingDTO) {
     try {
-      const updateUser = await this.updateUser.execute(
-        req.user.id,
-        receivedValues,
-      );
+      const updateUser = await this.updateUser.execute({
+        id: req.user.id,
+        name: receivedValues.name,
+        email: receivedValues.email,
+        password: receivedValues.password,
+      });
       return updateUser;
     } catch (error) {
       throw new HttpException(

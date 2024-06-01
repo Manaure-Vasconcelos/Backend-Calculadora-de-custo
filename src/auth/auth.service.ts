@@ -6,7 +6,7 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common';
-import { GetUser } from '../application/use-cases/user/get-user';
+import { GetUser } from '../application/use-cases/user/get-acount';
 import { JwtService } from '@nestjs/jwt';
 import { loginResponse } from 'src/common/interfaces/LoginResponse';
 import { HashPassword } from './hashPassword';
