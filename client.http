@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
   "email": "novoemail6@gmail.com",
-  "password": "Password123@"
+  "password": "Novasenha123@"
 }
 
 ###
@@ -40,8 +40,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-	"name": "manaure senha nova",
-  "password": "Novasenha123@"
+  "name": "somente o nome"
 }
 
 ###

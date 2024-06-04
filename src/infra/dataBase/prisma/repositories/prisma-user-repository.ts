@@ -16,21 +16,6 @@ import { PrismaUserMapper } from '../mappers/prisma-user-mapper';
 export class PrismaUserRepository implements UserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(user: UserEntity): Promise<void> {
-    try {
-      const raw = PrismaUserMapper.toPrisma(user);
-
-      await this.prisma.users.create({
-        data: raw,
-      });
-    } catch (error: any) {
-      if (error.code === 'P2002')
-        throw new ConflictException('Email already exists.');
-
-      throw new InternalServerErrorException(error);
-    }
-  }
-
   async findUserWithProps(receivedId: string): Promise<UserResponse | null> {
     try {
       const user = await this.prisma.users.findUnique({
@@ -70,6 +55,21 @@ export class PrismaUserRepository implements UserRepository {
       }
 
       throw new InternalServerErrorException('Error on delete user');
+    }
+  }
+
+  async create(user: UserEntity): Promise<void> {
+    try {
+      const raw = PrismaUserMapper.toPrisma(user);
+
+      await this.prisma.users.create({
+        data: raw,
+      });
+    } catch (error: any) {
+      if (error.code === 'P2002')
+        throw new ConflictException('Email already exists.');
+
+      throw new InternalServerErrorException(error);
     }
   }
 
