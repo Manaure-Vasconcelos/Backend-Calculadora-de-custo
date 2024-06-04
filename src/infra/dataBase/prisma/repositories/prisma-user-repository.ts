@@ -16,24 +16,24 @@ import { PrismaUserMapper } from '../mappers/prisma-user-mapper';
 export class PrismaUserRepository implements UserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async findUserWithProps(receivedId: string): Promise<UserResponse | null> {
+  async findUserWithProps(receivedId: string): Promise<UserEntity | null> {
     try {
       const user = await this.prisma.users.findUnique({
         where: { id: receivedId },
         include: { recipes: true },
       });
-      return user;
+      return PrismaUserMapper.toDomain(user);
     } catch (error) {
       throw new InternalServerErrorException('Error finding user');
     }
   }
 
-  async findUser(receivedEmail: string): Promise<UserResponse | null> {
+  async findUser(receivedEmail: string): Promise<UserEntity | null> {
     try {
       const user = await this.prisma.users.findUnique({
         where: { email: receivedEmail },
       });
-      return user;
+      return PrismaUserMapper.toDomain(user);
     } catch (error) {
       throw new InternalServerErrorException('Error finding user');
     }

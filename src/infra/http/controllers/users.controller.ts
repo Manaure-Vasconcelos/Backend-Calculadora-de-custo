@@ -16,6 +16,7 @@ import { UpdateUser } from '@application/use-cases/user/update';
 import { UserUpdatingDTO } from '../DTOs/user-update-dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { GetUserWithProps } from '@application/use-cases/user/get-profile';
+import { UserViewModel } from '../view-models/user-view-model';
 
 @Controller('user')
 export class UsersController {
@@ -29,8 +30,8 @@ export class UsersController {
   @Get()
   async findUser(@Request() req: any) {
     try {
-      const user = this.getUserWithProps.execute(req.user.id);
-      return user;
+      const user = await this.getUserWithProps.execute(req.user.id);
+      return UserViewModel.toHTTP(user);
     } catch (error) {
       if (error instanceof NotFoundException)
         throw new HttpException('NotFound', HttpStatus.NOT_FOUND);

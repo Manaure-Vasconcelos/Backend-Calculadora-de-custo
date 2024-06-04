@@ -8,6 +8,7 @@ interface UserProps {
   email: string;
   password: Password | string;
   createAt: Date;
+  recipes?: any[];
 }
 
 export class UserEntity {
@@ -55,5 +56,9 @@ export class UserEntity {
 
   get createAt(): Date {
     return this.props.createAt;
+  }
+
+  get recipes() {
+    return this.props.recipes;
   }
 }

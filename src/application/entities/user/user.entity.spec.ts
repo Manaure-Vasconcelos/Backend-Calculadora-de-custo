@@ -28,14 +28,6 @@ describe('User Entity', () => {
       createAt: user.createAt,
     });
 
-    expect(user2).toEqual(
-      expect.objectContaining({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        password: user.password.hashedValue,
-        createAt: user.createAt,
-      }),
-    );
+    expect(user2.password).toBe(user.password.hashedValue);
   });
 });

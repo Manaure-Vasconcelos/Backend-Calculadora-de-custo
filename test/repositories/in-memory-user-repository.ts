@@ -1,7 +1,15 @@
 import { NotFoundException } from '@nestjs/common';
 
 export class InMemoryUserRepository {
-  public ListUsers: any[] = [];
+  public ListUsers: any[] = [
+    {
+      id: 'id',
+      name: 'manaure',
+      email: 'manaure@gmail.com',
+      password: 'Password123@',
+      recipes: [],
+    },
+  ];
   public RecipeList: any[] = [];
 
   async create(user: any): Promise<void> {
@@ -19,6 +27,12 @@ export class InMemoryUserRepository {
     this.ListUsers.pop();
   }
   async save(receivedValues: any): Promise<any> {
-    this.ListUsers.push(receivedValues);
+    const userIndex = this.ListUsers.findIndex(
+      (item) => item.id === receivedValues.id,
+    );
+
+    if (userIndex == 0) {
+      this.ListUsers[userIndex] = receivedValues;
+    }
   }
 }

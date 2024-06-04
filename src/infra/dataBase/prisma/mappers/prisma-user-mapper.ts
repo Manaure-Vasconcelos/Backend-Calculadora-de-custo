@@ -12,8 +12,15 @@ export class PrismaUserMapper {
           : user.password,
     };
   }
-  /*
-  static toDomain(raw: any): any {
-    return new UserEntity();
-  } */
+
+  static toDomain(raw: any): UserEntity {
+    return new UserEntity({
+      id: raw.id,
+      name: raw.name,
+      email: raw.email,
+      password: raw.passwordHash,
+      createAt: raw.createAt,
+      recipes: raw.recipes,
+    });
+  }
 }

@@ -28,6 +28,8 @@ export class AuthService {
     try {
       const user = await this.getUser.execute(email);
 
+      if (!user) throw new UnauthorizedException('NotFound');
+
       const isEqualPassword = await this.hashPassword.compare(
         password,
         user.passwordHash,

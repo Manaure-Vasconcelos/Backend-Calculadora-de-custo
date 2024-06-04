@@ -17,6 +17,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     // News
+    "types": ["vitest/globals"],
     "strict": true,
     "strictPropertyInitialization": false,
     "strictNullChecks": true,
