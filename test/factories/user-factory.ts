@@ -8,6 +8,7 @@ export function makeUser() {
     name: 'manaure',
     email: 'manaure@gmail.com',
     password: 'Password123@',
+    recipes: [],
   });
 
   return repository;

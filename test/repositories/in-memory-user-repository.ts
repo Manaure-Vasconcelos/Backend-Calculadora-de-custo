@@ -1,5 +1,8 @@
+import { NotFoundException } from '@nestjs/common';
+
 export class InMemoryUserRepository {
   public ListUsers: any[] = [];
+  public RecipeList: any[] = [];
 
   async create(user: any): Promise<void> {
     this.ListUsers.push(user);
@@ -8,7 +11,9 @@ export class InMemoryUserRepository {
     return this.ListUsers.find((user) => user.email === emailUser);
   }
   async findUserWithProps(idUser: string): Promise<any> {
-    return this.ListUsers.find((user) => user.id === idUser);
+    const user = this.ListUsers.find((user) => user.id === idUser);
+    if (!user) throw new NotFoundException('NotFound User');
+    return { user };
   }
   async delete(): Promise<any> {
     this.ListUsers.pop();
