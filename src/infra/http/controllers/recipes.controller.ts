@@ -13,7 +13,7 @@ import { AllRecipes } from 'src/application/use-cases/recipes/get-all-recipes-fr
 import { CreateRecipe } from '../../../application/use-cases/recipes/create';
 import { RecipesDTO } from '../DTOs/recipe-dto';
 import { RecipesWithIngredients } from 'src/application/use-cases/recipes/get-recipe-with-ingredients';
-import { DeleteRecipe } from 'src/application/use-cases/recipes/delete-recipe';
+import { DeleteRecipe } from '@application/use-cases/recipes/delete';
 import { UpdateRecipe } from 'src/application/use-cases/recipes/update-recipe';
 import { RecipesUpdatingDTO } from '../DTOs/recipe-update-dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';

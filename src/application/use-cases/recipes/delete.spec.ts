@@ -1,14 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { CreateRecipe } from './create';
 import { makeRecipe } from '@test/factories/recipe-factory';
+import { DeleteRecipe } from './delete';
 
 describe('Create recipe use-case', () => {
   it('should be able creating recipe', async () => {
     const repository = makeRecipe();
-    const create = new CreateRecipe(repository);
+    const deleted = new DeleteRecipe(repository);
 
-    await create.execute('testId', { title: 'algo' });
+    expect(repository.ListRecipes.length).toBe(2);
 
-    expect(repository.ListRecipes.length).toBe(3);
+    await deleted.execute('1');
+
+    expect(repository.ListRecipes.length).toBe(1);
   });
 });

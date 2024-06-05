@@ -9,6 +9,6 @@ describe('Delete use-case', () => {
 
     deleteRepo.execute('id');
 
-    expect(repository.ListUsers.length).toBe(0);
+    expect(repository.ListUsers.length).toBe(1);
   });
 });

@@ -48,8 +48,6 @@ describe('AuthService', () => {
 
     const user = userRepository.ListUsers[0];
 
-    console.log(user);
-
     expect(user.name).toBe('manaure');
 
     /*  const response = await authService.sigIn(userRequest);
