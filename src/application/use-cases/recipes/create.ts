@@ -1,3 +1,4 @@
+import { RecipeEntity } from '@application/entities/recipe.entity';
 import { Injectable } from '@nestjs/common';
 import { RecipesRepository } from 'src/application/repositories/recipes-repository';
 import { RecipeRequest } from 'src/common/interfaces/recipeRequest';
@@ -11,10 +12,14 @@ export class CreateRecipe {
     userId: string,
     receivedValues: RecipeRequest,
   ): Promise<RecipeResponse> {
-    const newRecipe = await this.recipesRepository.create(
-      userId,
-      receivedValues,
-    );
-    return newRecipe;
+    const newRecipe = new RecipeEntity({
+      userId: userId,
+      title: receivedValues.title,
+      describe: receivedValues.describe,
+    });
+
+    const newRecipe2 = await this.recipesRepository.create(newRecipe);
+
+    return newRecipe2;
   }
 }

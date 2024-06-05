@@ -7,7 +7,7 @@ import { DeleteUser } from 'src/application/use-cases/user/delete-user';
 import { UpdateUser } from '@application/use-cases/user/update';
 import { DatabaseModule } from '../dataBase/database.module';
 import { AllRecipes } from 'src/application/use-cases/recipes/get-all-recipes-from-user';
-import { CreateRecipe } from 'src/application/use-cases/recipes/create-recipe';
+import { CreateRecipe } from '@application/use-cases/recipes/create';
 import { RecipesWithIngredients } from 'src/application/use-cases/recipes/get-recipe-with-ingredients';
 import { DeleteRecipe } from 'src/application/use-cases/recipes/delete-recipe';
 import { UpdateRecipe } from 'src/application/use-cases/recipes/update-recipe';

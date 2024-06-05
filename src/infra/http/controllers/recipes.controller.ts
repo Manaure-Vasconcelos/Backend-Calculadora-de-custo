@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AllRecipes } from 'src/application/use-cases/recipes/get-all-recipes-from-user';
-import { CreateRecipe } from './../../../application/use-cases/recipes/create-recipe';
+import { CreateRecipe } from '../../../application/use-cases/recipes/create';
 import { RecipesDTO } from '../DTOs/recipe-dto';
 import { RecipesWithIngredients } from 'src/application/use-cases/recipes/get-recipe-with-ingredients';
 import { DeleteRecipe } from 'src/application/use-cases/recipes/delete-recipe';
