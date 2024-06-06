@@ -46,8 +46,8 @@ export class RecipesController {
   @UseGuards(JwtAuthGuard)
   @Get('/all')
   async getAllRecipes(@Request() req: any) {
-    const allRecipes = this.allRecipes.execute(req.user.id);
-    return allRecipes;
+    const allRecipes = await this.allRecipes.execute(req.user.id);
+    return allRecipes.map(RecipeViewModel.toHTTP);
   }
 
   @UseGuards(JwtAuthGuard)

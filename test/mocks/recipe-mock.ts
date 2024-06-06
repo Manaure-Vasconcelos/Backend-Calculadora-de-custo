@@ -12,8 +12,14 @@ export const mockRecipesRepository = {
       valuePartial: 0,
     }),
   ),
-  allRecipesFromUser: vi.fn(),
+  allRecipesFromUser: vi
+    .fn()
+    .mockResolvedValue([
+      new RecipeEntity({ id: 1, title: 'Recipe 1', userId: 'user1' }),
+      new RecipeEntity({ id: 2, title: 'Recipe 2', userId: 'user1' }),
+      new RecipeEntity({ id: 3, title: 'Recipe 3', userId: 'user1' }),
+    ]),
   getRecipe: vi.fn(),
-  delete: vi.fn(),
+  delete: vi.fn().mockResolvedValue(undefined),
   update: vi.fn(),
 };

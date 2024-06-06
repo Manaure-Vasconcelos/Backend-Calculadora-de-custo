@@ -22,7 +22,7 @@ export class PrismaRecipesRepository implements RecipesRepository {
       where: { userId: receivedId },
       include: { ingredients: true },
     });
-    return recipes;
+    return recipes.map(PrismaRecipeMapper.toDomain);
   }
 
   async getRecipe(receivedId: number): Promise<any> {

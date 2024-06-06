@@ -1,16 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { makeRecipe } from '@test/factories/recipe-factory';
 import { DeleteRecipe } from './delete';
+import { mockRecipesRepository } from '@test/mocks/recipe-mock';
 
 describe('Create recipe use-case', () => {
   it('should be able creating recipe', async () => {
-    const repository = makeRecipe();
-    const deleted = new DeleteRecipe(repository);
+    const deleteRecipe = new DeleteRecipe(mockRecipesRepository);
 
-    expect(repository.ListRecipes.length).toBe(2);
+    const validId = '1';
 
-    await deleted.execute('1');
+    expect(await deleteRecipe.execute(validId)).toBeUndefined();
 
-    expect(repository.ListRecipes.length).toBe(1);
+    expect(mockRecipesRepository.delete).toHaveBeenCalledWith(+validId);
   });
 });

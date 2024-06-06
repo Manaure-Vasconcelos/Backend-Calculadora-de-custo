@@ -26,6 +26,6 @@ describe('Recipe Entity', () => {
       valuePartial: recipe.valuePartial,
     });
 
-    expect(recipe2.id).toBe('fakeId');
+    expect(recipe2.id).toBe(0);
   });
 });
