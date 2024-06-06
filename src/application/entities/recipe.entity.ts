@@ -1,12 +1,13 @@
 import { Replace } from '@helpers/Replace';
 
 interface RecipeProps {
-  id: string;
+  id: number;
   title: string;
   describe: string | null;
   userId: string;
-  createAt: Date;
   valuePartial: number | null;
+  createAt: Date;
+  updateAt: Date | null;
 }
 
 export class RecipeEntity {
@@ -15,23 +16,31 @@ export class RecipeEntity {
   constructor(
     props: Replace<
       RecipeProps,
-      { id?: string; describe?: string; createAt?: Date; valuePartial?: number }
+      {
+        id?: number;
+        describe?: string | null;
+        createAt?: Date;
+        updateAt?: Date | null;
+        valuePartial?: number | null;
+      }
     >,
   ) {
     this.props = {
-      id: props.id ?? 'fakeId',
-      ...props,
+      id: props.id ?? 0,
+      title: props.title,
       describe: props.describe ?? null,
+      userId: props.userId,
       createAt: props.createAt ?? new Date(),
-      valuePartial: props.valuePartial ?? null,
+      updateAt: props.updateAt ?? null,
+      valuePartial: props.valuePartial ?? 0,
     };
   }
 
-  set id(id: string) {
+  set id(id: number) {
     this.props.id = id;
   }
 
-  get id(): string {
+  get id(): number {
     return this.props.id;
   }
 

@@ -14,7 +14,7 @@ export class PrismaRecipesRepository implements RecipesRepository {
     const recipeCreated = await this.prisma.recipes.create({
       data: raw,
     });
-    return recipeCreated;
+    return PrismaRecipeMapper.toDomain(recipeCreated);
   }
 
   async allRecipesFromUser(receivedId: string): Promise<any> {

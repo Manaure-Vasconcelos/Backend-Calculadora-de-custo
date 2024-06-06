@@ -10,13 +10,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AllRecipes } from 'src/application/use-cases/recipes/get-all-recipes-from-user';
-import { CreateRecipe } from '../../../application/use-cases/recipes/create';
+import { CreateRecipe } from '@application/use-cases/recipes/create';
 import { RecipesDTO } from '../DTOs/recipe-dto';
-import { RecipesWithIngredients } from 'src/application/use-cases/recipes/get-recipe-with-ingredients';
+import { RecipesWithIngredients } from '@application/use-cases/recipes/get-with-props';
 import { DeleteRecipe } from '@application/use-cases/recipes/delete';
-import { UpdateRecipe } from 'src/application/use-cases/recipes/update-recipe';
+import { UpdateRecipe } from '@application/use-cases/recipes/update';
 import { RecipesUpdatingDTO } from '../DTOs/recipe-update-dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RecipeViewModel } from '../view-models/recipe-view-model';
 
 @Controller('recipes')
 export class RecipesController {
@@ -34,11 +35,12 @@ export class RecipesController {
     @Request() req: any,
     @Body() receivedValues: RecipesDTO,
   ): Promise<any> {
-    const recipeCreated = await this.createRecipe.execute(
-      req.user.id,
-      receivedValues,
-    );
-    return recipeCreated;
+    const recipeCreated = await this.createRecipe.execute({
+      userId: req.user.id,
+      title: receivedValues.title,
+      describe: receivedValues.describe,
+    });
+    return RecipeViewModel.toHTTP(recipeCreated);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -1,14 +1,24 @@
-import { describe, expect, it } from 'vitest';
+import { expect, it } from 'vitest';
 import { CreateRecipe } from './create';
-import { makeRecipe } from '@test/factories/recipe-factory';
+import { RecipeEntity } from '@application/entities/recipe.entity';
+import { mockRecipesRepository } from '@test/mocks/recipe-mock';
 
-describe('Create recipe use-case', () => {
-  it('should be able creating recipe', async () => {
-    const repository = makeRecipe();
-    const create = new CreateRecipe(repository);
+it('should create a recipe with all required fields', async () => {
+  const createRecipe = new CreateRecipe(mockRecipesRepository);
 
-    await create.execute('testId', { title: 'algo' });
+  const recipeRequest = {
+    userId: 'user123',
+    title: 'Test Recipe',
+    describe: 'Test Description',
+  };
 
-    expect(repository.ListRecipes.length).toBe(3);
-  });
+  const result = await createRecipe.execute(recipeRequest);
+
+  expect(mockRecipesRepository.create).toHaveBeenCalledWith(
+    expect.any(RecipeEntity),
+  );
+  expect(result).toBeInstanceOf(RecipeEntity);
+  expect(result.title).toBe('Test Recipe');
+  expect(result.describe).toBe('Test Description');
+  expect(result.userId).toBe('user123');
 });

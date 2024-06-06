@@ -59,7 +59,8 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-	"title": "Outra receita"
+	"title": "receita",
+  "describe": "describre"
 }
 
 ###
