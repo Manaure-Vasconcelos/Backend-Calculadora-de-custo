@@ -73,10 +73,11 @@ export class RecipesController {
     @Param('id') receivedId: string,
     @Body() receivedValues: RecipesUpdatingDTO,
   ) {
-    const updatedRecipe = await this.updateRecipe.execute(
-      receivedId,
-      receivedValues,
-    );
+    const updatedRecipe = await this.updateRecipe.execute({
+      recipeId: receivedId,
+      title: receivedValues.title,
+      describe: receivedValues.describe,
+    });
     return updatedRecipe;
   }
 }

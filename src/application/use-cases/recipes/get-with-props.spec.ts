@@ -1,12 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { makeRecipe } from '@test/factories/recipe-factory';
 import { RecipesWithIngredients } from './get-with-props';
+import { mockRecipesRepository } from '@test/mocks/recipe-mock';
+import { RecipeEntity } from '@application/entities/recipe.entity';
 
-describe('Create recipe use-case', () => {
-  it('should be able creating recipe', async () => {
-    const repository = makeRecipe();
-    const deleted = new RecipesWithIngredients(repository);
+describe('Get recipe with props use-case', () => {
+  it('should be able getting recipe with props', async () => {
+    const getRecipe = new RecipesWithIngredients(mockRecipesRepository);
 
-    expect(await deleted.execute('1')).toBeDefined();
+    const result = await getRecipe.execute('1');
+
+    expect(result).toBeInstanceOf(RecipeEntity);
+    expect(result.ingredients.length).toBe(3);
   });
 });

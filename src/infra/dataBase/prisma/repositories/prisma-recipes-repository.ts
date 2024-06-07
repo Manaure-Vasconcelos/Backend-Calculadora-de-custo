@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { RecipesRepository } from 'src/application/repositories/recipes-repository';
 import { PrismaService } from '../prisma.service';
-import { recipeUpdatingRequest } from 'src/common/interfaces/recipeUpdadeRequest';
 import { RecipeEntity } from '@application/entities/recipe.entity';
 import { PrismaRecipeMapper } from '../mappers/prisma-recipe-mapper';
 
@@ -40,14 +39,11 @@ export class PrismaRecipesRepository implements RecipesRepository {
     return recipeDeleted;
   }
 
-  async update(
-    receivedId: number,
-    recipeUpdate: recipeUpdatingRequest,
-  ): Promise<any> {
-    const { title, describe, valuePartial } = recipeUpdate;
+  async update(values: RecipeEntity): Promise<any> {
+    const raw = PrismaRecipeMapper.toUpdate(values);
     const updatedRecipe = await this.prisma.recipes.update({
-      where: { id: receivedId },
-      data: { title, describe, valuePartial },
+      where: { id: raw.id },
+      data: raw,
     });
     return updatedRecipe;
   }

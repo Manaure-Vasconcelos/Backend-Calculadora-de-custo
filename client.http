@@ -87,13 +87,13 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name updating
-PUT {{recipes_base_url}}/5
+PUT {{recipes_base_url}}/21
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-	"title": "Novo nome",
-  "describe": "novo describe"
+	"title": "Novo asd",
+  "describe": "novo asd"
 }
 
 ###
@@ -106,7 +106,7 @@ Authorization: Bearer {{authToken}}
 ###
 # Usar uma variavel em cache ou localStorage para obter o id da receita em questão.
 # @name create-ingredient
-POST {{ingredients_base_url}}/6
+POST {{ingredients_base_url}}/26
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 

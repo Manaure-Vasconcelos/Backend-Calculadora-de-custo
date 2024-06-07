@@ -1,11 +1,12 @@
 import { Replace } from '@helpers/Replace';
 
 interface RecipeProps {
-  id: number;
+  id: number | undefined;
   title: string;
   describe: string | null;
   userId: string;
   valuePartial: number | null;
+  ingredients: any[];
   createAt: Date;
   updateAt: Date | null;
 }
@@ -19,20 +20,22 @@ export class RecipeEntity {
       {
         id?: number;
         describe?: string | null;
+        valuePartial?: number | null;
+        ingredients?: any[];
         createAt?: Date;
         updateAt?: Date | null;
-        valuePartial?: number | null;
       }
     >,
   ) {
     this.props = {
-      id: props.id ?? 0,
-      title: props.title,
+      id: props.id ?? undefined,
+      title: props.title ?? 'Receita',
       describe: props.describe ?? null,
-      userId: props.userId,
+      userId: props.userId ?? 'FakeId',
+      valuePartial: props.valuePartial ?? 0,
       createAt: props.createAt ?? new Date(),
       updateAt: props.updateAt ?? null,
-      valuePartial: props.valuePartial ?? 0,
+      ingredients: props.ingredients ?? [],
     };
   }
 
@@ -40,7 +43,7 @@ export class RecipeEntity {
     this.props.id = id;
   }
 
-  get id(): number {
+  get id(): number | undefined {
     return this.props.id;
   }
 
@@ -48,7 +51,7 @@ export class RecipeEntity {
     this.props.title = title;
   }
 
-  get title() {
+  get title(): string {
     return this.props.title;
   }
 
@@ -66,6 +69,14 @@ export class RecipeEntity {
 
   get valuePartial(): number | null {
     return this.props.valuePartial;
+  }
+
+  set ingredients(ingredients: any) {
+    this.props.ingredients = ingredients;
+  }
+
+  get ingredients(): any[] {
+    return this.props.ingredients;
   }
 
   get userId() {

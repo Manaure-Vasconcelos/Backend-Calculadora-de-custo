@@ -9,9 +9,20 @@ interface RecipeRequest {
 export class ServiceRecipeMapper {
   static toEntity(raw: RecipeRequest): RecipeEntity {
     return new RecipeEntity({
+      userId: raw.userId,
       title: raw.title,
       describe: raw.describe,
-      userId: raw.userId,
     });
   }
+
+  /*   static toUpdatingEntity(
+    raw: Replace<RecipeRequest, { userId?: string }>,
+  ): RecipeEntity {
+    return new RecipeEntity({
+      id: +raw.recipeId ?? 1,
+      userId: raw.userId ?? 'fake',
+      title: raw.title,
+      describe: raw.describe,
+    });
+  } */
 }

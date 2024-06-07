@@ -9,7 +9,7 @@ export class UpdatingValuePartial {
   async execute(recipeId: number): Promise<void> {
     const recipe = await this.recipesRepository.getRecipe(recipeId);
 
-    if (!recipe.ingredients) {
+    if (!recipe.props.ingredients) {
       throw new Error('nao tem nada');
     }
     const { ingredients } = recipe;
@@ -19,9 +19,9 @@ export class UpdatingValuePartial {
       0,
     );
 
-    await this.recipesRepository.update(recipeId, {
+  /*   await this.recipesRepository.update(recipeId, {
       ...recipe,
       valuePartial,
-    });
+    }); */
   }
 }
