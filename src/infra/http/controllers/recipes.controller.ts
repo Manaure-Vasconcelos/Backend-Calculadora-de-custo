@@ -56,8 +56,8 @@ export class RecipesController {
     @Request() req: any,
     @Param('id') recipeId: string,
   ) {
-    const recipe = this.recipeWithIngredients.execute(recipeId);
-    return recipe;
+    const recipe = await this.recipeWithIngredients.execute(recipeId);
+    return RecipeViewModel.toHTTP(recipe);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -78,6 +78,6 @@ export class RecipesController {
       title: receivedValues.title,
       describe: receivedValues.describe,
     });
-    return updatedRecipe;
+    return RecipeViewModel.toHTTP(updatedRecipe);
   }
 }

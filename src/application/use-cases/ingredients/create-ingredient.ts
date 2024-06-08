@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { IngredientsRepository } from 'src/application/repositories/ingredients-repository';
-import { IngredientRequest } from 'src/common/interfaces/ingredientRequest';
+import { IngredientsRepository } from '@application/repositories/ingredients-repository';
+import { IngredientRequest } from '@common/interfaces/ingredientRequest';
 import { RealAmountService } from './realAmount.service';
-import { IngredientResponse } from 'src/common/interfaces/ingredientResponse';
+import { IngredientResponse } from '@common/interfaces/ingredientResponse';
 import { UpdatingValuePartial } from './../recipes/update-value-partial';
 
 @Injectable()

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { IngredientsRepository } from 'src/application/repositories/ingredients-repository';
-import { IngredientRequest } from 'src/common/interfaces/ingredientRequest';
-import { IngredientResponse } from 'src/common/interfaces/ingredientResponse';
-import { IngredientUpdatingRequest } from 'src/common/interfaces/ingredientUpdateRequest';
+import { IngredientsRepository } from '@application/repositories/ingredients-repository';
+import { IngredientRequest } from '@common/interfaces/ingredientRequest';
+import { IngredientResponse } from '@common/interfaces/ingredientResponse';
+import { IngredientUpdatingRequest } from '@common/interfaces/ingredientUpdateRequest';
 
 @Injectable()
 export class PrismaIngredientsRepository implements IngredientsRepository {
