@@ -8,7 +8,7 @@ describe('Recipe Entity', () => {
       userId: 'test',
     });
 
-    expect(recipe).toBeTruthy();
+    expect(recipe).toBeInstanceOf(RecipeEntity);
   });
 
   it('should be able create a new instancy of Recipe', () => {
@@ -26,6 +26,8 @@ describe('Recipe Entity', () => {
       valuePartial: recipe.valuePartial,
     });
 
-    expect(recipe2.id).toBe(0);
+    expect(recipe2.id).toBe(undefined);
+    expect(recipe2.title).toBe('test');
+    expect(recipe2.userId).toBe('test');
   });
 });

@@ -9,7 +9,6 @@ describe('Updating value partial recipe use-case', () => {
     await updateValue.execute(1);
 
     expect(mockRecipesRepository.update).toHaveBeenCalledWith(
-      1,
       expect.objectContaining({ valuePartial: 15 }),
     );
   });

@@ -24,6 +24,7 @@ export const mockRecipesRepository = {
       id: 1,
       title: 'Recipe 1',
       userId: 'user1',
+      valuePartial: 15,
       ingredients: [
         { id: 1, name: 'ingredient 1', realAmount: 5 },
         { id: 2, name: 'ingredient 2', realAmount: 5 },

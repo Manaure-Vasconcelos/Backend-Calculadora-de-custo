@@ -12,7 +12,7 @@ describe('Updating recipe use-case', () => {
       describe: 'describe',
     });
 
-    expect(result.title).toBeUndefined();
+    expect(result.title).toBe('Receita');
     expect(result).toBeInstanceOf(RecipeEntity);
   });
 });

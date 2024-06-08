@@ -73,7 +73,7 @@ Authorization: Bearer {{authToken}}
 ###
 # aprimorar essa chamada => procurar a receita dentro do user, e não global
 # @name unique-recipe-id
-GET {{recipes_base_url}}/6
+GET {{recipes_base_url}}/10
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -87,7 +87,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name updating
-PUT {{recipes_base_url}}/21
+PUT {{recipes_base_url}}/10
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -99,7 +99,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name delete
-DELETE {{recipes_base_url}}/5
+DELETE {{recipes_base_url}}/10
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 

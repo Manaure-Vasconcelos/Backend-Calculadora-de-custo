@@ -29,7 +29,10 @@ export class PrismaRecipesRepository implements RecipesRepository {
       where: { id: receivedId },
       include: { ingredients: true },
     });
-    return recipe;
+
+    if (!recipe) return null;
+
+    return PrismaRecipeMapper.toDomain(recipe);
   }
 
   async delete(receivedId: number): Promise<any> {
