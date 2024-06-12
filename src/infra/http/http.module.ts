@@ -15,7 +15,6 @@ import { UpdateIngredient } from 'src/application/use-cases/ingredients/update-i
 import { DeleteIngredient } from 'src/application/use-cases/ingredients/delete-ingredient';
 import { CreateIngredient } from '@application/use-cases/ingredients/create';
 import { GetSingleIngredient } from 'src/application/use-cases/ingredients/get-single-ingredient';
-import { RealAmountService } from 'src/application/use-cases/ingredients/realAmount.service';
 import { UpdatingValuePartial } from 'src/application/use-cases/recipes/update-value-partial';
 import { AuthController } from './controllers/auth.controller';
 import { AuthService } from 'src/auth/auth.service';
@@ -65,7 +64,6 @@ import { GetUserWithProps } from '@application/use-cases/user/get-profile';
     GetSingleIngredient,
     DeleteIngredient,
     UpdateIngredient,
-    RealAmountService,
     AuthService,
     JwtStrategy,
     HashPassword,

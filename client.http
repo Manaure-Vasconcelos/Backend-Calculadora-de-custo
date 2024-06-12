@@ -112,9 +112,9 @@ Authorization: Bearer {{authToken}}
 
 {
 	"name": "ingrediente 4",
-	"marketWeight": 5,
+	"marketWeight": 4,
 	"marketPrice": 20,
-	"grossWeight": 2
+	"grossWeight": 10
 }
 
 ###

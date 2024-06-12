@@ -1,32 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { IngredientsRepository } from '@application/repositories/ingredients-repository';
-import { IngredientRequest } from '@common/interfaces/ingredientRequest';
 import { IngredientResponse } from '@common/interfaces/ingredientResponse';
-import { IngredientUpdatingRequest } from '@common/interfaces/ingredientUpdateRequest';
+import { IngredientEntity } from '@application/entities/ingredient.entity';
+import { PrismaIngredientMapper } from '../mappers/prisma-ingredient-mapper';
 
 @Injectable()
 export class PrismaIngredientsRepository implements IngredientsRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(
-    recipeId: number,
-    receivedValues: IngredientRequest,
-    realAmount: number,
-  ): Promise<IngredientResponse> {
-    const { name, marketWeight, marketPrice, grossWeight } = receivedValues;
-
+  async create(ingredient: IngredientEntity): Promise<IngredientEntity> {
+    const raw = PrismaIngredientMapper.toPrisma(ingredient);
     const newIngredient = await this.prisma.ingredient.create({
-      data: {
-        name,
-        marketWeight,
-        marketPrice,
-        grossWeight,
-        realAmount,
-        recipeId,
-      },
+      data: raw,
     });
-    return newIngredient;
+    return PrismaIngredientMapper.toDomain(newIngredient);
   }
 
   async singleIngredient(
@@ -45,23 +33,13 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
     return deletedIngredient;
   }
 
-  async update(
-    receivedId: number,
-    receivedValues: IngredientUpdatingRequest,
-    newRealAmount: number,
-  ): Promise<any> {
-    const { name, marketWeight, marketPrice, grossWeight } = receivedValues;
+  async update(ingredient: IngredientEntity): Promise<IngredientEntity> {
+    const raw = PrismaIngredientMapper.toPrisma(ingredient);
 
     const updatedIngredient = await this.prisma.ingredient.update({
-      where: { id: receivedId },
-      data: {
-        name,
-        marketWeight,
-        marketPrice,
-        grossWeight,
-        realAmount: newRealAmount,
-      },
+      where: { id: ingredient.id },
+      data: raw,
     });
-    return updatedIngredient;
+    return PrismaIngredientMapper.toDomain(updatedIngredient);
   }
 }
