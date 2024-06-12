@@ -106,16 +106,3 @@ export class IngredientEntity {
     return (marketPrice / grossWeight) * usedWeight;
   }
 }
-/*
-const item = new IngredientEntity({
-  id: 10,
-  name: 'item 1',
-  usedWeight: 2,
-  marketPrice: 10,
-  grossWeight: 5,
-  realAmount: 10,
-  recipeId: 2,
-});
-
-console.log(item);
- */

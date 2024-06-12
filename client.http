@@ -1,7 +1,7 @@
-@base_url = http://localhost:3000/auth
-@user_base_url = http://localhost:3000/user
-@recipes_base_url = http://localhost:3000/recipes
-@ingredients_base_url = http://localhost:3000/ingredients
+@base_url = http://localhost:3001/auth
+@user_base_url = http://localhost:3001/user
+@recipes_base_url = http://localhost:3001/recipes
+@ingredients_base_url = http://localhost:3001/ingredients
 @authToken = {{signIn.response.body.access_token}}
 
 # @name signIn
