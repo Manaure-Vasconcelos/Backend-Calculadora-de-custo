@@ -13,7 +13,7 @@ import { DeleteRecipe } from '@application/use-cases/recipes/delete';
 import { UpdateRecipe } from 'src/application/use-cases/recipes/update';
 import { UpdateIngredient } from 'src/application/use-cases/ingredients/update-ingredient';
 import { DeleteIngredient } from 'src/application/use-cases/ingredients/delete-ingredient';
-import { CreateIngredient } from 'src/application/use-cases/ingredients/create-ingredient';
+import { CreateIngredient } from '@application/use-cases/ingredients/create';
 import { GetSingleIngredient } from 'src/application/use-cases/ingredients/get-single-ingredient';
 import { RealAmountService } from 'src/application/use-cases/ingredients/realAmount.service';
 import { UpdatingValuePartial } from 'src/application/use-cases/recipes/update-value-partial';

@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { IngredientDTO } from '../DTOs/ingredient-dto';
-import { CreateIngredient } from 'src/application/use-cases/ingredients/create-ingredient';
+import { CreateIngredient } from '@application/use-cases/ingredients/create';
 import { GetSingleIngredient } from './../../../application/use-cases/ingredients/get-single-ingredient';
 import { DeleteIngredient } from './../../../application/use-cases/ingredients/delete-ingredient';
 import { UpdateIngredient } from './../../../application/use-cases/ingredients/update-ingredient';

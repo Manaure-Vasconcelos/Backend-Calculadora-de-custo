@@ -1,4 +1,5 @@
 import { RecipeEntity } from '@application/entities/recipe.entity';
+import { RecipesRepository } from '@application/repositories/recipes-repository';
 
 export const mockRecipesRepository = {
   create: vi.fn().mockResolvedValue(
@@ -37,3 +38,14 @@ export const mockRecipesRepository = {
     .fn()
     .mockResolvedValue(new RecipeEntity({ id: 3, userId: 'user1' })),
 };
+
+class MockUpdatingValuePartial {
+  constructor(private recipesRepository: RecipesRepository) {}
+
+  async execute(recipeId: number) {
+    return true;
+  }
+}
+export const mockUpdateValuePartial = new MockUpdatingValuePartial(
+  mockRecipesRepository,
+);
