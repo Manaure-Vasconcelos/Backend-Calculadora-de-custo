@@ -5,7 +5,7 @@ import { IngredientEntity } from '@application/entities/ingredient.entity';
 
 interface IngredientRequest {
   name: string;
-  marketWeight: number;
+  usedWeight: number;
   marketPrice: number;
   grossWeight: number;
 }
@@ -26,7 +26,7 @@ export class CreateIngredient {
       name: receivedValues.name,
       marketPrice: receivedValues.marketPrice,
       grossWeight: receivedValues.grossWeight,
-      usedWeight: receivedValues.marketWeight,
+      usedWeight: receivedValues.usedWeight,
     });
 
     const createdIngredient =

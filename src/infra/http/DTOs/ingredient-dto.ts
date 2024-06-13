@@ -8,7 +8,7 @@ export abstract class IngredientDTO {
 
   @IsNotEmpty()
   @IsNumber()
-  marketWeight: number;
+  usedWeight: number;
 
   @IsNotEmpty()
   @IsNumber()

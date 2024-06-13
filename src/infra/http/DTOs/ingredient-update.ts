@@ -8,7 +8,7 @@ export abstract class IngredientUpdatingDTO {
 
   @IsOptional()
   @IsNumber()
-  marketWeight: number;
+  usedWeight: number;
 
   @IsOptional()
   @IsNumber()

@@ -3,7 +3,7 @@ import { IngredientEntity } from '@application/entities/ingredient.entity';
 interface RawProps {
   id: number;
   name: string;
-  marketWeight: number;
+  usedWeight: number;
   grossWeight: number;
   marketPrice: number;
   realAmount: number;
@@ -29,7 +29,7 @@ export class PrismaIngredientMapper {
       name: raw.name,
       marketPrice: raw.marketPrice,
       grossWeight: raw.grossWeight,
-      usedWeight: raw.marketWeight,
+      usedWeight: raw.usedWeight,
       realAmount: raw.realAmount,
     });
   }
