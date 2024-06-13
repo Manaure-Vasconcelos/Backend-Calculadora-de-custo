@@ -5,13 +5,13 @@ import { IngredientEntity } from '@application/entities/ingredient.entity';
 
 interface IngredientUpdatingRequest {
   name?: string;
-  marketPrice?: number;
-  grossWeight?: number;
-  marketWeight?: number;
+  marketPrice: number;
+  grossWeight: number;
+  usedWeight: number;
 }
 
 @Injectable()
-export class UpdateIngredient {
+export class SaveIngredient {
   constructor(
     private ingredientsRepository: IngredientsRepository,
     private updatingValuePartial: UpdatingValuePartial,
@@ -19,17 +19,17 @@ export class UpdateIngredient {
 
   async execute(receivedId: string, receivedValues: IngredientUpdatingRequest) {
     const ingredient = new IngredientEntity({
-      recipeId: +receivedId,
-      name: receivedValues.name as unknown as string,
-      marketPrice: receivedValues.marketPrice as unknown as number,
-      grossWeight: receivedValues.grossWeight as unknown as number,
-      usedWeight: receivedValues.marketWeight as unknown as number,
+      id: +receivedId,
+      recipeId: 0,
+      name: receivedValues.name ?? 'default',
+      marketPrice: receivedValues.marketPrice,
+      grossWeight: receivedValues.grossWeight,
+      usedWeight: receivedValues.usedWeight,
     });
 
-    const updatedIngredient =
-      await this.ingredientsRepository.update(ingredient);
+    const updatedIngredient = await this.ingredientsRepository.save(ingredient);
 
-    await this.updatingValuePartial.execute(updatedIngredient.recipeId);
+    /* await this.updatingValuePartial.execute(updatedIngredient.recipeId); */
 
     return updatedIngredient;
   }

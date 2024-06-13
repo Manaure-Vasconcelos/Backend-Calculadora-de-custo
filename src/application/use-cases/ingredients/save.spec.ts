@@ -1,28 +1,27 @@
-import { describe, it, expect } from 'vitest';
-import { CreateIngredient } from './create';
 import { mockIngredientRepository } from '@test/mocks/ingredient-mock';
-import { IngredientEntity } from '@application/entities/ingredient.entity';
+import { SaveIngredient } from './save';
 import { mockUpdateValuePartial } from '@test/mocks/recipe-mock';
+import { IngredientEntity } from '@application/entities/ingredient.entity';
 
-describe('Create ingredient use-case', () => {
-  let createIngredient: CreateIngredient;
+describe('Save ingredient use-case', () => {
+  let saveIngredient: SaveIngredient;
 
   beforeEach(() => {
-    createIngredient = new CreateIngredient(
+    saveIngredient = new SaveIngredient(
       mockIngredientRepository,
       mockUpdateValuePartial,
     );
   });
 
   it('should be able create ingredient', async () => {
-    const ingredient = await createIngredient.execute('1', {
+    const ingredient = await saveIngredient.execute('1', {
       name: 'ingredient',
       usedWeight: 10,
       marketPrice: 5,
       grossWeight: 2,
     });
 
-    expect(mockIngredientRepository.create).toHaveBeenCalledWith(
+    expect(mockIngredientRepository.save).toHaveBeenCalledWith(
       expect.any(IngredientEntity),
     );
     expect(ingredient).toBeInstanceOf(IngredientEntity);

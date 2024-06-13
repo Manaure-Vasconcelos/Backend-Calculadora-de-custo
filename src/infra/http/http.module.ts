@@ -11,7 +11,7 @@ import { CreateRecipe } from '@application/use-cases/recipes/create';
 import { RecipesWithIngredients } from '@application/use-cases/recipes/get-with-props';
 import { DeleteRecipe } from '@application/use-cases/recipes/delete';
 import { UpdateRecipe } from 'src/application/use-cases/recipes/update';
-import { UpdateIngredient } from 'src/application/use-cases/ingredients/update-ingredient';
+import { SaveIngredient } from 'src/application/use-cases/ingredients/save';
 import { DeleteIngredient } from 'src/application/use-cases/ingredients/delete-ingredient';
 import { CreateIngredient } from '@application/use-cases/ingredients/create';
 import { GetSingleIngredient } from 'src/application/use-cases/ingredients/get-single-ingredient';
@@ -63,7 +63,7 @@ import { GetUserWithProps } from '@application/use-cases/user/get-profile';
     CreateIngredient,
     GetSingleIngredient,
     DeleteIngredient,
-    UpdateIngredient,
+    SaveIngredient,
     AuthService,
     JwtStrategy,
     HashPassword,

@@ -12,7 +12,7 @@ import { IngredientDTO } from '../DTOs/ingredient-dto';
 import { CreateIngredient } from '@application/use-cases/ingredients/create';
 import { GetSingleIngredient } from './../../../application/use-cases/ingredients/get-single-ingredient';
 import { DeleteIngredient } from './../../../application/use-cases/ingredients/delete-ingredient';
-import { UpdateIngredient } from './../../../application/use-cases/ingredients/update-ingredient';
+import { SaveIngredient } from '../../../application/use-cases/ingredients/save';
 import { IngredientUpdatingDTO } from '../DTOs/ingredient-update';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
@@ -22,7 +22,7 @@ export class IngredientsController {
     private createIngredients: CreateIngredient,
     private getSingleIngredient: GetSingleIngredient,
     private deleteIngredient: DeleteIngredient,
-    private updateIngredient: UpdateIngredient,
+    private saveIngredient: SaveIngredient,
   ) {}
 
   @UseGuards(JwtAuthGuard)
@@ -55,7 +55,7 @@ export class IngredientsController {
     @Param('id') receivedId: string,
     @Body() receivedValues: IngredientUpdatingDTO,
   ) {
-    const sigleIngredient = this.updateIngredient.execute(
+    const sigleIngredient = this.saveIngredient.execute(
       receivedId,
       receivedValues,
     );

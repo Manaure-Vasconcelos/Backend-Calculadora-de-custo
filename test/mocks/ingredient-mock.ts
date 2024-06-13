@@ -12,5 +12,13 @@ export const mockIngredientRepository = {
   ),
   singleIngredient: vi.fn(),
   delete: vi.fn(),
-  update: vi.fn(),
+  save: vi.fn().mockResolvedValue(
+    new IngredientEntity({
+      recipeId: 1,
+      name: 'Ingredient 1',
+      marketPrice: 10,
+      grossWeight: 5,
+      usedWeight: 2,
+    }),
+  ),
 };

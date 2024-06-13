@@ -14,11 +14,21 @@ export class PrismaIngredientMapper {
   static toPrisma(recipe: IngredientEntity) {
     return {
       name: recipe.name,
-      marketWeight: recipe.usedWeight,
+      usedWeight: recipe.usedWeight,
       grossWeight: recipe.grossWeight,
       marketPrice: recipe.marketPrice,
       realAmount: recipe.realAmount,
       recipeId: recipe.recipeId,
+    };
+  }
+
+  static toSave(raw: RawProps) {
+    return {
+      name: raw.name === 'default' ? undefined : raw.name,
+      usedWeight: raw.usedWeight,
+      grossWeight: raw.grossWeight,
+      marketPrice: raw.marketPrice,
+      realAmount: raw.realAmount,
     };
   }
 

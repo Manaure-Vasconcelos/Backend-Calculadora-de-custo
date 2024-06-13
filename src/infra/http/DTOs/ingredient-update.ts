@@ -1,4 +1,10 @@
-import { IsNumber, IsOptional, IsString, Length } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export abstract class IngredientUpdatingDTO {
   @IsString()
@@ -6,15 +12,15 @@ export abstract class IngredientUpdatingDTO {
   @Length(2, 50)
   name: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   usedWeight: number;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   marketPrice: number;
 
   @IsNumber()
-  @IsOptional()
+  @IsNotEmpty()
   grossWeight: number;
 }

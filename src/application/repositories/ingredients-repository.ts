@@ -7,5 +7,5 @@ export abstract class IngredientsRepository {
     receivedId: number,
   ): Promise<IngredientResponse | null>;
   abstract delete(receivedId: number): Promise<any>;
-  abstract update(ingredient: IngredientEntity): Promise<IngredientEntity>;
+  abstract save(ingredient: IngredientEntity): Promise<IngredientEntity>;
 }
