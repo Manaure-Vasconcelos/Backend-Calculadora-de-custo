@@ -87,7 +87,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name updating
-PUT {{recipes_base_url}}/10
+PUT {{recipes_base_url}}/1
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -126,14 +126,14 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name updating-ingredient
-PUT {{ingredients_base_url}}/2
+PUT {{ingredients_base_url}}/1
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
 	"usedWeight": 2,
-	"marketPrice": 10,
-	"grossWeight": 5
+	"marketPrice": 2,
+	"grossWeight": 2
 }
 
 ###

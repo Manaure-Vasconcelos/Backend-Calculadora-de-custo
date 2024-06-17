@@ -10,7 +10,7 @@ export class UpdatingValuePartial {
   async execute(recipeId: number): Promise<void> {
     const currentRecipe = await this.recipesRepository.getRecipe(recipeId);
 
-    if (!currentRecipe.props.ingredients) {
+    if (!currentRecipe) {
       throw new Error('nao tem nada');
     }
     const { ingredients } = currentRecipe;
@@ -26,7 +26,7 @@ export class UpdatingValuePartial {
       describe: currentRecipe.describe,
       userId: currentRecipe.userId,
       valuePartial: valuePartial,
-      ingredients: currentRecipe.Ingredients,
+      ingredients: currentRecipe.ingredients,
       createAt: currentRecipe.createAt,
     });
 

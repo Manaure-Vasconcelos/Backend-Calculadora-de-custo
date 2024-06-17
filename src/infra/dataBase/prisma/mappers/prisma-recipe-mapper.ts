@@ -14,8 +14,7 @@ interface RawProps {
 export class PrismaRecipeMapper {
   static toPrisma(recipe: RecipeEntity) {
     return {
-      id: recipe.id,
-      title: typeof recipe.title === 'undefined' ? 'Receita' : recipe.title,
+      title: recipe.title,
       describe: recipe.describe,
       userId: recipe.userId,
       createdAt: recipe.createAt,
@@ -26,10 +25,9 @@ export class PrismaRecipeMapper {
   static toUpdate(recipe: RecipeEntity) {
     return {
       id: recipe.id,
-      title: recipe.title === 'Receita' ? undefined : recipe.title,
+      title: recipe.title,
       describe: recipe.describe,
-      userId: recipe.userId === 'FakeId' ? undefined : recipe.userId,
-      createdAt: recipe.createAt,
+      userId: recipe.userId,
       valuePartial: recipe.valuePartial,
     };
   }

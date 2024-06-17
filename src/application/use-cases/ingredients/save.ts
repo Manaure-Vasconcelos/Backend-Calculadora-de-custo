@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { IngredientsRepository } from 'src/application/repositories/ingredients-repository';
-import { UpdatingValuePartial } from '../recipes/update-value-partial';
 import { IngredientEntity } from '@application/entities/ingredient.entity';
+import { UpdateRecipe } from '../recipes/update';
 
 interface IngredientUpdatingRequest {
   name?: string;
@@ -14,7 +14,7 @@ interface IngredientUpdatingRequest {
 export class SaveIngredient {
   constructor(
     private ingredientsRepository: IngredientsRepository,
-    private updatingValuePartial: UpdatingValuePartial,
+    private saveRecipe: UpdateRecipe,
   ) {}
 
   async execute(receivedId: string, receivedValues: IngredientUpdatingRequest) {
@@ -29,7 +29,11 @@ export class SaveIngredient {
 
     const updatedIngredient = await this.ingredientsRepository.save(ingredient);
 
-    /* await this.updatingValuePartial.execute(updatedIngredient.recipeId); */
+    await this.saveRecipe.execute({
+      recipeId: updatedIngredient.recipeId,
+      title: undefined,
+      describe: undefined,
+    });
 
     return updatedIngredient;
   }

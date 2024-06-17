@@ -32,11 +32,23 @@ export class RecipeEntity {
       title: props.title ?? 'Receita',
       describe: props.describe ?? null,
       userId: props.userId ?? 'FakeId',
-      valuePartial: props.valuePartial ?? 0,
+      valuePartial: this.calculateValueRecipe(props.ingredients),
       createAt: props.createAt ?? new Date(),
       updateAt: props.updateAt ?? null,
       ingredients: props.ingredients ?? [],
     };
+  }
+
+  calculateValueRecipe(ingredients: any[] | undefined): number {
+    if (typeof ingredients === 'undefined') return 0;
+
+    const valueRecipe = ingredients.reduce(
+      (total: number, ingredient: any) =>
+        total + parseFloat(ingredient.realAmount),
+      0,
+    );
+
+    return valueRecipe;
   }
 
   set id(id: number) {
@@ -87,3 +99,27 @@ export class RecipeEntity {
     return this.props.createAt;
   }
 }
+
+const values = {
+  recipeId: 1,
+  title: undefined,
+  describe: undefined,
+};
+const current = {
+  title: 'valor existente',
+  describe: 'valor existente',
+  userId: 'fake id',
+  ingredients: [{ realAmount: 10 }, { realAmount: 10 }, { realAmount: 10 }],
+  createAt: new Date(),
+};
+
+const recipe = new RecipeEntity({
+  id: values.recipeId,
+  title: values.title ?? current.title,
+  describe: values.describe ?? current.describe,
+  userId: current.userId,
+  ingredients: current.ingredients,
+  createAt: current.createAt,
+});
+
+console.log(recipe);

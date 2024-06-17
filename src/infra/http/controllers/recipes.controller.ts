@@ -56,7 +56,7 @@ export class RecipesController {
     @Request() req: any,
     @Param('id') recipeId: string,
   ) {
-    const recipe = await this.recipeWithIngredients.execute(recipeId);
+    const recipe = await this.recipeWithIngredients.execute(+recipeId);
     return RecipeViewModel.toHTTP(recipe);
   }
 
@@ -73,11 +73,10 @@ export class RecipesController {
     @Param('id') receivedId: string,
     @Body() receivedValues: RecipesUpdatingDTO,
   ) {
-    const updatedRecipe = await this.updateRecipe.execute({
-      recipeId: receivedId,
+    await this.updateRecipe.execute({
+      recipeId: +receivedId,
       title: receivedValues.title,
       describe: receivedValues.describe,
     });
-    return RecipeViewModel.toHTTP(updatedRecipe);
   }
 }

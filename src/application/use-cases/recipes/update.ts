@@ -1,9 +1,9 @@
 import { RecipeEntity } from '@application/entities/recipe.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { RecipesRepository } from '@application/repositories/recipes-repository';
 
 interface recipeUpdatingRequest {
-  recipeId: string;
+  recipeId: number;
   title?: string;
   describe?: string;
 }
@@ -12,15 +12,24 @@ interface recipeUpdatingRequest {
 export class UpdateRecipe {
   constructor(private recipesRepository: RecipesRepository) {}
 
-  async execute(values: recipeUpdatingRequest): Promise<RecipeEntity> {
+  async execute(values: recipeUpdatingRequest): Promise<void> {
+    const current = await this.recipesRepository.getRecipe(+values.recipeId);
+
+    if (!current) throw new NotFoundException('Receita não encontrada.');
+
     const recipe = new RecipeEntity({
-      id: +values.recipeId,
-      title: typeof values.title === 'undefined' ? 'Receita' : values.title,
-      describe: values.describe,
-      userId: 'FakeId',
+      id: values.recipeId,
+      title: values.title ?? current.title,
+      describe: values.describe ?? current.describe,
+      userId: current.userId,
+      ingredients: current.ingredients,
+      createAt: current.createAt,
     });
 
-    const updatedRecipe = await this.recipesRepository.update(recipe);
-    return updatedRecipe;
+    try {
+      await this.recipesRepository.update(recipe);
+    } catch (error) {
+      throw new Error('Não foi possível atualizar');
+    }
   }
 }
