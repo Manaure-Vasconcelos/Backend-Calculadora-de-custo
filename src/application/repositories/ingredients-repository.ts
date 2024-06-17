@@ -1,11 +1,10 @@
 import { IngredientEntity } from '@application/entities/ingredient.entity';
-import { IngredientResponse } from 'src/common/interfaces/ingredientResponse';
 
 export abstract class IngredientsRepository {
   abstract create(ingredient: IngredientEntity): Promise<IngredientEntity>;
   abstract singleIngredient(
     receivedId: number,
-  ): Promise<IngredientResponse | null>;
+  ): Promise<IngredientEntity | null>;
   abstract delete(receivedId: number): Promise<any>;
   abstract save(ingredient: IngredientEntity): Promise<IngredientEntity>;
 }

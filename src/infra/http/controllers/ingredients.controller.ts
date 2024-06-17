@@ -10,11 +10,11 @@ import {
 } from '@nestjs/common';
 import { IngredientDTO } from '../DTOs/ingredient-dto';
 import { CreateIngredient } from '@application/use-cases/ingredients/create';
-import { GetSingleIngredient } from './../../../application/use-cases/ingredients/get-single-ingredient';
-import { DeleteIngredient } from './../../../application/use-cases/ingredients/delete-ingredient';
-import { SaveIngredient } from '../../../application/use-cases/ingredients/save';
+import { GetSingleIngredient } from '@application/use-cases/ingredients/get-single-ingredient';
+import { DeleteIngredient } from '@application/use-cases/ingredients/delete-ingredient';
+import { SaveIngredient } from '@application/use-cases/ingredients/save';
 import { IngredientUpdatingDTO } from '../DTOs/ingredient-update';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '@auth/jwt-auth.guard';
 
 @Controller('/ingredients')
 export class IngredientsController {
@@ -27,38 +27,32 @@ export class IngredientsController {
 
   @UseGuards(JwtAuthGuard)
   @Post('/:id')
-  create(@Param('id') recipeId: string, @Body() ingredient: IngredientDTO) {
-    const ingredientCreated = this.createIngredients.execute(
-      recipeId,
-      ingredient,
-    );
-    return ingredientCreated;
+  async create(
+    @Param('id') recipeId: string,
+    @Body() ingredient: IngredientDTO,
+  ) {
+    await this.createIngredients.execute(recipeId, ingredient);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('/:id')
-  getIngredient(@Param('id') receivedId: string) {
-    const sigleIngredient = this.getSingleIngredient.execute(receivedId);
+  async getIngredient(@Param('id') receivedId: string) {
+    const sigleIngredient = await this.getSingleIngredient.execute(receivedId);
     return sigleIngredient;
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete('/:id')
-  delete(@Param('id') receivedId: string) {
-    const deletedIngredient = this.deleteIngredient.execute(receivedId);
-    return deletedIngredient;
+  async delete(@Param('id') receivedId: string) {
+    await this.deleteIngredient.execute(receivedId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Put('/:id')
-  update(
+  async update(
     @Param('id') receivedId: string,
     @Body() receivedValues: IngredientUpdatingDTO,
   ) {
-    const sigleIngredient = this.saveIngredient.execute(
-      receivedId,
-      receivedValues,
-    );
-    return sigleIngredient;
+    await this.saveIngredient.execute(receivedId, receivedValues);
   }
 }

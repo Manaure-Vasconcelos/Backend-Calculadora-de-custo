@@ -16,11 +16,13 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
     return PrismaIngredientMapper.toDomain(newIngredient);
   }
 
-  async singleIngredient(receivedId: number): Promise<any> {
+  async singleIngredient(receivedId: number): Promise<IngredientEntity | null> {
     const ingredientFound = await this.prisma.ingredient.findFirst({
       where: { id: receivedId },
     });
-    return ingredientFound;
+    if (!ingredientFound) return null;
+
+    return PrismaIngredientMapper.toDomain(ingredientFound);
   }
 
   async delete(receivedId: number): Promise<any> {

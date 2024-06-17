@@ -13,7 +13,7 @@ export class UpdateRecipe {
   constructor(private recipesRepository: RecipesRepository) {}
 
   async execute(values: recipeUpdatingRequest): Promise<void> {
-    const current = await this.recipesRepository.getRecipe(+values.recipeId);
+    const current = await this.recipesRepository.getRecipe(values.recipeId);
 
     if (!current) throw new NotFoundException('Receita não encontrada.');
 

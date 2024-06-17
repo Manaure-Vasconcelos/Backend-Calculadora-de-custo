@@ -3,25 +3,24 @@ import { IngredientsController } from './controllers/ingredients.controller';
 import { UsersController } from './controllers/users.controller';
 import { RecipesController } from './controllers/recipes.controller';
 import { GetUser } from '@application/use-cases/user/get-acount';
-import { DeleteUser } from 'src/application/use-cases/user/delete-user';
+import { DeleteUser } from '@application/use-cases/user/delete-user';
 import { UpdateUser } from '@application/use-cases/user/update';
 import { DatabaseModule } from '../dataBase/database.module';
-import { AllRecipes } from 'src/application/use-cases/recipes/get-all-recipes-from-user';
+import { AllRecipes } from '@application/use-cases/recipes/get-all-recipes-from-user';
 import { CreateRecipe } from '@application/use-cases/recipes/create';
 import { RecipesWithIngredients } from '@application/use-cases/recipes/get-with-props';
 import { DeleteRecipe } from '@application/use-cases/recipes/delete';
-import { UpdateRecipe } from 'src/application/use-cases/recipes/update';
-import { SaveIngredient } from 'src/application/use-cases/ingredients/save';
-import { DeleteIngredient } from 'src/application/use-cases/ingredients/delete-ingredient';
+import { UpdateRecipe } from '@application/use-cases/recipes/update';
+import { SaveIngredient } from '@application/use-cases/ingredients/save';
+import { DeleteIngredient } from '@application/use-cases/ingredients/delete-ingredient';
 import { CreateIngredient } from '@application/use-cases/ingredients/create';
-import { GetSingleIngredient } from 'src/application/use-cases/ingredients/get-single-ingredient';
-import { UpdatingValuePartial } from 'src/application/use-cases/recipes/update-value-partial';
+import { GetSingleIngredient } from '@application/use-cases/ingredients/get-single-ingredient';
 import { AuthController } from './controllers/auth.controller';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '@auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from 'src/auth/jwt.strategy';
+import { JwtStrategy } from '@auth/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { HashPassword } from 'src/auth/hashPassword';
+import { HashPassword } from '@auth/hashPassword';
 import { GetUserWithProps } from '@application/use-cases/user/get-profile';
 
 @Module({
@@ -59,7 +58,6 @@ import { GetUserWithProps } from '@application/use-cases/user/get-profile';
     RecipesWithIngredients,
     DeleteRecipe,
     UpdateRecipe,
-    UpdatingValuePartial,
     CreateIngredient,
     GetSingleIngredient,
     DeleteIngredient,

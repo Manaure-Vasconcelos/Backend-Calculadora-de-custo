@@ -8,6 +8,7 @@ export class RecipeViewModel {
       describe: recipe.describe,
       valuePartial: recipe.valuePartial,
       createAt: recipe.createAt,
+      ingredients: recipe.ingredients,
     };
   }
 }

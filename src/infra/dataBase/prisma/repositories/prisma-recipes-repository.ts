@@ -8,11 +8,12 @@ import { PrismaRecipeMapper } from '../mappers/prisma-recipe-mapper';
 export class PrismaRecipesRepository implements RecipesRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(recipe: RecipeEntity): Promise<RecipeEntity> {
+  async create(recipe: RecipeEntity): Promise<RecipeEntity | null> {
     const raw = PrismaRecipeMapper.toPrisma(recipe);
     const recipeCreated = await this.prisma.recipes.create({
       data: raw,
     });
+    if (!recipeCreated) return null;
     return PrismaRecipeMapper.toDomain(recipeCreated);
   }
 

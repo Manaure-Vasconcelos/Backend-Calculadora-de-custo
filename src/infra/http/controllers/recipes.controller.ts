@@ -35,12 +35,11 @@ export class RecipesController {
     @Request() req: any,
     @Body() receivedValues: RecipesDTO,
   ): Promise<any> {
-    const recipeCreated = await this.createRecipe.execute({
+    await this.createRecipe.execute({
       userId: req.user.id,
       title: receivedValues.title,
       describe: receivedValues.describe,
     });
-    return RecipeViewModel.toHTTP(recipeCreated);
   }
 
   @UseGuards(JwtAuthGuard)

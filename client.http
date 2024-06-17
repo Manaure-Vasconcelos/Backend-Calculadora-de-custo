@@ -112,21 +112,21 @@ Authorization: Bearer {{authToken}}
 
 {
 	"name": "ingrediente 4",
-	"usedWeight": 4,
-	"marketPrice": 20,
-	"grossWeight": 10
+	"usedWeight": 2,
+	"marketPrice": 10,
+	"grossWeight": 4
 }
 
 ###
 # @name unique-ingredient
-GET {{ingredients_base_url}}/13
+GET {{ingredients_base_url}}/10
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 ###
 
 # @name updating-ingredient
-PUT {{ingredients_base_url}}/1
+PUT {{ingredients_base_url}}/16
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -139,6 +139,6 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name delete
-DELETE {{ingredients_base_url}}/13
+DELETE {{ingredients_base_url}}/17
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
