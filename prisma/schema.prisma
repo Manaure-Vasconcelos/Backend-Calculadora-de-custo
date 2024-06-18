@@ -3,8 +3,10 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  // directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 model Users {
@@ -34,7 +36,7 @@ model Recipes {
 model Ingredient {
   id          Int    @id @default(autoincrement())
   name        String
-  usedWeight  Int    @map("usedWeight") 
+  usedWeight  Int    @map("usedWeight")
   marketPrice Int    @map("marketPrice")
   grossWeight Int    @map("grossWeight")
   realAmount  Int    @map("realAmount")
