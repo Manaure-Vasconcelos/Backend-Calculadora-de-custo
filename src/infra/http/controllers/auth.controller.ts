@@ -2,53 +2,51 @@ import {
   Body,
   Controller,
   Post,
-  HttpException,
   ConflictException,
   HttpStatus,
-  UnauthorizedException,
-  NotFoundException,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from '../../../auth/auth.service';
 import { LoginUserDTO } from '../DTOs/user-dto';
 import { RegisterUserDTO } from '../DTOs/register-user-dto';
-import { loginResponse } from 'src/common/interfaces/LoginResponse';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  signIn(@Body() login: LoginUserDTO): Promise<loginResponse> {
+  async signIn(@Body() login: LoginUserDTO, @Res() res: Response) {
     try {
-      const token = this.authService.sigIn(login);
-      return token;
+      const token = await this.authService.sigIn(login);
+      return res.status(HttpStatus.OK).json(token);
     } catch (error) {
-      if (
-        error instanceof UnauthorizedException ||
-        error instanceof NotFoundException
-      )
-        throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
-
-      throw new HttpException(
-        'Internal Server Error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: 'Unauthorized.' });
     }
   }
 
   @Post('register')
-  register(@Body() receivedValues: RegisterUserDTO): void {
+  async register(
+    @Body() receivedValues: RegisterUserDTO,
+    @Res() res: Response,
+  ) {
     try {
-      this.authService.subscribe(receivedValues);
+      await this.authService.subscribe(receivedValues);
+      return res
+        .status(HttpStatus.CREATED)
+        .json({ message: 'Sucess subscribe' });
     } catch (error) {
       // verificar a msg de erro do service.
       if (error instanceof ConflictException)
-        throw new HttpException('Email already exists.', HttpStatus.CONFLICT);
+        return res
+          .status(HttpStatus.CONFLICT)
+          .json({ message: 'Email existing' });
 
-      throw new HttpException(
-        'Internal Server Error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: 'Failed subscribe' });
     }
   }
 }

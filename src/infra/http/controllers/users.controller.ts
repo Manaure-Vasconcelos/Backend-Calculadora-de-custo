@@ -3,12 +3,10 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
   HttpStatus,
-  InternalServerErrorException,
-  NotFoundException,
   Put,
   Request,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { DeleteUser } from 'src/application/use-cases/user/delete-user';
@@ -17,6 +15,7 @@ import { UserUpdatingDTO } from '../DTOs/user-update-dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { GetUserWithProps } from '@application/use-cases/user/get-profile';
 import { UserViewModel } from '../view-models/user-view-model';
+import { Response } from 'express';
 
 @Controller('user')
 export class UsersController {
@@ -28,50 +27,50 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async findUser(@Request() req: any) {
+  async findUser(@Request() req: any, @Res() res: Response) {
     try {
+      // o erro ta aqui que retorna o user sem o password
       const user = await this.getUserWithProps.execute(req.user.id);
-      return UserViewModel.toHTTP(user);
+      return res.status(HttpStatus.OK).json(UserViewModel.toHTTP(user));
     } catch (error) {
-      if (error instanceof NotFoundException)
-        throw new HttpException('NotFound', HttpStatus.NOT_FOUND);
-
-      throw new HttpException(
-        'Internal error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      return res
+        .status(HttpStatus.NOT_FOUND)
+        .json({ message: 'Not Found user.' });
     }
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete()
-  async delete(@Request() req: any) {
+  async delete(@Request() req: any, @Res() res: Response) {
     try {
       await this.deleteUser.execute(req.user.id);
+      return res.status(HttpStatus.NO_CONTENT).send();
     } catch (error) {
-      if (error instanceof NotFoundException)
-        throw new HttpException('NotFound', HttpStatus.NOT_FOUND);
-
-      throw new InternalServerErrorException();
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: 'Failed to delete user.' });
     }
   }
 
   @UseGuards(JwtAuthGuard)
   @Put()
-  async update(@Request() req: any, @Body() receivedValues: UserUpdatingDTO) {
+  async update(
+    @Request() req: any,
+    @Res() res: Response,
+    @Body() receivedValues: UserUpdatingDTO,
+  ) {
     try {
-      const updateUser = await this.updateUser.execute({
+      await this.updateUser.execute({
         id: req.user.id,
         name: receivedValues.name,
         email: receivedValues.email,
         password: receivedValues.password,
       });
-      return updateUser;
+      return res.status(HttpStatus.OK).json({ message: 'Updated user.' });
     } catch (error) {
-      throw new HttpException(
-        'Error updating',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: 'Failed to update user.' });
     }
   }
 }

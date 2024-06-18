@@ -99,27 +99,3 @@ export class RecipeEntity {
     return this.props.createAt;
   }
 }
-
-const values = {
-  recipeId: 1,
-  title: undefined,
-  describe: undefined,
-};
-const current = {
-  title: 'valor existente',
-  describe: 'valor existente',
-  userId: 'fake id',
-  ingredients: [{ realAmount: 10 }, { realAmount: 10 }, { realAmount: 10 }],
-  createAt: new Date(),
-};
-
-const recipe = new RecipeEntity({
-  id: values.recipeId,
-  title: values.title ?? current.title,
-  describe: values.describe ?? current.describe,
-  userId: current.userId,
-  ingredients: current.ingredients,
-  createAt: current.createAt,
-});
-
-console.log(recipe);

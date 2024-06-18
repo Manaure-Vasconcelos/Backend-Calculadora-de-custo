@@ -9,7 +9,7 @@ POST {{base_url}}/login
 Content-Type: application/json
 
 {
-  "email": "manaure@gmail.com",
+  "email": "manaure2@gmail.com",
   "password": "Password123@"
 }
 
@@ -21,7 +21,7 @@ Content-Type: application/json
 
 {
   "name": "manaure",
-  "email": "manaure@gmail.com",
+  "email": "manaure2@gmail.com",
   "password": "Password123@"
 }
 
@@ -99,7 +99,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name delete
-DELETE {{recipes_base_url}}/10
+DELETE {{recipes_base_url}}/5
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 

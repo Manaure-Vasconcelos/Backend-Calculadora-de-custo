@@ -3,21 +3,24 @@ import {
   Controller,
   Delete,
   Get,
+  HttpStatus,
   Param,
   Post,
   Put,
   Request,
+  Res,
   UseGuards,
 } from '@nestjs/common';
-import { AllRecipes } from 'src/application/use-cases/recipes/get-all-recipes-from-user';
+import { AllRecipes } from '@application/use-cases/recipes/get-all-recipes-from-user';
 import { CreateRecipe } from '@application/use-cases/recipes/create';
 import { RecipesDTO } from '../DTOs/recipe-dto';
 import { RecipesWithIngredients } from '@application/use-cases/recipes/get-with-props';
 import { DeleteRecipe } from '@application/use-cases/recipes/delete';
 import { UpdateRecipe } from '@application/use-cases/recipes/update';
 import { RecipesUpdatingDTO } from '../DTOs/recipe-update-dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '@auth/jwt-auth.guard';
 import { RecipeViewModel } from '../view-models/recipe-view-model';
+import { Response } from 'express';
 
 @Controller('recipes')
 export class RecipesController {
@@ -33,49 +36,86 @@ export class RecipesController {
   @Post()
   async createRecipes(
     @Request() req: any,
+    @Res() res: Response,
     @Body() receivedValues: RecipesDTO,
   ): Promise<any> {
-    await this.createRecipe.execute({
-      userId: req.user.id,
-      title: receivedValues.title,
-      describe: receivedValues.describe,
-    });
+    try {
+      await this.createRecipe.execute({
+        userId: req.user.id,
+        title: receivedValues.title,
+        describe: receivedValues.describe,
+      });
+      res.status(HttpStatus.CREATED).json({ message: 'Recipe created.' });
+    } catch (error) {
+      res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: 'Failed to create recipe.' });
+    }
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('/all')
-  async getAllRecipes(@Request() req: any) {
-    const allRecipes = await this.allRecipes.execute(req.user.id);
-    return allRecipes.map(RecipeViewModel.toHTTP);
+  async getAllRecipes(@Request() req: any, @Res() res: Response) {
+    try {
+      const allRecipes = await this.allRecipes.execute(req.user.id);
+      return res
+        .status(HttpStatus.OK)
+        .json(allRecipes.map(RecipeViewModel.toHTTP));
+    } catch (error: any) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Failed return recipes', error: error.message });
+    }
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async getRecipeWithIngredients(
     @Request() req: any,
+    @Res() res: Response,
     @Param('id') recipeId: string,
   ) {
-    const recipe = await this.recipeWithIngredients.execute(+recipeId);
-    return RecipeViewModel.toHTTP(recipe);
+    try {
+      const recipe = await this.recipeWithIngredients.execute(+recipeId);
+      return res.status(HttpStatus.OK).json(RecipeViewModel.toHTTP(recipe));
+    } catch (error) {
+      return res
+        .status(HttpStatus.NOT_FOUND)
+        .json({ message: 'Not found recipe.' });
+    }
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete('/:id')
-  async delete(@Param('id') receivedId: string) {
-    const deletedRecipe = await this.deleteRecipe.execute(receivedId);
-    return deletedRecipe;
+  async delete(@Param('id') receivedId: string, @Res() res: Response) {
+    try {
+      await this.deleteRecipe.execute(receivedId);
+      return res.status(HttpStatus.NO_CONTENT).send();
+    } catch (error) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: 'Failed to delete recipe.' });
+    }
   }
 
   @UseGuards(JwtAuthGuard)
   @Put('/:id')
   async update(
+    @Res() res: Response,
     @Param('id') receivedId: string,
     @Body() receivedValues: RecipesUpdatingDTO,
   ) {
-    await this.updateRecipe.execute({
-      recipeId: +receivedId,
-      title: receivedValues.title,
-      describe: receivedValues.describe,
-    });
+    try {
+      await this.updateRecipe.execute({
+        recipeId: +receivedId,
+        title: receivedValues.title,
+        describe: receivedValues.describe,
+      });
+      return res.status(HttpStatus.OK).json({ message: 'Updated recipe.' });
+    } catch (error) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: 'Failed updated recipe.' });
+    }
   }
 }

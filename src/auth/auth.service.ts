@@ -8,12 +8,20 @@ import {
 } from '@nestjs/common';
 import { GetUser } from '../application/use-cases/user/get-acount';
 import { JwtService } from '@nestjs/jwt';
-import { loginResponse } from 'src/common/interfaces/LoginResponse';
 import { HashPassword } from './hashPassword';
-import { UserRequest } from '@common/interfaces/userRequest';
 import { UserRepository } from '@application/repositories/user-repository';
 import { Password } from '@application/entities/user/password';
 import { UserEntity } from '@application/entities/user/user.entity';
+
+interface loginResponse {
+  access_token: string;
+}
+
+interface UserRequest {
+  name: string;
+  email: string;
+  password: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -46,11 +54,7 @@ export class AuthService {
         access_token: await this.jwtService.signAsync(payload),
       };
     } catch (error) {
-      if (
-        error instanceof UnauthorizedException ||
-        error instanceof NotFoundException
-      )
-        throw error;
+      if (error instanceof UnauthorizedException) throw error;
 
       throw new InternalServerErrorException();
     }
@@ -68,7 +72,7 @@ export class AuthService {
         password: pass,
       });
 
-      this.userRepository.create(temp);
+      await this.userRepository.create(temp);
     } catch (error) {
       if (error instanceof ConflictException)
         throw new ConflictException('Email already exists.');
