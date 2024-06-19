@@ -1,7 +1,7 @@
-@base_url = http://localhost:3001/auth
-@user_base_url = http://localhost:3001/user
-@recipes_base_url = http://localhost:3001/recipes
-@ingredients_base_url = http://localhost:3001/ingredients
+@base_url = http://localhost:3000/auth
+@user_base_url = http://localhost:3000/user
+@recipes_base_url = http://localhost:3000/recipes
+@ingredients_base_url = http://localhost:3000/ingredients
 @authToken = {{signIn.response.body.access_token}}
 
 # @name signIn
@@ -106,7 +106,7 @@ Authorization: Bearer {{authToken}}
 ###
 # Usar uma variavel em cache ou localStorage para obter o id da receita em questão.
 # @name create-ingredient
-POST {{ingredients_base_url}}/1
+POST {{ingredients_base_url}}/3
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
