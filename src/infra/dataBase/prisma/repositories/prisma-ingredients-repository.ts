@@ -16,6 +16,16 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
     return PrismaIngredientMapper.toDomain(newIngredient);
   }
 
+  async save(ingredient: IngredientEntity): Promise<IngredientEntity> {
+    const raw = PrismaIngredientMapper.toSave(ingredient);
+
+    const updatedIngredient = await this.prisma.ingredient.update({
+      where: { id: ingredient.id },
+      data: raw,
+    });
+    return PrismaIngredientMapper.toDomain(updatedIngredient);
+  }
+
   async singleIngredient(receivedId: number): Promise<IngredientEntity | null> {
     const ingredientFound = await this.prisma.ingredient.findFirst({
       where: { id: receivedId },
@@ -30,15 +40,5 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
       where: { id: receivedId },
     });
     return deletedIngredient;
-  }
-
-  async save(ingredient: IngredientEntity): Promise<IngredientEntity> {
-    const raw = PrismaIngredientMapper.toSave(ingredient);
-
-    const updatedIngredient = await this.prisma.ingredient.update({
-      where: { id: ingredient.id },
-      data: raw,
-    });
-    return PrismaIngredientMapper.toDomain(updatedIngredient);
   }
 }

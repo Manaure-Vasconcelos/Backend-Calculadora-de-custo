@@ -18,6 +18,7 @@ import { SaveIngredient } from '@application/use-cases/ingredients/save';
 import { IngredientUpdatingDTO } from '../DTOs/ingredient-update';
 import { JwtAuthGuard } from '@auth/jwt-auth.guard';
 import { Response } from 'express';
+import { IngredientViewModel } from '../view-models/ingredient-view-model';
 
 @Controller('/ingredients')
 export class IngredientsController {
@@ -36,14 +37,41 @@ export class IngredientsController {
     @Body() ingredient: IngredientDTO,
   ) {
     try {
-      await this.createIngredients.execute(recipeId, ingredient);
-      return res
-        .status(HttpStatus.CREATED)
-        .json({ message: 'Ingredient created.' });
+      const ingredientCreated = await this.createIngredients.execute(
+        recipeId,
+        ingredient,
+      );
+      return res.status(HttpStatus.CREATED).json({
+        data: IngredientViewModel.toHTTP(ingredientCreated),
+        message: 'Ingredient created.',
+      });
     } catch (error) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: 'Failed to create ingredient.' });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('/:id')
+  async update(
+    @Res() res: Response,
+    @Param('id') receivedId: string,
+    @Body() receivedValues: IngredientUpdatingDTO,
+  ) {
+    try {
+      const ingredient = await this.saveIngredient.execute(
+        receivedId,
+        receivedValues,
+      );
+      return res.status(HttpStatus.OK).json({
+        data: IngredientViewModel.toHTTP(ingredient),
+        message: 'Updated ingredient',
+      });
+    } catch (error) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: 'Failed to update ingredient' });
     }
   }
 
@@ -71,23 +99,6 @@ export class IngredientsController {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: 'Failed to delete ingredient.' });
-    }
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Put('/:id')
-  async update(
-    @Res() res: Response,
-    @Param('id') receivedId: string,
-    @Body() receivedValues: IngredientUpdatingDTO,
-  ) {
-    try {
-      await this.saveIngredient.execute(receivedId, receivedValues);
-      return res.status(HttpStatus.OK).json({ message: 'Updated ingredient' });
-    } catch (error) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: 'Failed to update ingredient' });
     }
   }
 }
