@@ -7,8 +7,8 @@ interface RecipeProps {
   userId: string;
   valuePartial: number | null;
   ingredients: any[];
-  createAt: Date;
-  updateAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date | null;
 }
 
 export class RecipeEntity {
@@ -22,8 +22,8 @@ export class RecipeEntity {
         describe?: string | null;
         valuePartial?: number | null;
         ingredients?: any[];
-        createAt?: Date;
-        updateAt?: Date | null;
+        createdAt?: Date;
+        updatedAt?: Date | null;
       }
     >,
   ) {
@@ -33,8 +33,8 @@ export class RecipeEntity {
       describe: props.describe ?? null,
       userId: props.userId ?? 'FakeId',
       valuePartial: this.calculateValueRecipe(props.ingredients),
-      createAt: props.createAt ?? new Date(),
-      updateAt: props.updateAt ?? null,
+      createdAt: props.createdAt ?? new Date(),
+      updatedAt: props.updatedAt ?? null,
       ingredients: props.ingredients ?? [],
     };
   }
@@ -95,7 +95,7 @@ export class RecipeEntity {
     return this.props.userId;
   }
 
-  get createAt(): Date {
-    return this.props.createAt;
+  get createdAt(): Date {
+    return this.props.createdAt;
   }
 }

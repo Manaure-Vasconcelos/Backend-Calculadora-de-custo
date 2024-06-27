@@ -22,7 +22,7 @@ describe('Recipe Entity', () => {
       title: recipe.title,
       describe: recipe.describe,
       userId: recipe.userId,
-      createAt: recipe.createAt,
+      createdAt: recipe.createAt,
       valuePartial: recipe.valuePartial,
     });
 

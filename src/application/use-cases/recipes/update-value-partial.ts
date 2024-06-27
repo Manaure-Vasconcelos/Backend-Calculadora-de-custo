@@ -27,7 +27,7 @@ export class UpdatingValuePartial {
       userId: currentRecipe.userId,
       valuePartial: valuePartial,
       ingredients: currentRecipe.ingredients,
-      createAt: currentRecipe.createAt,
+      createdAt: currentRecipe.createdAt,
     });
 
     await this.recipesRepository.update(newRecipe);

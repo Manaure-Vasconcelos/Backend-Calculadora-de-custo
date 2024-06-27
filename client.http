@@ -106,7 +106,7 @@ Authorization: Bearer {{authToken}}
 ###
 # Usar uma variavel em cache ou localStorage para obter o id da receita em questão.
 # @name create-ingredient
-POST {{ingredients_base_url}}/3
+POST {{ingredients_base_url}}/5
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 

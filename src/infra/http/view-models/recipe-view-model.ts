@@ -7,7 +7,7 @@ export class RecipeViewModel {
       title: recipe.title,
       describe: recipe.describe,
       valuePartial: recipe.valuePartial,
-      createAt: recipe.createAt,
+      createdAt: recipe.createdAt,
       ingredients: recipe.ingredients,
     };
   }

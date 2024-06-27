@@ -23,7 +23,7 @@ export class UpdateRecipe {
       describe: values.describe ?? current.describe,
       userId: current.userId,
       ingredients: current.ingredients,
-      createAt: current.createAt,
+      createdAt: current.createdAt,
     });
 
     try {

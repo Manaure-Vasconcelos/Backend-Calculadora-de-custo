@@ -17,7 +17,7 @@ export class PrismaRecipeMapper {
       title: recipe.title,
       describe: recipe.describe,
       userId: recipe.userId,
-      createdAt: recipe.createAt,
+      createdAt: recipe.createdAt,
       valuePartial: recipe.valuePartial,
     };
   }
@@ -40,8 +40,8 @@ export class PrismaRecipeMapper {
       userId: raw.userId,
       ingredients: raw.ingredients ? raw.ingredients : [],
       valuePartial: raw.valuePartial,
-      createAt: raw.createdAt,
-      updateAt: raw.updatedAt,
+      createdAt: raw.createdAt,
+      updatedAt: raw.updatedAt,
     });
   }
 }
