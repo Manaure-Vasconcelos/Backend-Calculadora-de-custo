@@ -40,12 +40,15 @@ export class RecipesController {
     @Body() receivedValues: RecipesDTO,
   ): Promise<any> {
     try {
-      await this.createRecipe.execute({
+      const recipe = await this.createRecipe.execute({
         userId: req.user.id,
         title: receivedValues.title,
         describe: receivedValues.describe,
       });
-      res.status(HttpStatus.CREATED).json({ message: 'Recipe created.' });
+      res.status(HttpStatus.CREATED).json({
+        data: RecipeViewModel.toHTTP(recipe),
+        message: 'Recipe created.',
+      });
     } catch (error) {
       res
         .status(HttpStatus.BAD_REQUEST)
@@ -106,12 +109,15 @@ export class RecipesController {
     @Body() receivedValues: RecipesUpdatingDTO,
   ) {
     try {
-      await this.updateRecipe.execute({
+      const recipe = await this.updateRecipe.execute({
         recipeId: +receivedId,
         title: receivedValues.title,
         describe: receivedValues.describe,
       });
-      return res.status(HttpStatus.OK).json({ message: 'Updated recipe.' });
+      return res.status(HttpStatus.OK).json({
+        data: RecipeViewModel.toHTTP(recipe),
+        message: 'Updated recipe.',
+      });
     } catch (error) {
       return res
         .status(HttpStatus.BAD_REQUEST)

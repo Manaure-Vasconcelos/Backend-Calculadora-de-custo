@@ -42,11 +42,12 @@ export class PrismaRecipesRepository implements RecipesRepository {
     });
   }
 
-  async update(values: RecipeEntity): Promise<void> {
+  async update(values: RecipeEntity): Promise<RecipeEntity> {
     const raw = PrismaRecipeMapper.toPrisma(values);
-    await this.prisma.recipes.update({
+    const recipeUpdating = await this.prisma.recipes.update({
       where: { id: values.id },
       data: raw,
     });
+    return PrismaRecipeMapper.toDomain(recipeUpdating);
   }
 }

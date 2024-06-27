@@ -12,7 +12,7 @@ interface recipeUpdatingRequest {
 export class UpdateRecipe {
   constructor(private recipesRepository: RecipesRepository) {}
 
-  async execute(values: recipeUpdatingRequest): Promise<void> {
+  async execute(values: recipeUpdatingRequest): Promise<RecipeEntity> {
     const current = await this.recipesRepository.getRecipe(values.recipeId);
 
     if (!current) throw new NotFoundException('Receita não encontrada.');
@@ -27,7 +27,8 @@ export class UpdateRecipe {
     });
 
     try {
-      await this.recipesRepository.update(recipe);
+      const res = await this.recipesRepository.update(recipe);
+      return res;
     } catch (error) {
       throw new Error('Não foi possível atualizar');
     }

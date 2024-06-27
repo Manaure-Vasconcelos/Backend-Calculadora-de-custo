@@ -1,5 +1,9 @@
 import { RecipeEntity } from '@application/entities/recipe.entity';
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { RecipesRepository } from '@application/repositories/recipes-repository';
 
 export interface RecipeRequest {
@@ -12,7 +16,7 @@ export interface RecipeRequest {
 export class CreateRecipe {
   constructor(private recipesRepository: RecipesRepository) {}
 
-  async execute(receivedValues: RecipeRequest): Promise<void> {
+  async execute(receivedValues: RecipeRequest): Promise<RecipeEntity> {
     const recipe = new RecipeEntity({
       userId: receivedValues.userId,
       title: receivedValues.title,
@@ -21,6 +25,10 @@ export class CreateRecipe {
 
     if (!recipe) throw new ConflictException();
 
-    await this.recipesRepository.create(recipe);
+    const res = await this.recipesRepository.create(recipe);
+
+    if (!res) throw new BadRequestException();
+
+    return res;
   }
 }
