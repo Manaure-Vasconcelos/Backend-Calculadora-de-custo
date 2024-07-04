@@ -92,7 +92,7 @@ export class RecipesController {
   @Delete('/:id')
   async delete(@Param('id') receivedId: string, @Res() res: Response) {
     try {
-      await this.deleteRecipe.execute(receivedId);
+      await this.deleteRecipe.execute(parseFloat(receivedId));
       return res.status(HttpStatus.NO_CONTENT).send();
     } catch (error) {
       return res

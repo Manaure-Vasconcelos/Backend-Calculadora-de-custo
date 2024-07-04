@@ -5,7 +5,7 @@ import { RecipesRepository } from '@application/repositories/recipes-repository'
 export class DeleteRecipe {
   constructor(private recipeRepository: RecipesRepository) {}
 
-  async execute(receivedId: string): Promise<void> {
-    await this.recipeRepository.delete(+receivedId);
+  async execute(receivedId: number): Promise<void> {
+    await this.recipeRepository.delete(receivedId);
   }
 }
