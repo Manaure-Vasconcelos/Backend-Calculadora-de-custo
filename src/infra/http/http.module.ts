@@ -35,7 +35,7 @@ import { GetUserWithProps } from '@application/use-cases/user/get-profile';
         const publicKey = configService.get<string>('JWT_PUBLIC_KEY');
         if (!privateKey || !publicKey) throw new Error();
         return {
-          signOptions: { algorithm: 'RS256', expiresIn: '20m' },
+          signOptions: { algorithm: 'RS256', expiresIn: '1d' },
           privateKey: Buffer.from(privateKey, 'base64'),
           publicKey: Buffer.from(publicKey, 'base64'),
         };
