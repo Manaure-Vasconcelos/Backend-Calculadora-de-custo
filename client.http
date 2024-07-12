@@ -9,8 +9,8 @@ POST {{base_url}}/login
 Content-Type: application/json
 
 {
-  "email": "manaure2@gmail.com",
-  "password": "Password123@"
+  "email": "manaure97@gmail.com",
+  "password": "Manaure1@"
 }
 
 ###
