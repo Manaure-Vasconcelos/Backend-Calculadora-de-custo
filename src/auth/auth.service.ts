@@ -15,6 +15,16 @@ import { UserEntity } from '@application/entities/user/user.entity';
 
 interface loginResponse {
   access_token: string;
+  userData: {
+    id: string;
+    name: string;
+    email: string;
+  };
+}
+
+interface loginRequest {
+  email: string;
+  password: string;
 }
 
 interface UserRequest {
@@ -32,7 +42,7 @@ export class AuthService {
     private hashPassword: HashPassword,
   ) {}
 
-  async sigIn({ email, password }): Promise<loginResponse> {
+  async sigIn({ email, password }: loginRequest): Promise<loginResponse> {
     try {
       const user = await this.getUser.execute(email);
 
@@ -45,14 +55,17 @@ export class AuthService {
 
       if (!isEqualPassword) throw new UnauthorizedException('Invalid Password');
 
-      const { passwordHash, ...result } = user;
+      const { passwordHash, ...userData } = user;
 
       const payload = {
-        sub: result.id,
+        sub: userData.id,
       };
 
+      const access_token = await this.jwtService.signAsync(payload);
+
       return {
-        access_token: await this.jwtService.signAsync(payload),
+        access_token,
+        userData,
       };
     } catch (error) {
       if (error instanceof UnauthorizedException) throw error;

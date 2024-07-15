@@ -6,20 +6,30 @@ import {
   HttpStatus,
   Res,
 } from '@nestjs/common';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '@auth/auth.service';
 import { LoginUserDTO } from '../DTOs/user-dto';
 import { RegisterUserDTO } from '../DTOs/register-user-dto';
 import { Response } from 'express';
+
+/* interface SignResponse {
+  access_token: string;
+  userData: {
+    id: string;
+    name: string;
+    email: string;
+  };
+} */
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  async signIn(@Body() login: LoginUserDTO, @Res() res: Response) {
+  async signIn(@Body() data: LoginUserDTO, @Res() res: Response) {
     try {
-      const token = await this.authService.sigIn(login);
-      return res.status(HttpStatus.OK).json(token);
+      const { access_token, userData } = await this.authService.sigIn(data);
+
+      return res.status(HttpStatus.OK).json({ access_token, userData });
     } catch (error) {
       return res
         .status(HttpStatus.UNAUTHORIZED)

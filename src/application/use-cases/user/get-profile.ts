@@ -6,13 +6,12 @@ import {
 import { UserRepository } from 'src/application/repositories/user-repository';
 
 @Injectable()
-export class GetUserWithProps {
+export class GetProfile {
   constructor(private userRepository: UserRepository) {}
 
   async execute(receivedId: string) {
     try {
-      const userWithPros =
-        await this.userRepository.findUserWithProps(receivedId);
+      const userWithPros = await this.userRepository.findById(receivedId);
 
       if (!userWithPros) throw new NotFoundException('NotFound User');
 

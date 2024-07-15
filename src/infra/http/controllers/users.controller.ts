@@ -13,14 +13,14 @@ import { DeleteUser } from 'src/application/use-cases/user/delete-user';
 import { UpdateUser } from '@application/use-cases/user/update';
 import { UserUpdatingDTO } from '../DTOs/user-update-dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { GetUserWithProps } from '@application/use-cases/user/get-profile';
+import { GetProfile } from '@application/use-cases/user/get-profile';
 import { UserViewModel } from '../view-models/user-view-model';
 import { Response } from 'express';
 
 @Controller('user')
 export class UsersController {
   constructor(
-    private getUserWithProps: GetUserWithProps,
+    private getProfile: GetProfile,
     private deleteUser: DeleteUser,
     private updateUser: UpdateUser,
   ) {}
@@ -29,8 +29,7 @@ export class UsersController {
   @Get()
   async findUser(@Request() req: any, @Res() res: Response) {
     try {
-      // o erro ta aqui que retorna o user sem o password
-      const user = await this.getUserWithProps.execute(req.user.id);
+      const user = await this.getProfile.execute(req.user.id);
       return res.status(HttpStatus.OK).json(UserViewModel.toHTTP(user));
     } catch (error) {
       return res

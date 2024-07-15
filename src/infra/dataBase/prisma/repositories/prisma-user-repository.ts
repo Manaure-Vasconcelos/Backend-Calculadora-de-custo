@@ -8,20 +8,7 @@ import { PrismaUserMapper } from '../mappers/prisma-user-mapper';
 export class PrismaUserRepository implements UserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async findUserWithProps(receivedId: string): Promise<UserEntity | null> {
-    const user = await this.prisma.users.findUnique({
-      where: { id: receivedId },
-      include: {
-        recipes: {
-          include: { ingredients: true },
-        },
-      },
-    });
-    if (!user) return null;
-    return PrismaUserMapper.toDomain(user);
-  }
-
-  async findUser(receivedEmail: string): Promise<UserEntity | null> {
+  async findByEmail(receivedEmail: string): Promise<UserEntity | null> {
     const user = await this.prisma.users.findUnique({
       where: { email: receivedEmail },
     });

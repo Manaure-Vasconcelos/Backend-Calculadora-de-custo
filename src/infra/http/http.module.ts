@@ -21,7 +21,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from '@auth/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HashPassword } from '@auth/hashPassword';
-import { GetUserWithProps } from '@application/use-cases/user/get-profile';
+import { GetProfile } from '@application/use-cases/user/get-profile';
 
 @Module({
   imports: [
@@ -50,7 +50,7 @@ import { GetUserWithProps } from '@application/use-cases/user/get-profile';
   ],
   providers: [
     GetUser,
-    GetUserWithProps,
+    GetProfile,
     DeleteUser,
     UpdateUser,
     AllRecipes,
