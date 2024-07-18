@@ -5,13 +5,19 @@
 @authToken = {{signIn.response.body.access_token}}
 
 # @name signIn
-POST {{base_url}}/login
+POST {{base_url}}/signin
 Content-Type: application/json
 
 {
   "email": "manaure97@gmail.com",
   "password": "Manaure1@"
 }
+
+###
+
+# @name signOut
+POST {{base_url}}/signout
+Content-Type: application/json
 
 ###
 
@@ -30,7 +36,6 @@ Content-Type: application/json
 # @name user
 GET {{user_base_url}}
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
 
 ###
 
