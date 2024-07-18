@@ -1,17 +1,45 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Users {
-  id           Int    @id @default(autoincrement())
-  name         String @unique
+  id           String    @id
+  name         String
+  email        String    @unique
   passwordHash String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  recipes      Recipes[]
+}
+
+model Recipes {
+  id           Int      @id @default(autoincrement())
+  title        String
+  describe     String?
+  userId       String
+  valuePartial Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  ingredients Ingredient[]
+
+  user Users? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Ingredient {
+  id          Int    @id @default(autoincrement())
+  name        String
+  usedWeight  Int    @map("usedWeight")
+  marketPrice Int    @map("marketPrice")
+  grossWeight Int    @map("grossWeight")
+  realAmount  Int    @map("realAmount")
+  recipeId    Int
+
+  recipes Recipes? @relation(fields: [recipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
