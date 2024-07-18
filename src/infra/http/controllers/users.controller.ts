@@ -64,6 +64,7 @@ export class UsersController {
         name: receivedValues.name,
         email: receivedValues.email,
         password: receivedValues.password,
+        avatarURL: receivedValues.avatarURL,
       });
       return res.status(HttpStatus.OK).json({ message: 'Updated user.' });
     } catch (error) {

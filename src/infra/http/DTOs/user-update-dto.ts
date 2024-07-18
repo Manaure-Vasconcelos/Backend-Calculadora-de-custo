@@ -14,4 +14,8 @@ export abstract class UserUpdatingDTO {
   @MinLength(8)
   @IsOptional()
   password: string | undefined;
+
+  @IsString()
+  @IsOptional()
+  avatarURL: string | undefined;
 }

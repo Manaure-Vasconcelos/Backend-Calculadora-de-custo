@@ -10,6 +10,7 @@ interface UserResponse {
   name: string;
   email: string;
   passwordHash: string;
+  avatarURL: string;
 }
 
 @Injectable()
@@ -25,6 +26,7 @@ export class GetUser {
         name: user.name,
         email: user.email,
         passwordHash: user.password as string,
+        avatarURL: user.avatarURL,
       };
     } catch (error) {
       if (error instanceof NotFoundException) throw error; // Propaga a exceção NotFoundException

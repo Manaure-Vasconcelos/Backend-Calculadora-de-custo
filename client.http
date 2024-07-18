@@ -40,7 +40,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "name": "Manaure"
+  "avatarURL": "https://api.dicebear.com/9.x/adventurer/svg?seed=Midnight"
 }
 
 ###

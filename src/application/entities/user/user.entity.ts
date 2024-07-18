@@ -1,12 +1,14 @@
 import { randomUUID } from 'node:crypto';
 import { Password } from './password';
 import { Replace } from 'src/helpers/Replace';
+import chooseRandomAvatar from './chooseRandomAvatar';
 
 interface UserProps {
   id: string;
   name: string;
   email: string;
   password: Password | string;
+  avatarURL: string;
   createAt: Date;
   recipes?: any[];
 }
@@ -14,9 +16,15 @@ interface UserProps {
 export class UserEntity {
   private props: UserProps;
 
-  constructor(props: Replace<UserProps, { id?: string; createAt?: Date }>) {
+  constructor(
+    props: Replace<
+      UserProps,
+      { id?: string; avatarURL?: string; createAt?: Date }
+    >,
+  ) {
     this.props = {
       id: props.id ?? randomUUID(),
+      avatarURL: props.avatarURL ?? chooseRandomAvatar(),
       ...props,
       createAt: props.createAt ?? new Date(),
     };
@@ -52,6 +60,14 @@ export class UserEntity {
 
   get password(): Password | string {
     return this.props.password;
+  }
+
+  set avatarURL(avatarURL: string) {
+    this.props.avatarURL = avatarURL;
+  }
+
+  get avatarURL(): string {
+    return this.props.avatarURL;
   }
 
   get createAt(): Date {
