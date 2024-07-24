@@ -8,7 +8,10 @@ async function bootstrap() {
 
   app.use(cookieParser());
   app.enableCors({
-    origin: 'https://calculadora-de-preco.vercel.app', // Enquanto testo o front em localhost => mudar ao fazer deploy
+    origin: [
+      'http://localhost:3000',
+      'https://calculadora-de-preco.vercel.app',
+    ],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type'],
     credentials: true,
