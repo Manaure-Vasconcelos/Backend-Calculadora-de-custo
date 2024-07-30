@@ -6,7 +6,6 @@ export class UserViewModel {
       id: user.id,
       name: user.name,
       email: user.email,
-      avatarURL: user.avatarURL,
       recipes: user.recipes,
     };
   }

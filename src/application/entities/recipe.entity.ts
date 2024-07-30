@@ -1,6 +1,6 @@
 import { Replace } from '@helpers/Replace';
 
-interface RecipeProps {
+export interface RecipeProps {
   id: number | undefined;
   title: string;
   describe: string | null;

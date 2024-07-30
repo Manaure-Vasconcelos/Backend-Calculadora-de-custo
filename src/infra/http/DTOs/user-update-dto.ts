@@ -2,20 +2,16 @@ import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
 
 export abstract class UserUpdatingDTO {
   @IsString()
-  @MinLength(2)
+  @MinLength(3)
   @IsOptional()
-  name: string | undefined;
+  name?: string;
 
   @IsEmail()
   @IsOptional()
-  email: string | undefined;
+  email?: string;
 
   @IsString()
   @MinLength(8)
   @IsOptional()
-  password: string | undefined;
-
-  @IsString()
-  @IsOptional()
-  avatarURL: string | undefined;
+  password?: string;
 }

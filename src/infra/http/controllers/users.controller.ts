@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   HttpStatus,
-  Put,
+  Patch,
   Request,
   Res,
   UseGuards,
@@ -52,20 +52,14 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put()
+  @Patch()
   async update(
     @Request() req: any,
     @Res() res: Response,
     @Body() receivedValues: UserUpdatingDTO,
   ) {
     try {
-      await this.updateUser.execute({
-        id: req.user.id,
-        name: receivedValues.name,
-        email: receivedValues.email,
-        password: receivedValues.password,
-        avatarURL: receivedValues.avatarURL,
-      });
+      await this.updateUser.execute(req.user.id, receivedValues);
       return res.status(HttpStatus.OK).json({ message: 'Updated user.' });
     } catch (error) {
       return res

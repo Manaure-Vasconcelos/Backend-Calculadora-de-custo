@@ -24,7 +24,7 @@ export class AuthController {
       const serializeCookie = serialize('access_token', access_token, {
         httpOnly: true,
         sameSite: 'none',
-        secure: true,
+        secure: false,
         maxAge: 60 * 60 * 24 * 7,
         path: '/',
       });

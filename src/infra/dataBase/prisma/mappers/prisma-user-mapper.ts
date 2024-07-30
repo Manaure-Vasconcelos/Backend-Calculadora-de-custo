@@ -10,7 +10,6 @@ export class PrismaUserMapper {
         typeof user.password !== 'string'
           ? user.password.hashedValue
           : user.password,
-      avatarURL: user.avatarURL,
     };
   }
 
@@ -20,7 +19,6 @@ export class PrismaUserMapper {
       name: raw.name,
       email: raw.email,
       password: raw.passwordHash,
-      avatarURL: raw.avatarURL,
       createAt: raw.createAt,
       recipes: raw.recipes,
     });

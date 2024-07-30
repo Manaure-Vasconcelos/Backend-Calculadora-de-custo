@@ -5,20 +5,21 @@ import { Password } from '@application/entities/user/password';
 import { UserEntity } from '@application/entities/user/user.entity';
 
 interface UserUpdateRequest {
-  id: string;
   name?: string;
   email?: string;
   password?: string;
-  avatarURL?: string;
 }
 
 @Injectable()
 export class UpdateUser {
   constructor(private userRepository: UserRepository) {}
 
-  async execute(receivedValues: UserUpdateRequest): Promise<void> {
+  async execute(
+    userId: string,
+    receivedValues: UserUpdateRequest,
+  ): Promise<void> {
     let pass: string | undefined = undefined;
-    const user = await this.userRepository.findById(receivedValues.id);
+    const user = await this.userRepository.findById(userId);
 
     if (!user) throw new NotFoundException();
 
@@ -29,11 +30,10 @@ export class UpdateUser {
     }
 
     const newUser = new UserEntity({
-      id: receivedValues.id,
+      id: userId,
       name: receivedValues.name ?? user.name,
       email: receivedValues.email ?? user.email,
       password: pass ?? user.password,
-      avatarURL: receivedValues.avatarURL ?? user.avatarURL,
       createAt: user.createAt,
     });
     await this.userRepository.save(newUser);
