@@ -21,7 +21,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from '@auth/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HashPassword } from '@auth/hashPassword';
-import { GetProfile } from '@application/use-cases/user/get-profile';
+import { GetById } from '@application/use-cases/user/get-by-id';
+import { GetProfile } from '@application/use-cases/profile/get-profile';
+import { SaveProfile } from '@application/use-cases/profile/save';
+import { ProfileController } from './controllers/profile.controller';
 
 @Module({
   imports: [
@@ -44,15 +47,18 @@ import { GetProfile } from '@application/use-cases/user/get-profile';
   ],
   controllers: [
     UsersController,
+    ProfileController,
     RecipesController,
     IngredientsController,
     AuthController,
   ],
   providers: [
     GetUser,
-    GetProfile,
+    GetById,
     DeleteUser,
     UpdateUser,
+    GetProfile,
+    SaveProfile,
     AllRecipes,
     CreateRecipe,
     RecipesWithIngredients,

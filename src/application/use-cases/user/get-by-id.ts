@@ -6,7 +6,7 @@ import {
 import { UserRepository } from 'src/application/repositories/user-repository';
 
 @Injectable()
-export class GetProfile {
+export class GetById {
   constructor(private userRepository: UserRepository) {}
 
   async execute(receivedId: string) {

@@ -33,7 +33,12 @@ export class PrismaUserRepository implements UserRepository {
   async create(user: UserEntity): Promise<UserEntity> {
     const raw = PrismaUserMapper.toPrisma(user);
     const createUser = await this.prisma.users.create({
-      data: raw,
+      data: {
+        ...raw,
+        profile: {
+          create: { fixedCosts: 0, daysOfWorking: 0, salesPerDay: 0 },
+        },
+      },
     });
     return PrismaUserMapper.toDomain(createUser);
   }

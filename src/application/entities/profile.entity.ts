@@ -1,24 +1,19 @@
-import { Replace } from '@helpers/Replace';
-
 interface ProfileProps {
   fixedCosts?: number;
   daysOfWorking?: number;
   salesPerDay?: number;
+  userId: string;
 }
 
 export class ProfileEntity {
   private props: ProfileProps;
 
-  constructor(
-    props?: Replace<
-      ProfileProps,
-      { fixedCosts?: number; daysOfWorking?: number; salesPerDay?: number }
-    >,
-  ) {
+  constructor(props: ProfileProps) {
     this.props = {
-      fixedCosts: props?.fixedCosts || 0,
-      daysOfWorking: props?.daysOfWorking || 0,
-      salesPerDay: props?.salesPerDay || 0,
+      fixedCosts: props.fixedCosts,
+      daysOfWorking: props.daysOfWorking,
+      salesPerDay: props.salesPerDay,
+      userId: props.userId,
     };
   }
 
@@ -43,5 +38,12 @@ export class ProfileEntity {
 
   get salesPerDay(): number | undefined {
     return this.props.salesPerDay;
+  }
+  set userId(userId: string) {
+    this.props.userId = userId;
+  }
+
+  get userId(): string | undefined {
+    return this.props.userId;
   }
 }

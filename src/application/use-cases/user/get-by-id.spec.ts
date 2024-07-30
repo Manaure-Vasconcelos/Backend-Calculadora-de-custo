@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { makeUser } from '@test/factories/user-factory';
-import { GetUserWithProps } from './get-profile';
+import { GetUserWithProps } from './get-by-id';
 import { NotFoundException } from '@nestjs/common';
 
 describe('Get Profile use-case', () => {

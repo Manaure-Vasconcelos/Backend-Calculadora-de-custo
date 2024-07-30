@@ -13,14 +13,14 @@ import { DeleteUser } from 'src/application/use-cases/user/delete-user';
 import { UpdateUser } from '@application/use-cases/user/update';
 import { UserUpdatingDTO } from '../DTOs/user-update-dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { GetProfile } from '@application/use-cases/user/get-profile';
+import { GetById } from '@application/use-cases/user/get-by-id';
 import { UserViewModel } from '../view-models/user-view-model';
 import { Response } from 'express';
 
 @Controller('user')
 export class UsersController {
   constructor(
-    private getProfile: GetProfile,
+    private getProfile: GetById,
     private deleteUser: DeleteUser,
     private updateUser: UpdateUser,
   ) {}

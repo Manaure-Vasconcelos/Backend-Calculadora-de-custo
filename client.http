@@ -1,5 +1,6 @@
 @base_url = http://localhost:3000/auth
 @user_base_url = http://localhost:3000/user
+@profile_base_url = http://localhost:3000/profile
 @recipes_base_url = http://localhost:3000/recipes
 @ingredients_base_url = http://localhost:3000/ingredients
 @authToken = {{signIn.response.body.access_token}}
@@ -9,8 +10,8 @@ POST {{base_url}}/signin
 Content-Type: application/json
 
 {
-  "email": "manaure97@gmail.com",
-  "password": "Manaure1@"
+  "email": "ronaldo4@gmail.com",
+  "password": "Password123@"
 }
 
 ###
@@ -26,8 +27,8 @@ POST {{base_url}}/register
 Content-Type: application/json
 
 {
-  "name": "manaure",
-  "email": "manaure2@gmail.com",
+  "name": "Ronaldo1",
+  "email": "ronaldo4@gmail.com",
   "password": "Password123@"
 }
 
@@ -44,7 +45,7 @@ PATCH  {{user_base_url}}
 Content-Type: application/json
 
 {
-  "name": "Manaure Vasconcelos"
+  "name": "Ronaldo4"
 }
 
 ###
@@ -55,6 +56,25 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 ###
+
+# @name GetProfile
+GET {{profile_base_url}}
+Content-Type: application/json
+
+###
+
+# @name SaveProfile
+PATCH  {{profile_base_url}}
+Content-Type: application/json
+
+{
+  "fixedCosts": 30,
+  "daysOfWorking": 6,
+  "salesPerDay": 50
+}
+
+###
+
 # Salvar o id da receita para buscar posteriormente.
 # Antes de salvar verificar se ja existe uma receita existente.
 # @name create-recipe
