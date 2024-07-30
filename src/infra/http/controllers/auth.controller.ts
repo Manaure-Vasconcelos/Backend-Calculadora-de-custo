@@ -22,9 +22,9 @@ export class AuthController {
       const { access_token, userData } = await this.authService.sigIn(data);
 
       const serializeCookie = serialize('access_token', access_token, {
-        httpOnly: true,
+        httpOnly: process.env.NODE_ENV === 'production',
         sameSite: 'none',
-        secure: false,
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 60 * 60 * 24 * 7,
         path: '/',
       });
