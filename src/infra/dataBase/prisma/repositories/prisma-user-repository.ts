@@ -36,7 +36,7 @@ export class PrismaUserRepository implements UserRepository {
       data: {
         ...raw,
         profile: {
-          create: { fixedCosts: 0, daysOfWorking: 0, salesPerDay: 0 },
+          create: {},
         },
       },
     });

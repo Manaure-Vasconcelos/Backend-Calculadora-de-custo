@@ -6,6 +6,7 @@ export class PrismaProfileMapper {
       fixedCosts: profile.fixedCost,
       daysOfWorking: profile.daysOfWorking,
       salesPerDay: profile.salesPerDay,
+      fixedCostTotal: profile.fixedCostTotal,
       userId: profile.userId,
     };
   }

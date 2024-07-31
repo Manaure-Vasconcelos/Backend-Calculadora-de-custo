@@ -1,7 +1,8 @@
 interface ProfileProps {
-  fixedCosts?: number;
-  daysOfWorking?: number;
-  salesPerDay?: number;
+  fixedCosts: number;
+  daysOfWorking: number;
+  salesPerDay: number;
+  fixedCostTotal?: number;
   userId: string;
 }
 
@@ -13,15 +14,28 @@ export class ProfileEntity {
       fixedCosts: props.fixedCosts,
       daysOfWorking: props.daysOfWorking,
       salesPerDay: props.salesPerDay,
+      fixedCostTotal: this.calculateTotal(
+        props?.fixedCosts,
+        props?.daysOfWorking,
+        props?.salesPerDay,
+      ),
       userId: props.userId,
     };
+  }
+
+  calculateTotal(
+    fixedCost: number,
+    daysOfWorking: number,
+    salesPerDay: number,
+  ) {
+    return fixedCost / (salesPerDay * daysOfWorking * 4);
   }
 
   set fixedCost(fixedCost: number) {
     this.props.fixedCosts = fixedCost;
   }
 
-  get fixedCost(): number | undefined {
+  get fixedCost(): number {
     return this.props.fixedCosts;
   }
 
@@ -29,21 +43,29 @@ export class ProfileEntity {
     this.props.daysOfWorking = daysOfWorking;
   }
 
-  get daysOfWorking(): number | undefined {
+  get daysOfWorking(): number {
     return this.props.daysOfWorking;
   }
   set salesPerDay(salesPerDay: number) {
     this.props.salesPerDay = salesPerDay;
   }
 
-  get salesPerDay(): number | undefined {
+  get salesPerDay(): number {
     return this.props.salesPerDay;
   }
   set userId(userId: string) {
     this.props.userId = userId;
   }
 
-  get userId(): string | undefined {
+  get userId(): string {
     return this.props.userId;
+  }
+
+  set fixedCostTotal(fixedCostTotal: number) {
+    this.props.fixedCostTotal = fixedCostTotal;
+  }
+
+  get fixedCostTotal(): number | undefined {
+    return this.props.fixedCostTotal;
   }
 }

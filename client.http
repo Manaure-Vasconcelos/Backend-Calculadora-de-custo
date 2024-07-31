@@ -68,9 +68,9 @@ PATCH  {{profile_base_url}}
 Content-Type: application/json
 
 {
-  "fixedCosts": 30,
-  "daysOfWorking": 6,
-  "salesPerDay": 50
+  "fixedCosts": 100,
+  "daysOfWorking": 5,
+  "salesPerDay": 20
 }
 
 ###
