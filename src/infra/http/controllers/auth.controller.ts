@@ -43,9 +43,7 @@ export class AuthController {
   async signOut(@Res() res: Response) {
     try {
       const serializeCookie = serialize('access_token', '', {
-        httpOnly: true,
-        secure: false,
-        expires: new Date(0),
+        maxAge: 0,
         path: '/',
       });
 
