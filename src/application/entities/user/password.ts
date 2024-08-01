@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 
 export class Password {
@@ -6,7 +7,7 @@ export class Password {
   constructor(password: string) {
     const isValid = this.validatePassword(password);
 
-    if (!isValid) throw new Error('Invalid password');
+    if (!isValid) throw new BadRequestException('Invalid password');
 
     this.password = Password.hashPassword(password);
   }

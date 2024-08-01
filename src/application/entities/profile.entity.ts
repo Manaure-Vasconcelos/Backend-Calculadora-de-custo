@@ -15,9 +15,9 @@ export class ProfileEntity {
       daysOfWorking: props.daysOfWorking,
       salesPerDay: props.salesPerDay,
       fixedCostTotal: this.calculateTotal(
-        props?.fixedCosts,
-        props?.daysOfWorking,
-        props?.salesPerDay,
+        props.fixedCosts,
+        props.daysOfWorking,
+        props.salesPerDay,
       ),
       userId: props.userId,
     };
@@ -27,8 +27,10 @@ export class ProfileEntity {
     fixedCost: number,
     daysOfWorking: number,
     salesPerDay: number,
-  ) {
-    return fixedCost / (salesPerDay * daysOfWorking * 4);
+  ): number {
+    const res = fixedCost / (salesPerDay * daysOfWorking * 4);
+    if (res === Infinity || Number.isNaN(res)) return 0;
+    return res;
   }
 
   set fixedCost(fixedCost: number) {

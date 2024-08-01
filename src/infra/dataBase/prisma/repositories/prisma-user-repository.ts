@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { UserEntity } from '@application/entities/user/user.entity';
 import { PrismaUserMapper } from '../mappers/prisma-user-mapper';
+import { ProfileEntity } from '@application/entities/profile.entity';
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
@@ -30,13 +31,18 @@ export class PrismaUserRepository implements UserRepository {
     });
   }
 
-  async create(user: UserEntity): Promise<UserEntity> {
+  async create(user: UserEntity, profile: ProfileEntity): Promise<UserEntity> {
     const raw = PrismaUserMapper.toPrisma(user);
     const createUser = await this.prisma.users.create({
       data: {
         ...raw,
         profile: {
-          create: {},
+          create: {
+            fixedCosts: profile.fixedCost,
+            daysOfWorking: profile.daysOfWorking,
+            salesPerDay: profile.salesPerDay,
+            fixedCostTotal: profile.fixedCostTotal,
+          },
         },
       },
     });

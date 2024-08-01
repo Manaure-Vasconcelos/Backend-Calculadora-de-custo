@@ -12,6 +12,8 @@ import { HashPassword } from './hashPassword';
 import { UserRepository } from '@application/repositories/user-repository';
 import { Password } from '@application/entities/user/password';
 import { UserEntity } from '@application/entities/user/user.entity';
+import { ProfileEntity } from '@application/entities/profile.entity';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 interface loginResponse {
   access_token: string;
@@ -86,14 +88,21 @@ export class AuthService {
         password: pass,
       });
 
-      await this.userRepository.create(temp);
-    } catch (error) {
-      if (error instanceof ConflictException)
-        throw new ConflictException('Email already exists.');
+      const profile = new ProfileEntity({
+        fixedCosts: 0,
+        daysOfWorking: 0,
+        salesPerDay: 0,
+        userId: temp.id,
+      });
 
-      throw new InternalServerErrorException(
-        'Failed to execute user creation.',
-      );
+      await this.userRepository.create(temp, profile);
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ConflictException('Email is already existing');
+        }
+      }
+      throw error;
     }
   }
 }

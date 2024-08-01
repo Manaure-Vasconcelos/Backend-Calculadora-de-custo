@@ -5,21 +5,40 @@ import {
   ConflictException,
   HttpStatus,
   Res,
+  Req,
+  BadRequestException,
 } from '@nestjs/common';
 import { AuthService } from '@auth/auth.service';
 import { LoginUserDTO } from '../DTOs/user-dto';
 import { RegisterUserDTO } from '../DTOs/register-user-dto';
-import { Response } from 'express';
-import { serialize } from 'cookie';
+import { Request, Response } from 'express';
+import { parse, serialize } from 'cookie';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signin')
-  async signIn(@Body() data: LoginUserDTO, @Res() res: Response) {
+  async signIn(
+    @Body() data: LoginUserDTO,
+    @Res() res: Response,
+    @Req() req: Request,
+  ) {
     try {
       const { access_token, userData } = await this.authService.sigIn(data);
+
+      const cookies = parse(req.headers.cookie || '');
+
+      const tokenExisting = cookies['access_token'];
+
+      if (tokenExisting) {
+        const serializeCookie = serialize('access_token', '', {
+          maxAge: 0,
+          path: '/',
+        });
+
+        res.setHeader('Set-Cookie', serializeCookie);
+      }
 
       const serializeCookie = serialize('access_token', access_token, {
         httpOnly: process.env.NODE_ENV === 'production',
@@ -68,13 +87,15 @@ export class AuthController {
       await this.authService.subscribe(receivedValues);
       return res
         .status(HttpStatus.CREATED)
-        .json({ message: 'Sucess subscribe' });
-    } catch (error) {
-      // verificar a msg de erro do service.
+        .json({ message: 'Success subscribe' });
+    } catch (error: unknown) {
       if (error instanceof ConflictException)
+        return res.status(HttpStatus.CONFLICT).json({ message: error.message });
+
+      if (error instanceof BadRequestException)
         return res
-          .status(HttpStatus.CONFLICT)
-          .json({ message: 'Email existing' });
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: error.message });
 
       return res
         .status(HttpStatus.BAD_REQUEST)
