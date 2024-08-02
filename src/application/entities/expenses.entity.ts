@@ -4,31 +4,47 @@ interface ExpensesProps {
   valuePartial: number;
   serving: number;
   pack: number;
-  costUnit: number;
+  profit: number;
+  valueTotal: number;
+  valueUnit: number;
   recipeId: number;
 }
-
-interface calculateProps extends Omit<ExpensesProps, 'costUnit'> {}
 
 export class ExpensesEntity {
   private readonly props: ExpensesProps;
 
-  constructor(props: Replace<ExpensesProps, { costUnit?: number }>) {
+  constructor(
+    props: Replace<ExpensesProps, { valueUnit?: number; valueTotal?: number }>,
+  ) {
     this.props = {
       valuePartial: props.valuePartial,
       serving: props.serving,
       pack: props.pack,
-      costUnit: this.calculateCostUnit(props),
+      profit: props.profit,
+      valueUnit: this.calculateValueUnit(props),
+      valueTotal: 0,
       recipeId: props.recipeId,
     };
   }
 
-  private calculateCostUnit({
+  private calculateValueUnit({
     valuePartial,
     serving,
     pack,
-  }: calculateProps): number {
+  }: Replace<
+    ExpensesProps,
+    { valueUnit?: number; valueTotal?: number }
+  >): number {
     return valuePartial / serving + pack;
+  }
+
+  public calculateValueTotal(): void {
+    if (this.props.valueUnit === 0) {
+      this.props.valueTotal = 0;
+      return;
+    }
+    this.props.valueTotal =
+      this.props.valueUnit + this.props.valueUnit * (this.props.profit / 100);
   }
 
   set valuePartial(valuePartial: number) {
@@ -55,12 +71,28 @@ export class ExpensesEntity {
     return this.props.pack;
   }
 
-  set costUnit(costUnit: number) {
-    this.props.costUnit = costUnit;
+  set valueUnit(valueUnit: number) {
+    this.props.valueUnit = valueUnit;
   }
 
-  get costUnit(): number {
-    return this.props.costUnit;
+  get valueUnit(): number {
+    return this.props.valueUnit;
+  }
+
+  set profit(profit: number) {
+    this.props.profit = profit;
+  }
+
+  get profit(): number {
+    return this.props.profit;
+  }
+
+  set valueTotal(valueTotal: number) {
+    this.props.valueTotal = valueTotal;
+  }
+
+  get valueTotal(): number {
+    return this.props.valueTotal;
   }
 
   set recipeId(recipeId: number) {
