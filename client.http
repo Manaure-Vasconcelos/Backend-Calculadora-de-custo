@@ -1,17 +1,37 @@
 @base_url = http://localhost:3000/auth
 @user_base_url = http://localhost:3000/user
 @profile_base_url = http://localhost:3000/profile
+@expenses_base_url = http://localhost:3000/expenses
 @recipes_base_url = http://localhost:3000/recipes
 @ingredients_base_url = http://localhost:3000/ingredients
 @authToken = {{signIn.response.body.access_token}}
+
+
+# @name updating
+PATCH  {{expenses_base_url}}
+Content-Type: application/json
+
+{
+  "serving": 5,
+  "pack": 2,
+  "profit": 70,
+  "recipeId": 46
+}
+###
+
+# @name get
+GET  {{expenses_base_url}}/46
+Content-Type: application/json
+
+###
 
 # @name signIn
 POST {{base_url}}/signin
 Content-Type: application/json
 
 {
-  "email": "teste10@gmail.com",
-  "password": "Password123@"
+  "email": "manaure97@gmail.com",
+  "password": "Manaure1@"
 }
 
 ###
@@ -45,7 +65,7 @@ PATCH  {{user_base_url}}
 Content-Type: application/json
 
 {
-  "name": "Ronaldo4"
+  "name": "Ronaldo10"
 }
 
 ###
@@ -79,7 +99,6 @@ Content-Type: application/json
 # @name create-recipe
 POST {{recipes_base_url}}
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
 
 {
 	"title": "receita",
@@ -91,28 +110,24 @@ Authorization: Bearer {{authToken}}
 # @name all-recipes
 GET {{recipes_base_url}}/all
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
 
 ###
 # aprimorar essa chamada => procurar a receita dentro do user, e não global
 # @name unique-recipe-id
-GET {{recipes_base_url}}/1
+GET {{recipes_base_url}}/46
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
 
 ###
 
 # @name unique-recipe-name
 GET {{recipes_base_url}}
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
 
 ###
 
 # @name updating
-PUT {{recipes_base_url}}/1
+PUT {{recipes_base_url}}/46
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
 
 {
 	"title": "Novo asd",
@@ -124,14 +139,12 @@ Authorization: Bearer {{authToken}}
 # @name delete
 DELETE {{recipes_base_url}}/5
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
 
 ###
 # Usar uma variavel em cache ou localStorage para obter o id da receita em questão.
 # @name create-ingredient
-POST {{ingredients_base_url}}/5
+POST {{ingredients_base_url}}/46
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
 
 {
 	"name": "ingrediente 4",
@@ -144,14 +157,12 @@ Authorization: Bearer {{authToken}}
 # @name unique-ingredient
 GET {{ingredients_base_url}}/10
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
 
 ###
 
 # @name updating-ingredient
 PUT {{ingredients_base_url}}/5
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
 
 {
 	"usedWeight": 2,
@@ -164,4 +175,3 @@ Authorization: Bearer {{authToken}}
 # @name delete
 DELETE {{ingredients_base_url}}/5
 Content-Type: application/json
-Authorization: Bearer {{authToken}}

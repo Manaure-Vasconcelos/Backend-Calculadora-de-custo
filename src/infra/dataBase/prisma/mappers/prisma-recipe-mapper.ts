@@ -1,3 +1,4 @@
+import { ExpensesEntity } from '@application/entities/expenses.entity';
 import { RecipeEntity } from '@application/entities/recipe.entity';
 
 interface RawProps {
@@ -9,6 +10,23 @@ interface RawProps {
   valuePartial: number | null;
   createdAt: Date;
   updatedAt: Date;
+}
+
+interface RawPropsGet extends RawProps {
+  expenses: {
+    id: number;
+    serving: number;
+    pack: number;
+    profit: number;
+    valueTotal: number;
+    valueUnit: number;
+    recipeId: number;
+  } | null;
+}
+
+export interface ReturnGetRecipe {
+  recipe: RecipeEntity;
+  expenses: ExpensesEntity;
 }
 
 export class PrismaRecipeMapper {
@@ -43,5 +61,32 @@ export class PrismaRecipeMapper {
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
     });
+  }
+
+  static toDomainGet(raw: RawPropsGet): ReturnGetRecipe {
+    const recipe = new RecipeEntity({
+      id: raw.id,
+      title: raw.title,
+      describe: raw.describe,
+      userId: raw.userId,
+      ingredients: raw.ingredients ? raw.ingredients : [],
+      valuePartial: raw.valuePartial,
+      createdAt: raw.createdAt,
+      updatedAt: raw.updatedAt,
+    });
+
+    const expenses = new ExpensesEntity({
+      valuePartial: raw.valuePartial ?? 0,
+      serving: raw.expenses?.serving ?? 0,
+      pack: raw.expenses?.pack ?? 0,
+      profit: raw.expenses?.profit ?? 0,
+      valueTotal: raw.expenses?.valueTotal,
+      valueUnit: raw.expenses?.valueUnit,
+      recipeId: 46,
+    });
+
+    expenses.calculateValueTotal();
+
+    return { recipe, expenses };
   }
 }

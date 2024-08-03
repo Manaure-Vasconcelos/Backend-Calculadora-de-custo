@@ -40,7 +40,19 @@ model Recipes {
 
   ingredients Ingredient[]
 
-  user Users? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user     Users?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  expenses Expenses?
+}
+
+model Expenses {
+  id         Int     @id @default(autoincrement())
+  serving    Int     @default(0)
+  pack       Int     @default(0)
+  profit     Int     @default(0)
+  valueTotal Float   @default(0)
+  valueUnit  Float   @default(0)
+  recipeId   Int     @unique
+  recipe     Recipes @relation(fields: [recipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Ingredient {

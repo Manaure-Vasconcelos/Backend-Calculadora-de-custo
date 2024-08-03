@@ -20,7 +20,7 @@ import { JwtAuthGuard } from '@auth/jwt-auth.guard';
 import { Response } from 'express';
 import { IngredientViewModel } from '../view-models/ingredient-view-model';
 
-@Controller('/ingredients')
+@Controller('ingredients')
 export class IngredientsController {
   constructor(
     private createIngredients: CreateIngredient,

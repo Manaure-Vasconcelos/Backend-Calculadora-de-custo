@@ -35,7 +35,11 @@ export class ExpensesEntity {
     ExpensesProps,
     { valueUnit?: number; valueTotal?: number }
   >): number {
-    return valuePartial / serving + pack;
+    const res = valuePartial / serving + pack;
+    if (!isFinite(res)) {
+      return 0;
+    }
+    return res;
   }
 
   public calculateValueTotal(): void {

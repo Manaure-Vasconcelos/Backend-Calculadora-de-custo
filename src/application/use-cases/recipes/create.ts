@@ -5,6 +5,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { RecipesRepository } from '@application/repositories/recipes-repository';
+import { ExpensesEntity } from '@application/entities/expenses.entity';
 
 export interface RecipeRequest {
   userId: string;
@@ -25,7 +26,17 @@ export class CreateRecipe {
 
     if (!recipe) throw new ConflictException();
 
-    const res = await this.recipesRepository.create(recipe);
+    const newExpenses = new ExpensesEntity({
+      valuePartial: 0,
+      serving: 0,
+      pack: 0,
+      profit: 30,
+      recipeId: 0,
+    });
+
+    newExpenses.calculateValueTotal();
+
+    const res = await this.recipesRepository.create(recipe, newExpenses);
 
     if (!res) throw new BadRequestException();
 

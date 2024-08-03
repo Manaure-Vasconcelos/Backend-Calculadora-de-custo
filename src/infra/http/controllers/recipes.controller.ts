@@ -80,7 +80,7 @@ export class RecipesController {
   ) {
     try {
       const recipe = await this.recipeWithIngredients.execute(+recipeId);
-      return res.status(HttpStatus.OK).json(RecipeViewModel.toHTTP(recipe));
+      return res.status(HttpStatus.OK).json(RecipeViewModel.toHTTPGet(recipe));
     } catch (error) {
       return res
         .status(HttpStatus.NOT_FOUND)

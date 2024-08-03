@@ -1,4 +1,5 @@
 import { RecipeEntity } from '@application/entities/recipe.entity';
+import { ReturnGetRecipe } from '@infra/dataBase/prisma/mappers/prisma-recipe-mapper';
 
 export class RecipeViewModel {
   static toHTTP(recipe: RecipeEntity) {
@@ -9,6 +10,22 @@ export class RecipeViewModel {
       valuePartial: recipe.valuePartial,
       createdAt: recipe.createdAt,
       ingredients: recipe.ingredients,
+    };
+  }
+
+  static toHTTPGet({ recipe, expenses }: ReturnGetRecipe) {
+    return {
+      id: recipe.id,
+      title: recipe.title,
+      describe: recipe.describe,
+      valuePartial: recipe.valuePartial,
+      createdAt: recipe.createdAt,
+      ingredients: recipe.ingredients,
+      serving: expenses.serving,
+      pack: expenses.pack,
+      profit: expenses.profit,
+      valueUnit: expenses.valueUnit,
+      valueTotal: expenses.valueTotal,
     };
   }
 }

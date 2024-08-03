@@ -8,6 +8,8 @@ import { PrismaIngredientsRepository } from './prisma/repositories/prisma-ingred
 import { IngredientsRepository } from '@application/repositories/ingredients-repository';
 import { ProfileRepository } from '@application/repositories/profile-repository';
 import { PrismaProfileRepository } from './prisma/repositories/prisma-profile-repository';
+import { ExpensesRepository } from '@application/repositories/expenses-repository';
+import { PrismaExpensesRepository } from './prisma/repositories/prisma-expenses-repository';
 
 @Module({
   providers: [
@@ -17,6 +19,10 @@ import { PrismaProfileRepository } from './prisma/repositories/prisma-profile-re
       provide: ProfileRepository,
       useClass: PrismaProfileRepository,
     },
+    {
+      provide: ExpensesRepository,
+      useClass: PrismaExpensesRepository,
+    },
     { provide: RecipesRepository, useClass: PrismaRecipesRepository },
     { provide: IngredientsRepository, useClass: PrismaIngredientsRepository },
   ],
@@ -24,6 +30,7 @@ import { PrismaProfileRepository } from './prisma/repositories/prisma-profile-re
     UserRepository,
     ProfileRepository,
     RecipesRepository,
+    ExpensesRepository,
     IngredientsRepository,
   ],
 })

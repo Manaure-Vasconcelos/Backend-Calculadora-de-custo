@@ -25,6 +25,9 @@ import { GetById } from '@application/use-cases/user/get-by-id';
 import { GetProfile } from '@application/use-cases/profile/get-profile';
 import { SaveProfile } from '@application/use-cases/profile/save';
 import { ProfileController } from './controllers/profile.controller';
+import { ExpensesController } from './controllers/expenses.controller';
+import { GetExpenses } from '@application/use-cases/expenses/getExpenses';
+import { SaveExpenses } from '@application/use-cases/expenses/saveExpenses';
 
 @Module({
   imports: [
@@ -49,6 +52,7 @@ import { ProfileController } from './controllers/profile.controller';
     UsersController,
     ProfileController,
     RecipesController,
+    ExpensesController,
     IngredientsController,
     AuthController,
   ],
@@ -64,6 +68,8 @@ import { ProfileController } from './controllers/profile.controller';
     RecipesWithIngredients,
     DeleteRecipe,
     UpdateRecipe,
+    GetExpenses,
+    SaveExpenses,
     CreateIngredient,
     GetSingleIngredient,
     DeleteIngredient,

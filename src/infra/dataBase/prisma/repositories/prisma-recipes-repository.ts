@@ -2,16 +2,34 @@ import { Injectable } from '@nestjs/common';
 import { RecipesRepository } from 'src/application/repositories/recipes-repository';
 import { PrismaService } from '../prisma.service';
 import { RecipeEntity } from '@application/entities/recipe.entity';
-import { PrismaRecipeMapper } from '../mappers/prisma-recipe-mapper';
+import {
+  PrismaRecipeMapper,
+  ReturnGetRecipe,
+} from '../mappers/prisma-recipe-mapper';
+import { ExpensesEntity } from '@application/entities/expenses.entity';
 
 @Injectable()
 export class PrismaRecipesRepository implements RecipesRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(recipe: RecipeEntity): Promise<RecipeEntity | null> {
+  async create(
+    recipe: RecipeEntity,
+    expenses: ExpensesEntity,
+  ): Promise<RecipeEntity | null> {
     const raw = PrismaRecipeMapper.toPrisma(recipe);
     const recipeCreated = await this.prisma.recipes.create({
-      data: raw,
+      data: {
+        ...raw,
+        expenses: {
+          create: {
+            serving: expenses.serving,
+            pack: expenses.pack,
+            profit: expenses.profit,
+            valueTotal: expenses.valueTotal,
+            valueUnit: expenses.valueUnit,
+          },
+        },
+      },
     });
     if (!recipeCreated) return null;
     return PrismaRecipeMapper.toDomain(recipeCreated);
@@ -26,7 +44,7 @@ export class PrismaRecipesRepository implements RecipesRepository {
   }
 
   async getRecipe(receivedId: number): Promise<RecipeEntity | null> {
-    const recipe = await this.prisma.recipes.findFirst({
+    const recipe = await this.prisma.recipes.findUnique({
       where: { id: receivedId },
       include: { ingredients: true },
     });
@@ -34,6 +52,17 @@ export class PrismaRecipesRepository implements RecipesRepository {
     if (!recipe) return null;
 
     return PrismaRecipeMapper.toDomain(recipe);
+  }
+
+  async getRecipeProps(receivedId: number): Promise<ReturnGetRecipe | null> {
+    const recipe = await this.prisma.recipes.findUnique({
+      where: { id: receivedId },
+      include: { ingredients: true, expenses: true },
+    });
+
+    if (!recipe) return null;
+
+    return PrismaRecipeMapper.toDomainGet(recipe);
   }
 
   async delete(receivedId: number): Promise<void> {
