@@ -19,5 +19,10 @@ export abstract class IngredientsRepository {
     receivedId: number,
   ): Promise<IngredientEntity | null>;
   abstract delete(receivedId: number): Promise<any>;
-  abstract save(ingredient: IngredientEntity): Promise<IngredientEntity>;
+  abstract save({
+    ingredient,
+    valuePartial,
+    valueUnit,
+    valueTotal,
+  }: CreatedProps): Promise<ReturnToDomain>;
 }

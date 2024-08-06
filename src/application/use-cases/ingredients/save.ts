@@ -1,38 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { IngredientsRepository } from 'src/application/repositories/ingredients-repository';
-import { IngredientEntity } from '@application/entities/ingredient.entity';
-import { UpdateRecipe } from '../recipes/update';
+import { EntityFactory } from '@helpers/EntitiesFactory';
+import { RecipesRepository } from '@application/repositories/recipes-repository';
 
 interface IngredientUpdatingRequest {
   name?: string;
   marketPrice: number;
   grossWeight: number;
   usedWeight: number;
+  recipeId: number;
 }
 
 @Injectable()
 export class SaveIngredient {
   constructor(
     private ingredientsRepository: IngredientsRepository,
-    private saveRecipe: UpdateRecipe,
+    private recipesRepository: RecipesRepository,
   ) {}
 
-  async execute(receivedId: string, receivedValues: IngredientUpdatingRequest) {
-    const ingredient = new IngredientEntity({
-      id: +receivedId,
-      recipeId: 0,
-      name: receivedValues.name ?? 'default',
-      marketPrice: receivedValues.marketPrice,
-      grossWeight: receivedValues.grossWeight,
-      usedWeight: receivedValues.usedWeight,
-    });
+  async execute(
+    ingredientId: string,
+    receivedValues: IngredientUpdatingRequest,
+  ) {
+    const returnDb = await this.recipesRepository.getRecipeProps(
+      receivedValues.recipeId,
+    );
 
-    const updatedIngredient = await this.ingredientsRepository.save(ingredient);
+    if (!returnDb) throw new NotFoundException();
 
-    await this.saveRecipe.execute({
-      recipeId: updatedIngredient.recipeId,
-      title: undefined,
-      describe: undefined,
+    const ingredient = EntityFactory.createIngredientEntity(
+      receivedValues.recipeId,
+      receivedValues,
+      +ingredientId,
+    );
+
+    const recipe = EntityFactory.saveRecipeEntity(
+      +receivedValues.recipeId,
+      returnDb,
+      ingredient,
+    );
+
+    const expenses = EntityFactory.createExpensesEntity(
+      +ingredientId,
+      returnDb,
+      recipe.valuePartial || 0,
+    );
+
+    expenses.calculateValueTotal();
+
+    const updatedIngredient = await this.ingredientsRepository.save({
+      ingredient,
+      valuePartial: recipe.valuePartial || 0,
+      valueUnit: expenses.valueUnit,
+      valueTotal: expenses.valueTotal,
     });
 
     return updatedIngredient;

@@ -45,14 +45,28 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
     return PrismaIngredientMapper.toDomainRecipeIngredient(created);
   }
 
-  async save(ingredient: IngredientEntity): Promise<IngredientEntity> {
+  async save({
+    ingredient,
+    valuePartial,
+    valueUnit,
+    valueTotal,
+  }: CreatedProps): Promise<ReturnToDomain> {
     const raw = PrismaIngredientMapper.toSave(ingredient);
 
-    const updatedIngredient = await this.prisma.ingredient.update({
-      where: { id: ingredient.id },
-      data: raw,
+    const updatedIngredient = await this.prisma.recipes.update({
+      where: { id: ingredient.recipeId },
+      data: {
+        valuePartial: valuePartial,
+        ingredients: { update: { where: { id: ingredient.id }, data: raw } },
+        expenses: {
+          update: {
+            data: { valueUnit: valueUnit, valueTotal: valueTotal },
+          },
+        },
+      },
+      include: { ingredients: true, expenses: true },
     });
-    return PrismaIngredientMapper.toDomain(updatedIngredient);
+    return PrismaIngredientMapper.toDomainRecipeIngredient(updatedIngredient);
   }
 
   async singleIngredient(receivedId: number): Promise<IngredientEntity | null> {

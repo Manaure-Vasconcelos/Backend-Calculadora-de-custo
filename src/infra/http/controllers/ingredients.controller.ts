@@ -63,14 +63,13 @@ export class IngredientsController {
         receivedId,
         receivedValues,
       );
-      return res.status(HttpStatus.OK).json({
-        data: IngredientViewModel.toHTTP(ingredient),
-        message: 'Updated ingredient',
-      });
-    } catch (error) {
+      return res
+        .status(HttpStatus.OK)
+        .json(IngredientViewModel.ReturnToHTTP(ingredient));
+    } catch (error: any) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: 'Failed to update ingredient' });
+        .json({ message: error.message });
     }
   }
 

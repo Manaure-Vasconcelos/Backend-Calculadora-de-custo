@@ -76,7 +76,7 @@ export class PrismaRecipeMapper {
     });
 
     const expenses = new ExpensesEntity({
-      valuePartial: raw.valuePartial ?? 0,
+      valuePartial: recipe.valuePartial ?? 0,
       serving: raw.expenses?.serving ?? 0,
       pack: raw.expenses?.pack ?? 0,
       profit: raw.expenses?.profit ?? 0,
@@ -86,6 +86,8 @@ export class PrismaRecipeMapper {
     });
 
     expenses.calculateValueTotal();
+
+    console.log('remove mapper recipe');
 
     return { recipe, expenses };
   }

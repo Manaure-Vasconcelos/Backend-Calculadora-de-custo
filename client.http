@@ -12,7 +12,7 @@ PATCH  {{expenses_base_url}}
 Content-Type: application/json
 
 {
-  "valuePartial": 45,
+  "valuePartial": 21,
   "serving": 5,
   "pack": 3,
   "profit": 70,
@@ -162,17 +162,18 @@ Content-Type: application/json
 ###
 
 # @name updating-ingredient
-PUT {{ingredients_base_url}}/5
+PUT {{ingredients_base_url}}/45
 Content-Type: application/json
 
 {
-	"usedWeight": 2,
-	"marketPrice": 2,
-	"grossWeight": 2
+	"usedWeight": 10,
+	"marketPrice": 50,
+	"grossWeight": 100,
+  "recipeId": 43
 }
 
 ###
 
 # @name delete
-DELETE {{ingredients_base_url}}/5
+DELETE {{ingredients_base_url}}/45
 Content-Type: application/json
