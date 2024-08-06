@@ -41,10 +41,9 @@ export class IngredientsController {
         recipeId,
         ingredient,
       );
-      return res.status(HttpStatus.CREATED).json({
-        data: IngredientViewModel.toHTTP(ingredientCreated),
-        message: 'Ingredient created.',
-      });
+      return res
+        .status(HttpStatus.CREATED)
+        .json(IngredientViewModel.ReturnToHTTP(ingredientCreated));
     } catch (error) {
       return res
         .status(HttpStatus.BAD_REQUEST)

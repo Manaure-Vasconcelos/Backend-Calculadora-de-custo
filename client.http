@@ -12,15 +12,15 @@ PATCH  {{expenses_base_url}}
 Content-Type: application/json
 
 {
-  "serving": 5,
+  "serving": 10,
   "pack": 2,
-  "profit": 70,
-  "recipeId": 46
+  "profit": 50,
+  "recipeId": 43
 }
 ###
 
 # @name get
-GET  {{expenses_base_url}}/46
+GET  {{expenses_base_url}}/43
 Content-Type: application/json
 
 ###
@@ -30,8 +30,8 @@ POST {{base_url}}/signin
 Content-Type: application/json
 
 {
-  "email": "manaure97@gmail.com",
-  "password": "Manaure1@"
+  "email": "teste10@gmail.com",
+  "password": "Password123@"
 }
 
 ###
@@ -114,7 +114,7 @@ Content-Type: application/json
 ###
 # aprimorar essa chamada => procurar a receita dentro do user, e não global
 # @name unique-recipe-id
-GET {{recipes_base_url}}/46
+GET {{recipes_base_url}}/43
 Content-Type: application/json
 
 ###
@@ -126,7 +126,7 @@ Content-Type: application/json
 ###
 
 # @name updating
-PUT {{recipes_base_url}}/46
+PUT {{recipes_base_url}}/43
 Content-Type: application/json
 
 {
@@ -143,7 +143,7 @@ Content-Type: application/json
 ###
 # Usar uma variavel em cache ou localStorage para obter o id da receita em questão.
 # @name create-ingredient
-POST {{ingredients_base_url}}/46
+POST {{ingredients_base_url}}/43
 Content-Type: application/json
 
 {

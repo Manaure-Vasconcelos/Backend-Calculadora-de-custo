@@ -1,19 +1,48 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { IngredientsRepository } from '@application/repositories/ingredients-repository';
+import {
+  CreatedProps,
+  IngredientsRepository,
+} from '@application/repositories/ingredients-repository';
 import { IngredientEntity } from '@application/entities/ingredient.entity';
-import { PrismaIngredientMapper } from '../mappers/prisma-ingredient-mapper';
+import {
+  PrismaIngredientMapper,
+  ReturnToDomain,
+} from '../mappers/prisma-ingredient-mapper';
 
 @Injectable()
 export class PrismaIngredientsRepository implements IngredientsRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(ingredient: IngredientEntity): Promise<IngredientEntity> {
+  async create({
+    ingredient,
+    valuePartial,
+    valueUnit,
+    valueTotal,
+  }: CreatedProps): Promise<ReturnToDomain> {
     const raw = PrismaIngredientMapper.toPrisma(ingredient);
-    const newIngredient = await this.prisma.ingredient.create({
-      data: raw,
+    const created = await this.prisma.recipes.update({
+      where: { id: raw.recipeId },
+      data: {
+        valuePartial: valuePartial,
+        ingredients: {
+          create: {
+            name: raw.name,
+            marketPrice: raw.marketPrice,
+            grossWeight: raw.grossWeight,
+            usedWeight: raw.usedWeight,
+            realAmount: raw.realAmount,
+          },
+        },
+        expenses: {
+          update: {
+            data: { valueUnit: valueUnit, valueTotal: valueTotal },
+          },
+        },
+      },
+      include: { ingredients: true, expenses: true },
     });
-    return PrismaIngredientMapper.toDomain(newIngredient);
+    return PrismaIngredientMapper.toDomainRecipeIngredient(created);
   }
 
   async save(ingredient: IngredientEntity): Promise<IngredientEntity> {
