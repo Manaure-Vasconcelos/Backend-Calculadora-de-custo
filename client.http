@@ -12,9 +12,10 @@ PATCH  {{expenses_base_url}}
 Content-Type: application/json
 
 {
-  "serving": 10,
-  "pack": 2,
-  "profit": 50,
+  "valuePartial": 45,
+  "serving": 5,
+  "pack": 3,
+  "profit": 70,
   "recipeId": 43
 }
 ###

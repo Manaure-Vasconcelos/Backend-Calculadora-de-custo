@@ -11,13 +11,15 @@ export class PrismaExpensesMapper {
       recipeId: expenses.recipeId,
     };
   }
-  static toDomain(raw: any) {
-    return new ExpensesEntity({
-      valuePartial: raw.valuePartial,
+  static toDomain(raw: any, valuePartial?: number) {
+    const expenses = new ExpensesEntity({
+      valuePartial: valuePartial || 0,
       serving: raw.serving,
       pack: raw.pack,
       profit: raw.profit,
       recipeId: raw.recipeId,
     });
+    expenses.calculateValueTotal();
+    return expenses;
   }
 }

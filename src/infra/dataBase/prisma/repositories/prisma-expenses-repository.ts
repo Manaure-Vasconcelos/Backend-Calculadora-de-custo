@@ -22,6 +22,6 @@ export class PrismaExpensesRepository implements ExpensesRepository {
       where: { recipeId: expenses.recipeId },
       data: raw,
     });
-    return PrismaExpensesMapper.toDomain(res);
+    return PrismaExpensesMapper.toDomain(res, expenses.valuePartial);
   }
 }

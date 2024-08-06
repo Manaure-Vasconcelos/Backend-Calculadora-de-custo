@@ -35,10 +35,10 @@ export class SaveExpenses {
       if (!oldExpenses) throw new NotFoundException('Expenses not existing');
 
       const newExpenses = new ExpensesEntity({
-        valuePartial: valuePartial ?? oldExpenses.valuePartial,
-        serving: serving ?? oldExpenses.serving,
-        pack: pack ?? oldExpenses.pack,
-        profit: profit ?? oldExpenses.profit,
+        valuePartial: valuePartial || 0,
+        serving: serving || oldExpenses.serving,
+        pack: pack || oldExpenses.pack,
+        profit: profit || oldExpenses.profit,
         recipeId: recipeId,
       });
 
