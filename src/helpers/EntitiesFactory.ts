@@ -62,13 +62,34 @@ export class EntityFactory {
     });
   }
 
+  static deleteRecipeEntity(
+    itemId: number,
+    recipeId: number,
+    returnDb: any,
+  ): RecipeEntity {
+    returnDb.recipe.ingredients.forEach((item, index) => {
+      if (item.id === itemId) {
+        returnDb.recipe.ingredients.splice(index, 1);
+      }
+    });
+
+    return new RecipeEntity({
+      id: recipeId,
+      title: returnDb.recipe.title,
+      describe: returnDb.recipe.describe,
+      userId: returnDb.recipe.userId,
+      ingredients: returnDb.recipe.ingredients,
+      createdAt: returnDb.recipe.createdAt,
+    });
+  }
+
   static createExpensesEntity(
     recipeId: number,
     returnDb: any,
     valuePartial?: number,
   ): ExpensesEntity {
     return new ExpensesEntity({
-      valuePartial: valuePartial || returnDb.recipe.valuePartial,
+      valuePartial: valuePartial ?? returnDb.recipe.valuePartial,
       serving: returnDb.expenses.serving,
       pack: returnDb.expenses.pack,
       profit: returnDb.expenses.profit,

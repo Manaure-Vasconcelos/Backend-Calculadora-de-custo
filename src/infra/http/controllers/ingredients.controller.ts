@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -88,15 +89,24 @@ export class IngredientsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete('/:id')
-  async delete(@Param('id') receivedId: string, @Res() res: Response) {
+  @Delete('/:recipeId/:id')
+  async delete(
+    @Param('id') itemId: string,
+    @Param('recipeId') recipeId: string,
+    @Res() res: Response,
+  ) {
     try {
-      await this.deleteIngredient.execute(receivedId);
+      await this.deleteIngredient.execute(recipeId, itemId);
       return res.status(HttpStatus.NO_CONTENT).send();
     } catch (error) {
+      if (error instanceof BadRequestException) {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: 'Failed to delete ingredient.' });
+      }
       return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: 'Failed to delete ingredient.' });
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Error server.' });
     }
   }
 }

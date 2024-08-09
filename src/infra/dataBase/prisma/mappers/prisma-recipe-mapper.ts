@@ -87,8 +87,6 @@ export class PrismaRecipeMapper {
 
     expenses.calculateValueTotal();
 
-    console.log('remove mapper recipe');
-
     return { recipe, expenses };
   }
 }

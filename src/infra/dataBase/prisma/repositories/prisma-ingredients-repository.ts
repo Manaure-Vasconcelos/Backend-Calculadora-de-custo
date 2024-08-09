@@ -9,6 +9,8 @@ import {
   PrismaIngredientMapper,
   ReturnToDomain,
 } from '../mappers/prisma-ingredient-mapper';
+import { RecipeEntity } from '@application/entities/recipe.entity';
+import { ExpensesEntity } from '@application/entities/expenses.entity';
 
 @Injectable()
 export class PrismaIngredientsRepository implements IngredientsRepository {
@@ -78,10 +80,26 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
     return PrismaIngredientMapper.toDomain(ingredientFound);
   }
 
-  async delete(receivedId: number): Promise<any> {
-    const deletedIngredient = await this.prisma.ingredient.delete({
-      where: { id: receivedId },
+  async delete(
+    itemId: number,
+    recipe: RecipeEntity,
+    expenses: ExpensesEntity,
+  ): Promise<void> {
+    await this.prisma.recipes.update({
+      where: { id: recipe.id },
+      data: {
+        valuePartial: recipe.valuePartial,
+        ingredients: { delete: { id: itemId } },
+        expenses: {
+          update: {
+            data: {
+              valueUnit: expenses.valueUnit,
+              valueTotal: expenses.valueTotal,
+            },
+          },
+        },
+      },
+      include: { ingredients: true, expenses: true },
     });
-    return deletedIngredient;
   }
 }

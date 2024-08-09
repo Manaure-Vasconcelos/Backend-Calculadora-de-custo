@@ -12,11 +12,11 @@ PATCH  {{expenses_base_url}}
 Content-Type: application/json
 
 {
-  "valuePartial": 21,
-  "serving": 5,
-  "pack": 3,
+  "valuePartial": 10,
+  "serving": 1,
+  "pack": 1,
   "profit": 70,
-  "recipeId": 43
+  "recipeId": 50
 }
 ###
 
@@ -115,7 +115,7 @@ Content-Type: application/json
 ###
 # aprimorar essa chamada => procurar a receita dentro do user, e não global
 # @name unique-recipe-id
-GET {{recipes_base_url}}/43
+GET {{recipes_base_url}}/50
 Content-Type: application/json
 
 ###
@@ -144,7 +144,7 @@ Content-Type: application/json
 ###
 # Usar uma variavel em cache ou localStorage para obter o id da receita em questão.
 # @name create-ingredient
-POST {{ingredients_base_url}}/43
+POST {{ingredients_base_url}}/50
 Content-Type: application/json
 
 {
@@ -175,5 +175,5 @@ Content-Type: application/json
 ###
 
 # @name delete
-DELETE {{ingredients_base_url}}/45
+DELETE {{ingredients_base_url}}/50/71
 Content-Type: application/json

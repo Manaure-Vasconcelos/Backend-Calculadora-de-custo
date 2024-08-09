@@ -35,6 +35,7 @@ export class ExpensesEntity {
     ExpensesProps,
     { valueUnit?: number; valueTotal?: number }
   >): number {
+    if (valuePartial === 0) return 0;
     const res = valuePartial / serving + pack;
     if (!isFinite(res)) {
       return 0;
