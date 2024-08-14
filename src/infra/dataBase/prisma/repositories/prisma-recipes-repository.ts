@@ -57,10 +57,11 @@ export class PrismaRecipesRepository implements RecipesRepository {
   async getRecipeProps(receivedId: number): Promise<ReturnGetRecipe | null> {
     const recipe = await this.prisma.recipes.findUnique({
       where: { id: receivedId },
-      include: { ingredients: true, expenses: true },
+      include: { ingredients: true, expenses: true, additional: true },
     });
 
     if (!recipe) return null;
+    console.log(recipe.additional);
 
     return PrismaRecipeMapper.toDomainGet(recipe);
   }

@@ -2,12 +2,13 @@
 @user_base_url = http://localhost:3000/user
 @profile_base_url = http://localhost:3000/profile
 @expenses_base_url = http://localhost:3000/expenses
+@additional_base_url = http://localhost:3000/additional
 @recipes_base_url = http://localhost:3000/recipes
 @ingredients_base_url = http://localhost:3000/ingredients
 @authToken = {{signIn.response.body.access_token}}
 
 
-# @name updating
+# @name updating expenses
 PATCH  {{expenses_base_url}}
 Content-Type: application/json
 
@@ -20,9 +21,28 @@ Content-Type: application/json
 }
 ###
 
-# @name get
+# @name get expenses
 GET  {{expenses_base_url}}/43
 Content-Type: application/json
+
+###
+
+# @name get additional
+GET  {{additional_base_url}}/43
+Content-Type: application/json
+
+###
+
+# @name create additional
+POST  {{additional_base_url}}/43
+Content-Type: application/json
+
+{
+	"name": "aditional",
+	"usedWeight": 2,
+	"marketPrice": 10,
+	"grossWeight": 4
+}
 
 ###
 

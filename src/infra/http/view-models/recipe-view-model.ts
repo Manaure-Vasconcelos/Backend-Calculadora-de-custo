@@ -21,6 +21,7 @@ export class RecipeViewModel {
       valuePartial: recipe.valuePartial,
       createdAt: recipe.createdAt,
       ingredients: recipe.ingredients,
+      additional: recipe.additional,
       serving: expenses.serving,
       pack: expenses.pack,
       profit: expenses.profit,

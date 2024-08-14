@@ -1,4 +1,5 @@
 import { Replace } from '@helpers/Replace';
+import { AdditionalEntity } from './additional.entity';
 
 export interface RecipeProps {
   id: number | undefined;
@@ -7,6 +8,7 @@ export interface RecipeProps {
   userId: string;
   valuePartial: number | null;
   ingredients: any[];
+  additional: AdditionalEntity[];
   createdAt: Date;
   updatedAt: Date | null;
 }
@@ -22,6 +24,7 @@ export class RecipeEntity {
         describe?: string | null;
         valuePartial?: number | null;
         ingredients?: any[];
+        additional?: AdditionalEntity[];
         createdAt?: Date;
         updatedAt?: Date | null;
       }
@@ -36,6 +39,7 @@ export class RecipeEntity {
       createdAt: props.createdAt ?? new Date(),
       updatedAt: props.updatedAt ?? null,
       ingredients: props.ingredients ?? [],
+      additional: props.additional ?? [],
     };
   }
 
@@ -89,6 +93,14 @@ export class RecipeEntity {
 
   get ingredients(): any[] {
     return this.props.ingredients;
+  }
+
+  set additional(additional: AdditionalEntity[]) {
+    this.props.additional = additional;
+  }
+
+  get additional(): AdditionalEntity[] {
+    return this.props.additional;
   }
 
   get userId() {

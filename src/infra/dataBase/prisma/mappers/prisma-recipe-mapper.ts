@@ -7,6 +7,7 @@ interface RawProps {
   describe: string | null;
   userId: string;
   ingredients?: any[];
+  additional?: any[];
   valuePartial: number | null;
   createdAt: Date;
   updatedAt: Date;
@@ -70,6 +71,7 @@ export class PrismaRecipeMapper {
       describe: raw.describe,
       userId: raw.userId,
       ingredients: raw.ingredients ? raw.ingredients : [],
+      additional: raw.additional ? raw.additional : [],
       valuePartial: raw.valuePartial,
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
