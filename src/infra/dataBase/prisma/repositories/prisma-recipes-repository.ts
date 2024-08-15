@@ -61,7 +61,6 @@ export class PrismaRecipesRepository implements RecipesRepository {
     });
 
     if (!recipe) return null;
-    console.log(recipe.additional);
 
     return PrismaRecipeMapper.toDomainGet(recipe);
   }

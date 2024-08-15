@@ -30,22 +30,23 @@ interface RawRecipeIngredient {
     valueUnit: number;
     recipeId: number;
   } | null;
+  additional: RawProps[] | null;
 }
 
 export interface ReturnToDomain {
-  newRecipe: RecipeEntity;
-  newExpenses: ExpensesEntity;
+  recipe: RecipeEntity;
+  expenses: ExpensesEntity;
 }
 
 export class PrismaIngredientMapper {
-  static toPrisma(recipe: IngredientEntity) {
+  static toPrisma(item: IngredientEntity) {
     return {
-      name: recipe.name,
-      usedWeight: recipe.usedWeight,
-      grossWeight: recipe.grossWeight,
-      marketPrice: recipe.marketPrice,
-      realAmount: recipe.realAmount,
-      recipeId: recipe.recipeId,
+      name: item.name,
+      usedWeight: item.usedWeight,
+      grossWeight: item.grossWeight,
+      marketPrice: item.marketPrice,
+      realAmount: item.realAmount,
+      recipeId: item.recipeId,
     };
   }
 
@@ -60,16 +61,17 @@ export class PrismaIngredientMapper {
   }
 
   static toDomainRecipeIngredient(raw: RawRecipeIngredient): ReturnToDomain {
-    const newRecipe = new RecipeEntity({
+    const recipe = new RecipeEntity({
       id: raw.id,
       title: raw.title,
       describe: raw.describe,
       userId: raw.userId,
       ingredients: raw.ingredients,
+      additional: raw.additional ?? [],
       createdAt: raw.createdAt,
     });
 
-    const newExpenses = new ExpensesEntity({
+    const expenses = new ExpensesEntity({
       valuePartial: raw.valuePartial || 0,
       serving: raw.expenses?.serving || 0,
       pack: raw.expenses?.pack || 0,
@@ -79,9 +81,10 @@ export class PrismaIngredientMapper {
       recipeId: 46,
     });
 
-    newExpenses.calculateValueTotal();
+    expenses.calculateValueUnit(recipe.additional);
+    expenses.calculateValueTotal();
 
-    return { newRecipe, newExpenses };
+    return { recipe, expenses };
   }
 
   static toDomain(raw: RawProps): IngredientEntity {

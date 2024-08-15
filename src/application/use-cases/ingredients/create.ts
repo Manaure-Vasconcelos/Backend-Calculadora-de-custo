@@ -37,9 +37,12 @@ export class CreateIngredient {
       ingredient,
     );
 
-    const expenses = EntityFactory.createExpensesEntity(+recipeId, returnDb);
-
-    expenses.calculateValueTotal(); // averriguar
+    const expenses = EntityFactory.createExpensesEntity(
+      +recipeId,
+      returnDb,
+      undefined,
+      recipe.additional,
+    );
 
     return await this.ingredientsRepository.create({
       ingredient,

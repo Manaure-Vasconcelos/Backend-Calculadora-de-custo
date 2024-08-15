@@ -1,6 +1,9 @@
 import { IngredientEntity } from '@application/entities/ingredient.entity';
 import { RecipeEntity } from '@application/entities/recipe.entity';
 import { ExpensesEntity } from '@application/entities/expenses.entity';
+import { AdditionalEntity } from '@application/entities/additional.entity';
+import { AdditionalProps } from '@application/use-cases/additional/createAdditional';
+import { ReturnGetRecipe } from '@infra/dataBase/prisma/mappers/prisma-recipe-mapper';
 
 export class EntityFactory {
   static createIngredientEntity(
@@ -18,19 +21,41 @@ export class EntityFactory {
     });
   }
 
+  static createAdditional(
+    recipeId: number,
+    receivedValues: AdditionalProps,
+    ingredientId?: number,
+  ): IngredientEntity {
+    return new AdditionalEntity({
+      id: ingredientId || 0,
+      recipeId: recipeId,
+      name: receivedValues.name || 'default',
+      marketPrice: receivedValues.marketPrice,
+      grossWeight: receivedValues.grossWeight,
+      usedWeight: receivedValues.usedWeight,
+    });
+  }
+
   static createRecipeEntity(
     recipeId: number,
-    returnDb: any,
-    ingredient: IngredientEntity,
+    returnDb: ReturnGetRecipe,
+    ingredient?: IngredientEntity,
   ): RecipeEntity {
-    return new RecipeEntity({
+    const res = new RecipeEntity({
       id: recipeId,
       title: returnDb.recipe.title,
       describe: returnDb.recipe.describe,
       userId: returnDb.recipe.userId,
-      ingredients: [...returnDb.recipe.ingredients, ingredient],
+      ingredients: returnDb.recipe.ingredients,
+      additional: returnDb.recipe.additional,
       createdAt: returnDb.recipe.createdAt,
     });
+
+    if (ingredient) {
+      res.ingredients.push(ingredient);
+    }
+
+    return res;
   }
 
   static saveRecipeEntity(
@@ -58,6 +83,7 @@ export class EntityFactory {
       describe: returnDb.recipe.describe,
       userId: returnDb.recipe.userId,
       ingredients: returnDb.recipe.ingredients,
+      additional: returnDb.recipe.additional,
       createdAt: returnDb.recipe.createdAt,
     });
   }
@@ -85,17 +111,23 @@ export class EntityFactory {
 
   static createExpensesEntity(
     recipeId: number,
-    returnDb: any,
+    returnDb: ReturnGetRecipe,
     valuePartial?: number,
+    additional?: AdditionalEntity[],
   ): ExpensesEntity {
-    return new ExpensesEntity({
+    const res = new ExpensesEntity({
       valuePartial: valuePartial ?? returnDb.recipe.valuePartial,
       serving: returnDb.expenses.serving,
       pack: returnDb.expenses.pack,
       profit: returnDb.expenses.profit,
       valueTotal: returnDb.expenses.valueTotal,
-      valueUnit: returnDb.expenses.valueUnit,
       recipeId: recipeId,
     });
+
+    additional ? res.calculateValueUnit(additional) : res.calculateValueUnit();
+
+    res.calculateValueTotal();
+
+    return res;
   }
 }

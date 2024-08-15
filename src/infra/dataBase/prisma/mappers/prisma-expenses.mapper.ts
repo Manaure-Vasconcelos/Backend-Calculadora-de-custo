@@ -19,7 +19,6 @@ export class PrismaExpensesMapper {
       profit: raw.profit,
       recipeId: raw.recipeId,
     });
-    expenses.calculateValueTotal();
     return expenses;
   }
 }

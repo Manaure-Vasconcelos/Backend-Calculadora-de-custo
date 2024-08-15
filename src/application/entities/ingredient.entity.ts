@@ -98,7 +98,7 @@ export class IngredientEntity {
     return this.props.createdAt;
   }
 
-  calculateRealAmount(
+  private calculateRealAmount(
     usedWeight: number,
     marketPrice: number,
     grossWeight: number,

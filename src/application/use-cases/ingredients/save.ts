@@ -44,9 +44,8 @@ export class SaveIngredient {
       +ingredientId,
       returnDb,
       recipe.valuePartial || 0,
+      recipe.additional,
     );
-
-    expenses.calculateValueTotal();
 
     const updatedIngredient = await this.ingredientsRepository.save({
       ingredient,

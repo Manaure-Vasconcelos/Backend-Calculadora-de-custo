@@ -1,4 +1,5 @@
 import { Replace } from '@helpers/Replace';
+import { AdditionalEntity } from './additional.entity';
 
 interface ExpensesProps {
   valuePartial: number;
@@ -21,26 +22,29 @@ export class ExpensesEntity {
       serving: props.serving,
       pack: props.pack,
       profit: props.profit,
-      valueUnit: this.calculateValueUnit(props),
+      valueUnit: 0,
       valueTotal: 0,
       recipeId: props.recipeId,
     };
   }
 
-  private calculateValueUnit({
-    valuePartial,
-    serving,
-    pack,
-  }: Replace<
-    ExpensesProps,
-    { valueUnit?: number; valueTotal?: number }
-  >): number {
-    if (valuePartial === 0) return 0;
-    const res = valuePartial / serving + pack;
+  public calculateValueUnit(additional?: AdditionalEntity[]): void {
+    if (this.valuePartial === 0) this.valueUnit = 0;
+    const res = this.valuePartial / this.serving + this.pack;
     if (!isFinite(res)) {
-      return 0;
+      this.valueUnit = 0;
     }
-    return res;
+
+    this.valueUnit = res;
+
+    if (additional) {
+      const sumAdditional = additional.reduce(
+        (total, item) => total + item.realAmount,
+        0,
+      );
+
+      this.valueUnit += sumAdditional;
+    }
   }
 
   public calculateValueTotal(): void {

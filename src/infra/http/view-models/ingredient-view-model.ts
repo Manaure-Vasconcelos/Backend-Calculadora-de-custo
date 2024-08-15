@@ -9,15 +9,12 @@ export class IngredientViewModel {
       usedWeight: recipe.usedWeight,
       marketPrice: recipe.marketPrice,
       grossWeight: recipe.grossWeight,
-      realAmount: recipe.grossWeight,
+      realAmount: recipe.realAmount,
       recipeId: recipe.recipeId,
     };
   }
 
-  static ReturnToHTTP({
-    newRecipe: recipe,
-    newExpenses: expenses,
-  }: ReturnToDomain) {
+  static ReturnToHTTP({ recipe, expenses }: ReturnToDomain) {
     return {
       id: recipe.id,
       title: recipe.title,
@@ -25,6 +22,7 @@ export class IngredientViewModel {
       valuePartial: recipe.valuePartial,
       createdAt: recipe.createdAt,
       ingredients: recipe.ingredients,
+      additional: recipe.additional,
       serving: expenses.serving,
       pack: expenses.pack,
       profit: expenses.profit,

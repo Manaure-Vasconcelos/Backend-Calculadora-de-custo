@@ -58,7 +58,7 @@ export class PrismaRecipeMapper {
       describe: raw.describe,
       userId: raw.userId,
       ingredients: raw.ingredients ? raw.ingredients : [],
-      valuePartial: raw.valuePartial,
+      valuePartial: raw.valuePartial ?? 0,
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
     });
@@ -72,7 +72,7 @@ export class PrismaRecipeMapper {
       userId: raw.userId,
       ingredients: raw.ingredients ? raw.ingredients : [],
       additional: raw.additional ? raw.additional : [],
-      valuePartial: raw.valuePartial,
+      valuePartial: raw.valuePartial ?? 0,
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
     });
@@ -87,6 +87,7 @@ export class PrismaRecipeMapper {
       recipeId: 46,
     });
 
+    expenses.calculateValueUnit(recipe.additional);
     expenses.calculateValueTotal();
 
     return { recipe, expenses };

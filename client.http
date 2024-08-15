@@ -17,7 +17,7 @@ Content-Type: application/json
   "serving": 1,
   "pack": 1,
   "profit": 70,
-  "recipeId": 50
+  "recipeId": 43
 }
 ###
 
@@ -135,7 +135,7 @@ Content-Type: application/json
 ###
 # aprimorar essa chamada => procurar a receita dentro do user, e não global
 # @name unique-recipe-id
-GET {{recipes_base_url}}/50
+GET {{recipes_base_url}}/43
 Content-Type: application/json
 
 ###
@@ -164,7 +164,7 @@ Content-Type: application/json
 ###
 # Usar uma variavel em cache ou localStorage para obter o id da receita em questão.
 # @name create-ingredient
-POST {{ingredients_base_url}}/50
+POST {{ingredients_base_url}}/43
 Content-Type: application/json
 
 {
@@ -182,7 +182,7 @@ Content-Type: application/json
 ###
 
 # @name updating-ingredient
-PUT {{ingredients_base_url}}/45
+PUT {{ingredients_base_url}}/63
 Content-Type: application/json
 
 {
@@ -195,5 +195,5 @@ Content-Type: application/json
 ###
 
 # @name delete
-DELETE {{ingredients_base_url}}/50/71
+DELETE {{ingredients_base_url}}/50/91
 Content-Type: application/json

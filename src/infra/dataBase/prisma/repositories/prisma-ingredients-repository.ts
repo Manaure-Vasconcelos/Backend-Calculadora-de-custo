@@ -42,7 +42,7 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
           },
         },
       },
-      include: { ingredients: true, expenses: true },
+      include: { ingredients: true, expenses: true, additional: true },
     });
     return PrismaIngredientMapper.toDomainRecipeIngredient(created);
   }
@@ -66,7 +66,7 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
           },
         },
       },
-      include: { ingredients: true, expenses: true },
+      include: { ingredients: true, expenses: true, additional: true },
     });
     return PrismaIngredientMapper.toDomainRecipeIngredient(updatedIngredient);
   }
@@ -99,7 +99,7 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
           },
         },
       },
-      include: { ingredients: true, expenses: true },
+      include: { ingredients: true, expenses: true, additional: true },
     });
   }
 }

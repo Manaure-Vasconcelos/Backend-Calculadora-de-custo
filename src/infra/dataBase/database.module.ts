@@ -10,6 +10,8 @@ import { ProfileRepository } from '@application/repositories/profile-repository'
 import { PrismaProfileRepository } from './prisma/repositories/prisma-profile-repository';
 import { ExpensesRepository } from '@application/repositories/expenses-repository';
 import { PrismaExpensesRepository } from './prisma/repositories/prisma-expenses-repository';
+import { PrismaAdditionalRepository } from './prisma/repositories/prisma-additional-repository';
+import { AdditionalRepository } from '@application/repositories/additional-repository';
 
 @Module({
   providers: [
@@ -25,6 +27,7 @@ import { PrismaExpensesRepository } from './prisma/repositories/prisma-expenses-
     },
     { provide: RecipesRepository, useClass: PrismaRecipesRepository },
     { provide: IngredientsRepository, useClass: PrismaIngredientsRepository },
+    { provide: AdditionalRepository, useClass: PrismaAdditionalRepository },
   ],
   exports: [
     UserRepository,
@@ -32,6 +35,7 @@ import { PrismaExpensesRepository } from './prisma/repositories/prisma-expenses-
     RecipesRepository,
     ExpensesRepository,
     IngredientsRepository,
+    AdditionalRepository,
   ],
 })
 export class DatabaseModule {}

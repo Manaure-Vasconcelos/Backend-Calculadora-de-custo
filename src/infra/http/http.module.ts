@@ -28,6 +28,8 @@ import { ProfileController } from './controllers/profile.controller';
 import { ExpensesController } from './controllers/expenses.controller';
 import { GetExpenses } from '@application/use-cases/expenses/getExpenses';
 import { SaveExpenses } from '@application/use-cases/expenses/saveExpenses';
+import { AdditionalController } from './controllers/additional.controller';
+import { CreateAdditional } from '@application/use-cases/additional/createAdditional';
 
 @Module({
   imports: [
@@ -54,6 +56,7 @@ import { SaveExpenses } from '@application/use-cases/expenses/saveExpenses';
     RecipesController,
     ExpensesController,
     IngredientsController,
+    AdditionalController,
     AuthController,
   ],
   providers: [
@@ -74,6 +77,7 @@ import { SaveExpenses } from '@application/use-cases/expenses/saveExpenses';
     GetSingleIngredient,
     DeleteIngredient,
     SaveIngredient,
+    CreateAdditional,
     AuthService,
     JwtStrategy,
     HashPassword,

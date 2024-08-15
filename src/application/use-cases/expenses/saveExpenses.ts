@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { GetExpenses } from './getExpenses';
 import { ExpensesRepository } from '@application/repositories/expenses-repository';
+import { RecipesRepository } from '@application/repositories/recipes-repository';
 
 interface SaveProps {
   valuePartial?: number;
@@ -19,6 +20,7 @@ interface SaveProps {
 export class SaveExpenses {
   constructor(
     private get: GetExpenses,
+    private recipesRepository: RecipesRepository,
     private expenses: ExpensesRepository,
   ) {}
 
@@ -30,18 +32,19 @@ export class SaveExpenses {
     recipeId,
   }: SaveProps): Promise<ExpensesEntity> {
     try {
-      const oldExpenses = await this.get.execute(recipeId);
+      const returnDb = await this.recipesRepository.getRecipeProps(+recipeId);
 
-      if (!oldExpenses) throw new NotFoundException('Expenses not existing');
+      if (!returnDb) throw new NotFoundException();
 
       const newExpenses = new ExpensesEntity({
         valuePartial: valuePartial || 0,
-        serving: serving || oldExpenses.serving,
-        pack: pack || oldExpenses.pack,
-        profit: profit || oldExpenses.profit,
+        serving: serving || returnDb.expenses.serving,
+        pack: pack || returnDb.expenses.pack,
+        profit: profit || returnDb.expenses.profit,
         recipeId: recipeId,
       });
 
+      newExpenses.calculateValueUnit(returnDb.recipe.additional);
       newExpenses.calculateValueTotal();
 
       return await this.expenses.save(newExpenses);
