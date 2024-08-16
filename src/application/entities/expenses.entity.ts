@@ -1,5 +1,4 @@
 import { Replace } from '@helpers/Replace';
-import { AdditionalEntity } from './additional.entity';
 
 interface ExpensesProps {
   valuePartial: number;
@@ -8,6 +7,16 @@ interface ExpensesProps {
   profit: number;
   valueTotal: number;
   valueUnit: number;
+  recipeId: number;
+}
+
+interface AdditionalProps {
+  id: number;
+  name: string;
+  usedWeight: number;
+  marketPrice: number;
+  grossWeight: number;
+  realAmount: number;
   recipeId: number;
 }
 
@@ -28,7 +37,7 @@ export class ExpensesEntity {
     };
   }
 
-  public calculateValueUnit(additional?: AdditionalEntity[]): void {
+  public calculateValueUnit(additional?: AdditionalProps[]): void {
     if (this.valuePartial === 0) this.valueUnit = 0;
     const res = this.valuePartial / this.serving + this.pack;
     if (!isFinite(res)) {
@@ -43,7 +52,7 @@ export class ExpensesEntity {
         0,
       );
 
-      this.valueUnit += sumAdditional;
+      this.valueUnit = this.valueUnit + sumAdditional;
     }
   }
 

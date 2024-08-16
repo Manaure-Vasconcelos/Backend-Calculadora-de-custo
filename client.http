@@ -151,7 +151,7 @@ PUT {{recipes_base_url}}/43
 Content-Type: application/json
 
 {
-	"title": "Novo asd",
+	"title": "outro asd",
   "describe": "novo asd"
 }
 
@@ -182,7 +182,7 @@ Content-Type: application/json
 ###
 
 # @name updating-ingredient
-PUT {{ingredients_base_url}}/63
+PUT {{ingredients_base_url}}/106
 Content-Type: application/json
 
 {
@@ -195,5 +195,5 @@ Content-Type: application/json
 ###
 
 # @name delete
-DELETE {{ingredients_base_url}}/50/91
+DELETE {{ingredients_base_url}}/43/107
 Content-Type: application/json
