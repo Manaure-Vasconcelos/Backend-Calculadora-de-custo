@@ -42,6 +42,7 @@ export class ExpensesEntity {
     const res = this.valuePartial / this.serving + this.pack;
     if (!isFinite(res)) {
       this.valueUnit = 0;
+      return;
     }
 
     this.valueUnit = res;

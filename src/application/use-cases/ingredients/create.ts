@@ -40,7 +40,7 @@ export class CreateIngredient {
     const expenses = EntityFactory.createExpensesEntity(
       +recipeId,
       returnDb,
-      undefined,
+      recipe.valuePartial,
       recipe.additional,
     );
 

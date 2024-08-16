@@ -124,7 +124,9 @@ export class EntityFactory {
       recipeId: recipeId,
     });
 
-    additional ? res.calculateValueUnit(additional) : res.calculateValueUnit();
+    additional?.length !== 0
+      ? res.calculateValueUnit(additional)
+      : res.calculateValueUnit();
 
     res.calculateValueTotal();
 
