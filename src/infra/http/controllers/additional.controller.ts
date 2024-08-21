@@ -6,6 +6,7 @@ import {
   HttpStatus,
   NotFoundException,
   Param,
+  Patch,
   Post,
   Res,
   UseGuards,
@@ -13,11 +14,16 @@ import {
 import { Response } from 'express';
 import { CreateAdditional } from '@application/use-cases/additional/createAdditional';
 import { IngredientDTO as AdditionalDTO } from '../DTOs/ingredient-dto';
+import { IngredientUpdatingDTO as AdditionalUpdateDTO } from '../DTOs/ingredient-update';
 import { IngredientViewModel } from '../view-models/ingredient-view-model';
+import { SaveAdditional } from '@application/use-cases/additional/saveAdditional';
 
 @Controller('additional')
 export class AdditionalController {
-  constructor(private create: CreateAdditional) {}
+  constructor(
+    private create: CreateAdditional,
+    private save: SaveAdditional,
+  ) {}
 
   /*  @UseGuards(JwtAuthGuard)
   @Get('/:id')
@@ -67,6 +73,36 @@ export class AdditionalController {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: 'server error' });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/:id')
+  async saveAdditional(
+    @Param('id') recipeId: string,
+    @Res() res: Response,
+    @Body() receivedValues: AdditionalUpdateDTO,
+  ) {
+    try {
+      const additional = await this.save.execute(recipeId, receivedValues);
+
+      return res
+        .status(HttpStatus.OK)
+        .json(IngredientViewModel.ReturnToHTTP(additional));
+    } catch (error) {
+      if (error instanceof BadRequestException)
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: 'not created' });
+
+      if (error instanceof NotFoundException)
+        return res
+          .status(HttpStatus.NOT_FOUND)
+          .json({ message: 'not found additional' });
+
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: error });
     }
   }
 }

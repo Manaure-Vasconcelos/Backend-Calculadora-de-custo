@@ -6,6 +6,7 @@ import { ReturnGetRecipe } from './prisma-recipe-mapper';
 export class PrismaAdditionalMapper {
   static toPrisma(additional: AdditionalEntity) {
     return {
+      id: additional.id,
       name: additional.name,
       usedWeight: additional.usedWeight,
       grossWeight: additional.grossWeight,

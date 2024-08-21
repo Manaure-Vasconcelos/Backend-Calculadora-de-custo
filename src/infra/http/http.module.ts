@@ -30,6 +30,7 @@ import { GetExpenses } from '@application/use-cases/expenses/getExpenses';
 import { SaveExpenses } from '@application/use-cases/expenses/saveExpenses';
 import { AdditionalController } from './controllers/additional.controller';
 import { CreateAdditional } from '@application/use-cases/additional/createAdditional';
+import { SaveAdditional } from '@application/use-cases/additional/saveAdditional';
 
 @Module({
   imports: [
@@ -78,6 +79,7 @@ import { CreateAdditional } from '@application/use-cases/additional/createAdditi
     DeleteIngredient,
     SaveIngredient,
     CreateAdditional,
+    SaveAdditional,
     AuthService,
     JwtStrategy,
     HashPassword,

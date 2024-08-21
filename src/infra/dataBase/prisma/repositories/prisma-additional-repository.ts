@@ -1,7 +1,7 @@
 import { AdditionalEntity } from '@application/entities/additional.entity';
 import {
   AdditionalRepository,
-  PropsCreateAdditional,
+  PropsAdditional,
 } from '@application/repositories/additional-repository';
 import { Injectable } from '@nestjs/common';
 import { ReturnToDomain } from '../mappers/prisma-ingredient-mapper';
@@ -20,7 +20,7 @@ export class PrismaAdditionalRepository implements AdditionalRepository {
     additional,
     valueUnit,
     valueTotal,
-  }: PropsCreateAdditional): Promise<ReturnGetRecipe> {
+  }: PropsAdditional): Promise<ReturnGetRecipe> {
     const raw = PrismaAdditionalMapper.toPrisma(additional);
     const res = await this.prisma.recipes.update({
       where: { id: additional.recipeId },
@@ -42,10 +42,38 @@ export class PrismaAdditionalRepository implements AdditionalRepository {
       },
       include: { ingredients: true, expenses: true, additional: true },
     });
-    console.log(res);
     return PrismaAdditionalMapper.toDomain(res);
   }
-  save(additional: AdditionalEntity): Promise<ReturnToDomain> {
-    throw new Error('Method not implemented.');
+
+  async save({
+    additional,
+    valueUnit,
+    valueTotal,
+  }: PropsAdditional): Promise<ReturnToDomain> {
+    const raw = PrismaAdditionalMapper.toPrisma(additional);
+    const res = await this.prisma.recipes.update({
+      where: { id: additional.recipeId },
+      data: {
+        additional: {
+          update: {
+            where: { id: additional.id },
+            data: {
+              name: raw.name,
+              marketPrice: raw.marketPrice,
+              grossWeight: raw.grossWeight,
+              usedWeight: raw.usedWeight,
+              realAmount: raw.realAmount,
+            },
+          },
+        },
+        expenses: {
+          update: {
+            data: { valueUnit: valueUnit, valueTotal: valueTotal },
+          },
+        },
+      },
+      include: { ingredients: true, expenses: true, additional: true },
+    });
+    return PrismaAdditionalMapper.toDomain(res);
   }
 }

@@ -34,7 +34,7 @@ Content-Type: application/json
 ###
 
 # @name create additional
-POST  {{additional_base_url}}/43
+POST  {{additional_base_url}}/59
 Content-Type: application/json
 
 {
@@ -42,6 +42,20 @@ Content-Type: application/json
 	"usedWeight": 2,
 	"marketPrice": 10,
 	"grossWeight": 4
+}
+
+###
+
+# @name save additional
+PATCH  {{additional_base_url}}/8
+Content-Type: application/json
+
+{
+	"name": "aditional patch",
+	"usedWeight": 2,
+	"marketPrice": 10,
+	"grossWeight": 4,
+  "recipeId": 59
 }
 
 ###
@@ -135,7 +149,7 @@ Content-Type: application/json
 ###
 # aprimorar essa chamada => procurar a receita dentro do user, e não global
 # @name unique-recipe-id
-GET {{recipes_base_url}}/43
+GET {{recipes_base_url}}/59
 Content-Type: application/json
 
 ###
