@@ -60,6 +60,11 @@ Content-Type: application/json
 
 ###
 
+# @name delete additional
+DELETE {{additional_base_url}}/59/8
+
+###
+
 # @name signIn
 POST {{base_url}}/signin
 Content-Type: application/json

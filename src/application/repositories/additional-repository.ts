@@ -1,4 +1,6 @@
 import { AdditionalEntity } from '@application/entities/additional.entity';
+import { ExpensesEntity } from '@application/entities/expenses.entity';
+import { RecipeEntity } from '@application/entities/recipe.entity';
 import { ReturnToDomain } from '@infra/dataBase/prisma/mappers/prisma-ingredient-mapper';
 import { ReturnGetRecipe } from '@infra/dataBase/prisma/mappers/prisma-recipe-mapper';
 
@@ -9,7 +11,6 @@ export interface PropsAdditional {
 }
 
 export abstract class AdditionalRepository {
-  abstract get(id: number): Promise<AdditionalEntity | null>;
   abstract create({
     additional,
     valueUnit,
@@ -20,4 +21,9 @@ export abstract class AdditionalRepository {
     valueUnit,
     valueTotal,
   }: PropsAdditional): Promise<ReturnToDomain>;
+  abstract delete(
+    additionalId: number,
+    recipe: RecipeEntity,
+    expenses: ExpensesEntity,
+  ): Promise<void>;
 }

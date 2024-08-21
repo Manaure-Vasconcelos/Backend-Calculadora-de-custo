@@ -3,6 +3,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   HttpStatus,
   NotFoundException,
   Param,
@@ -17,12 +18,14 @@ import { IngredientDTO as AdditionalDTO } from '../DTOs/ingredient-dto';
 import { IngredientUpdatingDTO as AdditionalUpdateDTO } from '../DTOs/ingredient-update';
 import { IngredientViewModel } from '../view-models/ingredient-view-model';
 import { SaveAdditional } from '@application/use-cases/additional/saveAdditional';
+import { DeleteAdditional } from '@application/use-cases/additional/deleteAdditional';
 
 @Controller('additional')
 export class AdditionalController {
   constructor(
     private create: CreateAdditional,
     private save: SaveAdditional,
+    private deleteA: DeleteAdditional,
   ) {}
 
   /*  @UseGuards(JwtAuthGuard)
@@ -89,6 +92,34 @@ export class AdditionalController {
       return res
         .status(HttpStatus.OK)
         .json(IngredientViewModel.ReturnToHTTP(additional));
+    } catch (error) {
+      if (error instanceof BadRequestException)
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: 'not created' });
+
+      if (error instanceof NotFoundException)
+        return res
+          .status(HttpStatus.NOT_FOUND)
+          .json({ message: 'not found additional' });
+
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: error });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/:recipeId/:id')
+  async deleteAdditional(
+    @Param('id') additionalId: string,
+    @Param('recipeId') recipeId: string,
+    @Res() res: Response,
+  ) {
+    try {
+      await this.deleteA.execute(additionalId, recipeId);
+
+      return res.status(HttpStatus.NO_CONTENT).send();
     } catch (error) {
       if (error instanceof BadRequestException)
         return res

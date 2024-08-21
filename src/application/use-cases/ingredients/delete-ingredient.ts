@@ -20,7 +20,7 @@ export class DeleteIngredient {
 
       if (!returnDb) throw new NotFoundException();
 
-      const newRecipe = EntityFactory.deleteRecipeEntity(
+      const newRecipe = EntityFactory.deleteIngredient(
         +itemId,
         +recipeId,
         returnDb,
@@ -31,8 +31,6 @@ export class DeleteIngredient {
         returnDb,
         newRecipe.valuePartial || 0,
       );
-
-      newExpenses.calculateValueTotal();
 
       await this.ingredientsRepository.delete(+itemId, newRecipe, newExpenses);
     } catch (error) {

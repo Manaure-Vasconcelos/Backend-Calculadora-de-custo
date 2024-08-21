@@ -21,6 +21,28 @@ export class EntityFactory {
     });
   }
 
+  static deleteIngredient(
+    itemId: number,
+    recipeId: number,
+    returnDb: ReturnGetRecipe,
+  ): RecipeEntity {
+    returnDb.recipe.ingredients.forEach((item, index) => {
+      if (item.id === itemId) {
+        returnDb.recipe.ingredients.splice(index, 1);
+      }
+    });
+
+    return new RecipeEntity({
+      id: recipeId,
+      title: returnDb.recipe.title,
+      describe: returnDb.recipe.describe,
+      userId: returnDb.recipe.userId,
+      ingredients: returnDb.recipe.ingredients,
+      additional: returnDb.recipe.additional,
+      createdAt: returnDb.recipe.createdAt,
+    });
+  }
+
   static createAdditional(
     recipeId: number,
     receivedValues: AdditionalProps,
@@ -33,6 +55,28 @@ export class EntityFactory {
       marketPrice: receivedValues.marketPrice,
       grossWeight: receivedValues.grossWeight,
       usedWeight: receivedValues.usedWeight,
+    });
+  }
+
+  static deleteAdditional(
+    itemId: number,
+    recipeId: number,
+    returnDb: ReturnGetRecipe,
+  ): RecipeEntity {
+    returnDb.recipe.additional.forEach((item, index) => {
+      if (item.id === itemId) {
+        returnDb.recipe.additional.splice(index, 1);
+      }
+    });
+
+    return new RecipeEntity({
+      id: recipeId,
+      title: returnDb.recipe.title,
+      describe: returnDb.recipe.describe,
+      userId: returnDb.recipe.userId,
+      ingredients: returnDb.recipe.ingredients,
+      additional: returnDb.recipe.additional,
+      createdAt: returnDb.recipe.createdAt,
     });
   }
 
@@ -60,7 +104,7 @@ export class EntityFactory {
 
   static saveRecipeEntity(
     recipeId: number,
-    returnDb: any,
+    returnDb: ReturnGetRecipe,
     ingredient: IngredientEntity,
   ): RecipeEntity {
     returnDb.recipe.ingredients.forEach((item, index) => {
@@ -84,27 +128,6 @@ export class EntityFactory {
       userId: returnDb.recipe.userId,
       ingredients: returnDb.recipe.ingredients,
       additional: returnDb.recipe.additional,
-      createdAt: returnDb.recipe.createdAt,
-    });
-  }
-
-  static deleteRecipeEntity(
-    itemId: number,
-    recipeId: number,
-    returnDb: any,
-  ): RecipeEntity {
-    returnDb.recipe.ingredients.forEach((item, index) => {
-      if (item.id === itemId) {
-        returnDb.recipe.ingredients.splice(index, 1);
-      }
-    });
-
-    return new RecipeEntity({
-      id: recipeId,
-      title: returnDb.recipe.title,
-      describe: returnDb.recipe.describe,
-      userId: returnDb.recipe.userId,
-      ingredients: returnDb.recipe.ingredients,
       createdAt: returnDb.recipe.createdAt,
     });
   }

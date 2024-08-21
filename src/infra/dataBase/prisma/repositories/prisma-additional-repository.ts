@@ -1,4 +1,3 @@
-import { AdditionalEntity } from '@application/entities/additional.entity';
 import {
   AdditionalRepository,
   PropsAdditional,
@@ -8,14 +7,13 @@ import { ReturnToDomain } from '../mappers/prisma-ingredient-mapper';
 import { PrismaAdditionalMapper } from '../mappers/prisma-additional-mapper';
 import { PrismaService } from '../prisma.service';
 import { ReturnGetRecipe } from '../mappers/prisma-recipe-mapper';
+import { ExpensesEntity } from '@application/entities/expenses.entity';
+import { RecipeEntity } from '@application/entities/recipe.entity';
 
 @Injectable()
 export class PrismaAdditionalRepository implements AdditionalRepository {
   constructor(private prisma: PrismaService) {}
 
-  get(id: number): Promise<AdditionalEntity | null> {
-    throw new Error('Method not implemented.');
-  }
   async create({
     additional,
     valueUnit,
@@ -75,5 +73,26 @@ export class PrismaAdditionalRepository implements AdditionalRepository {
       include: { ingredients: true, expenses: true, additional: true },
     });
     return PrismaAdditionalMapper.toDomain(res);
+  }
+
+  async delete(
+    additionalId: number,
+    recipe: RecipeEntity,
+    expenses: ExpensesEntity,
+  ): Promise<void> {
+    await this.prisma.recipes.update({
+      where: { id: recipe.id },
+      data: {
+        additional: { delete: { id: additionalId } },
+        expenses: {
+          update: {
+            data: {
+              valueUnit: expenses.valueUnit,
+              valueTotal: expenses.valueTotal,
+            },
+          },
+        },
+      },
+    });
   }
 }

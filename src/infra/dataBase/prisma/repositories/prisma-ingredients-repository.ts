@@ -99,7 +99,6 @@ export class PrismaIngredientsRepository implements IngredientsRepository {
           },
         },
       },
-      include: { ingredients: true, expenses: true, additional: true },
     });
   }
 }
