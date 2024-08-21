@@ -7,7 +7,7 @@ export abstract class RecipesRepository {
     recipe: RecipeEntity,
     expenses: ExpensesEntity,
   ): Promise<RecipeEntity | null>;
-  abstract allRecipesFromUser(receivedId: string): Promise<RecipeEntity[]>;
+  abstract allRecipesFromUser(receivedId: string): Promise<ReturnGetRecipe[]>;
   abstract getRecipe(receivedId: number): Promise<RecipeEntity | null>;
   abstract getRecipeProps(receivedId: number): Promise<ReturnGetRecipe | null>;
   abstract delete(receivedId: number): Promise<void>;

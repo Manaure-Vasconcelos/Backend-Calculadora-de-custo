@@ -63,7 +63,7 @@ export class RecipesController {
       const allRecipes = await this.allRecipes.execute(req.user.id);
       return res
         .status(HttpStatus.OK)
-        .json(allRecipes.map(RecipeViewModel.toHTTP));
+        .json(allRecipes.map(RecipeViewModel.toHTTPAll));
     } catch (error: any) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)

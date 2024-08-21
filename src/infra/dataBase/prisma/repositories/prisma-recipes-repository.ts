@@ -35,12 +35,12 @@ export class PrismaRecipesRepository implements RecipesRepository {
     return PrismaRecipeMapper.toDomain(recipeCreated);
   }
 
-  async allRecipesFromUser(receivedId: string): Promise<RecipeEntity[]> {
+  async allRecipesFromUser(receivedId: string): Promise<ReturnGetRecipe[]> {
     const recipes = await this.prisma.recipes.findMany({
       where: { userId: receivedId },
-      include: { ingredients: true },
+      include: { ingredients: true, expenses: true },
     });
-    return recipes.map(PrismaRecipeMapper.toDomain);
+    return recipes.map(PrismaRecipeMapper.toDomainGet);
   }
 
   async getRecipe(receivedId: number): Promise<RecipeEntity | null> {

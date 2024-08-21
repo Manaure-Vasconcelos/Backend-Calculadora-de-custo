@@ -87,7 +87,10 @@ export class PrismaRecipeMapper {
       recipeId: raw.id,
     });
 
-    expenses.calculateValueUnit(recipe.additional);
+    recipe.additional?.length !== 0
+      ? expenses.calculateValueUnit(recipe.additional)
+      : expenses.calculateValueUnit();
+
     expenses.calculateValueTotal();
 
     return { recipe, expenses };

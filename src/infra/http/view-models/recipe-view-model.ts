@@ -29,4 +29,18 @@ export class RecipeViewModel {
       valueTotal: expenses.valueTotal,
     };
   }
+
+  static toHTTPAll({ recipe, expenses }: ReturnGetRecipe) {
+    return {
+      id: recipe.id,
+      title: recipe.title,
+      describe: recipe.describe,
+      valuePartial: recipe.valuePartial,
+      serving: expenses.serving,
+      pack: expenses.pack,
+      profit: expenses.profit,
+      valueUnit: expenses.valueUnit,
+      valueTotal: expenses.valueTotal,
+    };
+  }
 }
