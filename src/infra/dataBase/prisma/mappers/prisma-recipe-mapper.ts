@@ -84,7 +84,7 @@ export class PrismaRecipeMapper {
       profit: raw.expenses?.profit ?? 0,
       valueTotal: raw.expenses?.valueTotal,
       valueUnit: raw.expenses?.valueUnit,
-      recipeId: 46,
+      recipeId: raw.id,
     });
 
     expenses.calculateValueUnit(recipe.additional);

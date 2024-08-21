@@ -4,6 +4,7 @@ import { ExpensesEntity } from '@application/entities/expenses.entity';
 import { AdditionalEntity } from '@application/entities/additional.entity';
 import { AdditionalProps } from '@application/use-cases/additional/createAdditional';
 import { ReturnGetRecipe } from '@infra/dataBase/prisma/mappers/prisma-recipe-mapper';
+import { SaveExpensesProps } from '@application/use-cases/expenses/saveExpenses';
 
 export class EntityFactory {
   static createIngredientEntity(
@@ -147,6 +148,27 @@ export class EntityFactory {
 
     additional?.length !== 0
       ? res.calculateValueUnit(additional)
+      : res.calculateValueUnit();
+
+    res.calculateValueTotal();
+
+    return res;
+  }
+
+  static saveExpensesEntity(
+    newValues: SaveExpensesProps,
+    returnDb: ReturnGetRecipe,
+  ): ExpensesEntity {
+    const res = new ExpensesEntity({
+      valuePartial: newValues.valuePartial || 0,
+      serving: newValues.serving || returnDb.expenses.serving,
+      pack: newValues.pack || returnDb.expenses.pack,
+      profit: newValues.profit || returnDb.expenses.profit,
+      recipeId: newValues.recipeId,
+    });
+
+    returnDb.recipe.additional?.length !== 0
+      ? res.calculateValueUnit(returnDb.recipe.additional)
       : res.calculateValueUnit();
 
     res.calculateValueTotal();

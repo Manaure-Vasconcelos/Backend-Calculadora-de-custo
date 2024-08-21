@@ -1,14 +1,10 @@
-import { ExpensesEntity } from '@application/entities/expenses.entity';
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { GetExpenses } from './getExpenses';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ExpensesRepository } from '@application/repositories/expenses-repository';
 import { RecipesWithIngredients } from '../recipes/get-with-props';
+import { ReturnToDomain } from '@infra/dataBase/prisma/mappers/prisma-ingredient-mapper';
+import { EntityFactory } from '@helpers/EntitiesFactory';
 
-interface SaveProps {
+export interface SaveExpensesProps {
   valuePartial?: number;
   serving?: number;
   pack?: number;
@@ -19,37 +15,17 @@ interface SaveProps {
 @Injectable()
 export class SaveExpenses {
   constructor(
-    private get: GetExpenses,
     private getRecipe: RecipesWithIngredients,
     private expenses: ExpensesRepository,
   ) {}
 
-  async execute({
-    valuePartial,
-    serving,
-    pack,
-    profit,
-    recipeId,
-  }: SaveProps): Promise<ExpensesEntity> {
-    try {
-      const returnDb = await this.getRecipe.execute(+recipeId);
+  async execute(newValues: SaveExpensesProps): Promise<ReturnToDomain> {
+    const returnDb = await this.getRecipe.execute(newValues.recipeId);
 
-      if (!returnDb) throw new NotFoundException();
+    if (!returnDb) throw new NotFoundException();
 
-      const newExpenses = new ExpensesEntity({
-        valuePartial: valuePartial || 0,
-        serving: serving || returnDb.expenses.serving,
-        pack: pack || returnDb.expenses.pack,
-        profit: profit || returnDb.expenses.profit,
-        recipeId: recipeId,
-      });
+    const newExpenses = EntityFactory.saveExpensesEntity(newValues, returnDb);
 
-      newExpenses.calculateValueUnit(returnDb.recipe.additional);
-      newExpenses.calculateValueTotal();
-
-      return await this.expenses.save(newExpenses);
-    } catch (error) {
-      throw new BadRequestException('not save success');
-    }
+    return await this.expenses.save(newExpenses);
   }
 }

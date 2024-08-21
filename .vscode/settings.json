@@ -3,5 +3,5 @@
   "material-icon-theme.activeIconPack": "nest",
   "genieai.openai.model": "gpt-3.5-turbo",
   "genieai.openai.temperature": 0.5,
-  "conventionalCommits.scopes": ["EntityFactory"]
+  "conventionalCommits.scopes": ["EntityFactory", "Expenses"]
 }

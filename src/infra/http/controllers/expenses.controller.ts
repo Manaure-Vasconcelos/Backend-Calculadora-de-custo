@@ -17,6 +17,7 @@ import { Response } from 'express';
 import { ExpensesDTO } from '../DTOs/expenses-dto';
 import { ExpensesViewModel } from '../view-models/expenses-view-model';
 import { GetExpenses } from '@application/use-cases/expenses/getExpenses';
+import { IngredientViewModel } from '../view-models/ingredient-view-model';
 
 @Controller('expenses')
 export class ExpensesController {
@@ -34,7 +35,9 @@ export class ExpensesController {
     try {
       const expenses = await this.save.execute(receivedValues);
 
-      return res.status(HttpStatus.OK).json(ExpensesViewModel.toHTTP(expenses));
+      return res
+        .status(HttpStatus.OK)
+        .json(IngredientViewModel.ReturnToHTTP(expenses));
     } catch (error) {
       if (error instanceof BadRequestException) {
         return res
