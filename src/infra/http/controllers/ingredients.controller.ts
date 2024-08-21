@@ -6,8 +6,8 @@ import {
   Get,
   HttpStatus,
   Param,
+  Patch,
   Post,
-  Put,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -53,7 +53,7 @@ export class IngredientsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put('/:id')
+  @Patch('/:id')
   async update(
     @Res() res: Response,
     @Param('id') receivedId: string,

@@ -61,6 +61,7 @@ export class PrismaIngredientMapper {
   }
 
   static toDomainRecipeIngredient(raw: RawRecipeIngredient): ReturnToDomain {
+    // verificar retorno
     const recipe = new RecipeEntity({
       id: raw.id,
       title: raw.title,
@@ -76,9 +77,9 @@ export class PrismaIngredientMapper {
       serving: raw.expenses?.serving || 0,
       pack: raw.expenses?.pack || 0,
       profit: raw.expenses?.profit || 0,
-      valueTotal: raw.expenses?.valueTotal,
-      valueUnit: raw.expenses?.valueUnit,
-      recipeId: 46,
+      valueTotal: raw.expenses?.valueTotal, //remover
+      valueUnit: raw.expenses?.valueUnit, //remover
+      recipeId: 46, //trocar
     });
 
     recipe.additional?.length !== 0
