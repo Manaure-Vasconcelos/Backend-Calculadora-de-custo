@@ -26,7 +26,6 @@ import { GetProfile } from '@application/use-cases/profile/get-profile';
 import { SaveProfile } from '@application/use-cases/profile/save';
 import { ProfileController } from './controllers/profile.controller';
 import { ExpensesController } from './controllers/expenses.controller';
-import { GetExpenses } from '@application/use-cases/expenses/getExpenses';
 import { SaveExpenses } from '@application/use-cases/expenses/saveExpenses';
 import { AdditionalController } from './controllers/additional.controller';
 import { CreateAdditional } from '@application/use-cases/additional/createAdditional';
@@ -73,7 +72,6 @@ import { DeleteAdditional } from '@application/use-cases/additional/deleteAdditi
     RecipesWithIngredients,
     DeleteRecipe,
     UpdateRecipe,
-    GetExpenses,
     SaveExpenses,
     CreateIngredient,
     GetSingleIngredient,

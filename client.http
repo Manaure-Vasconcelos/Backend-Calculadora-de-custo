@@ -21,12 +21,6 @@ Content-Type: application/json
 }
 ###
 
-# @name get expenses
-GET  {{expenses_base_url}}/43
-Content-Type: application/json
-
-###
-
 # @name get additional
 GET  {{additional_base_url}}/43
 Content-Type: application/json
