@@ -13,18 +13,12 @@ PATCH  {{expenses_base_url}}
 Content-Type: application/json
 
 {
-  "valuePartial": 10,
+  "valuePartial": 20,
   "serving": 1,
-  "pack": 1,
+  "pack": 2,
   "profit": 70,
   "recipeId": 61
 }
-###
-
-# @name get expenses
-GET  {{expenses_base_url}}/43
-Content-Type: application/json
-
 ###
 
 # @name get additional

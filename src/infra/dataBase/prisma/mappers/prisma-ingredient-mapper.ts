@@ -20,7 +20,7 @@ interface RawRecipeIngredient {
   valuePartial: number | null;
   createdAt: Date;
   updatedAt: Date;
-  ingredients: any[];
+  ingredients: RawProps[];
   expenses: {
     id: number;
     serving: number;

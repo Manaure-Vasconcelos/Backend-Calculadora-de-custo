@@ -3,6 +3,10 @@ import { ExpensesRepository } from '@application/repositories/expenses-repositor
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { PrismaExpensesMapper } from '../mappers/prisma-expenses.mapper';
+import {
+  PrismaIngredientMapper,
+  ReturnToDomain,
+} from '../mappers/prisma-ingredient-mapper';
 
 @Injectable()
 export class PrismaExpensesRepository implements ExpensesRepository {
@@ -15,13 +19,26 @@ export class PrismaExpensesRepository implements ExpensesRepository {
     return PrismaExpensesMapper.toDomain(res);
   }
 
-  async save(expenses: ExpensesEntity): Promise<ExpensesEntity> {
+  async save(expenses: ExpensesEntity): Promise<ReturnToDomain> {
     const raw = PrismaExpensesMapper.toPrisma(expenses);
 
-    const res = await this.prisma.expenses.update({
-      where: { recipeId: expenses.recipeId },
-      data: raw,
+    const res = await this.prisma.recipes.update({
+      where: { id: raw.recipeId },
+      data: {
+        expenses: {
+          update: {
+            data: {
+              serving: raw.serving,
+              pack: raw.pack,
+              profit: raw.profit,
+              valueUnit: raw.valueUnit,
+              valueTotal: raw.valueTotal,
+            },
+          },
+        },
+      },
+      include: { ingredients: true, expenses: true, additional: true },
     });
-    return PrismaExpensesMapper.toDomain(res, expenses.valuePartial);
+    return PrismaIngredientMapper.toDomainRecipeIngredient(res);
   }
 }

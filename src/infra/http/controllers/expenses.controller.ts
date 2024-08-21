@@ -4,26 +4,20 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Get,
   HttpStatus,
   InternalServerErrorException,
   NotFoundException,
-  Param,
   Patch,
   Res,
   UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ExpensesDTO } from '../DTOs/expenses-dto';
-import { ExpensesViewModel } from '../view-models/expenses-view-model';
-import { GetExpenses } from '@application/use-cases/expenses/getExpenses';
+import { IngredientViewModel } from '../view-models/ingredient-view-model';
 
 @Controller('expenses')
 export class ExpensesController {
-  constructor(
-    private save: SaveExpenses,
-    private get: GetExpenses,
-  ) {}
+  constructor(private save: SaveExpenses) {}
 
   @UseGuards(JwtAuthGuard)
   @Patch()
@@ -34,7 +28,9 @@ export class ExpensesController {
     try {
       const expenses = await this.save.execute(receivedValues);
 
-      return res.status(HttpStatus.OK).json(ExpensesViewModel.toHTTP(expenses));
+      return res
+        .status(HttpStatus.OK)
+        .json(IngredientViewModel.ReturnToHTTP(expenses));
     } catch (error) {
       if (error instanceof BadRequestException) {
         return res
@@ -48,13 +44,5 @@ export class ExpensesController {
       }
       return new InternalServerErrorException('Internal Error');
     }
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('/:id')
-  async getExpenses(@Res() res: Response, @Param('id') id: number) {
-    const expenses = await this.get.execute(id);
-
-    return res.status(HttpStatus.OK).json(ExpensesViewModel.toHTTP(expenses));
   }
 }
