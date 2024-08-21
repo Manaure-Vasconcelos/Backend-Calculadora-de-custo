@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { GetExpenses } from './getExpenses';
 import { ExpensesRepository } from '@application/repositories/expenses-repository';
-import { RecipesRepository } from '@application/repositories/recipes-repository';
+import { RecipesWithIngredients } from '../recipes/get-with-props';
 
 interface SaveProps {
   valuePartial?: number;
@@ -20,7 +20,7 @@ interface SaveProps {
 export class SaveExpenses {
   constructor(
     private get: GetExpenses,
-    private recipesRepository: RecipesRepository,
+    private getRecipe: RecipesWithIngredients,
     private expenses: ExpensesRepository,
   ) {}
 
@@ -32,7 +32,7 @@ export class SaveExpenses {
     recipeId,
   }: SaveProps): Promise<ExpensesEntity> {
     try {
-      const returnDb = await this.recipesRepository.getRecipeProps(+recipeId);
+      const returnDb = await this.getRecipe.execute(+recipeId);
 
       if (!returnDb) throw new NotFoundException();
 

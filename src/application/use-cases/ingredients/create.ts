@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IngredientsRepository } from '@application/repositories/ingredients-repository';
-import { RecipesRepository } from '@application/repositories/recipes-repository';
 import { ReturnToDomain } from '@infra/dataBase/prisma/mappers/prisma-ingredient-mapper';
 import { EntityFactory } from './../../../helpers/EntitiesFactory';
+import { RecipesWithIngredients } from '../recipes/get-with-props';
 
 interface IngredientRequest {
   name: string;
@@ -15,14 +15,14 @@ interface IngredientRequest {
 export class CreateIngredient {
   constructor(
     private ingredientsRepository: IngredientsRepository,
-    private recipesRepository: RecipesRepository,
+    private getRecipe: RecipesWithIngredients,
   ) {}
 
   async execute(
     recipeId: string,
     receivedValues: IngredientRequest,
   ): Promise<ReturnToDomain> {
-    const returnDb = await this.recipesRepository.getRecipeProps(+recipeId);
+    const returnDb = await this.getRecipe.execute(+recipeId);
 
     if (!returnDb) throw new NotFoundException();
 

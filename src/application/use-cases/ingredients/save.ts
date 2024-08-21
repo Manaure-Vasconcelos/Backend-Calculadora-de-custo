@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IngredientsRepository } from 'src/application/repositories/ingredients-repository';
 import { EntityFactory } from '@helpers/EntitiesFactory';
-import { RecipesRepository } from '@application/repositories/recipes-repository';
+import { RecipesWithIngredients } from '../recipes/get-with-props';
 
 interface IngredientUpdatingRequest {
   name?: string;
@@ -15,16 +15,14 @@ interface IngredientUpdatingRequest {
 export class SaveIngredient {
   constructor(
     private ingredientsRepository: IngredientsRepository,
-    private recipesRepository: RecipesRepository,
+    private getRecipe: RecipesWithIngredients,
   ) {}
 
   async execute(
     ingredientId: string,
     receivedValues: IngredientUpdatingRequest,
   ) {
-    const returnDb = await this.recipesRepository.getRecipeProps(
-      receivedValues.recipeId,
-    );
+    const returnDb = await this.getRecipe.execute(receivedValues.recipeId);
 
     if (!returnDb) throw new NotFoundException();
 
