@@ -90,14 +90,12 @@ export class EntityFactory {
       title: returnDb.recipe.title,
       describe: returnDb.recipe.describe,
       userId: returnDb.recipe.userId,
-      ingredients: returnDb.recipe.ingredients,
+      ingredients: ingredient
+        ? [...returnDb.recipe.ingredients, ingredient]
+        : returnDb.recipe.ingredients,
       additional: returnDb.recipe.additional,
       createdAt: returnDb.recipe.createdAt,
     });
-
-    if (ingredient) {
-      res.ingredients.push(ingredient);
-    }
 
     return res;
   }
