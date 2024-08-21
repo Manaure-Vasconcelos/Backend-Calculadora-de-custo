@@ -1,48 +1,54 @@
 import { AdditionalRepository } from '@application/repositories/additional-repository';
-import { EntityFactory } from '@helpers/EntitiesFactory';
-import { ReturnGetRecipe } from '@infra/dataBase/prisma/mappers/prisma-recipe-mapper';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { ReturnGetRecipe } from '@infra/dataBase/prisma/mappers/prisma-recipe-mapper';
 import { RecipesWithIngredients } from '../recipes/get-with-props';
+import { EntityFactory } from '@helpers/EntitiesFactory';
 
-export interface AdditionalProps {
+interface AdditionalUpdateProps {
   name: string;
   usedWeight: number;
   marketPrice: number;
   grossWeight: number;
+  recipeId: number;
 }
 
 @Injectable()
-export class CreateAdditional {
+export class SaveAdditional {
   constructor(
     private additional: AdditionalRepository,
     private getRecipe: RecipesWithIngredients,
   ) {}
 
   async execute(
-    recipeId: string,
-    receivedValues: AdditionalProps,
+    additionalId: string,
+    receivedValues: AdditionalUpdateProps,
   ): Promise<ReturnGetRecipe> {
-    const returnDb = await this.getRecipe.execute(+recipeId);
+    const returnDb = await this.getRecipe.execute(receivedValues.recipeId);
 
     if (!returnDb) throw new NotFoundException();
 
     const additional = EntityFactory.createAdditional(
-      +recipeId,
+      receivedValues.recipeId,
       receivedValues,
+      +additionalId,
     );
 
-    const recipe = EntityFactory.createRecipeEntity(+recipeId, returnDb);
+    const recipe = EntityFactory.createRecipeEntity(+additionalId, returnDb);
 
-    recipe.additional.push(additional);
+    recipe.additional.forEach((item, index) => {
+      if (item.id === additional.id) {
+        recipe.additional[index] = additional;
+      }
+    });
 
     const expenses = EntityFactory.createExpensesEntity(
-      +recipeId,
+      receivedValues.recipeId,
       returnDb,
       undefined,
       recipe.additional,
     );
 
-    return await this.additional.create({
+    return await this.additional.save({
       additional,
       valueUnit: expenses.valueUnit,
       valueTotal: expenses.valueTotal,

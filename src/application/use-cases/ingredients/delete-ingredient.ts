@@ -4,23 +4,23 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { IngredientsRepository } from '@application/repositories/ingredients-repository';
-import { RecipesRepository } from '@application/repositories/recipes-repository';
 import { EntityFactory } from '@helpers/EntitiesFactory';
+import { RecipesWithIngredients } from '../recipes/get-with-props';
 
 @Injectable()
 export class DeleteIngredient {
   constructor(
     private ingredientsRepository: IngredientsRepository,
-    private recipesRepository: RecipesRepository,
+    private getRecipe: RecipesWithIngredients,
   ) {}
 
   async execute(recipeId: string, itemId: string) {
     try {
-      const returnDb = await this.recipesRepository.getRecipeProps(+recipeId);
+      const returnDb = await this.getRecipe.execute(+recipeId);
 
       if (!returnDb) throw new NotFoundException();
 
-      const newRecipe = EntityFactory.deleteRecipeEntity(
+      const newRecipe = EntityFactory.deleteIngredient(
         +itemId,
         +recipeId,
         returnDb,
@@ -31,8 +31,6 @@ export class DeleteIngredient {
         returnDb,
         newRecipe.valuePartial || 0,
       );
-
-      newExpenses.calculateValueTotal();
 
       await this.ingredientsRepository.delete(+itemId, newRecipe, newExpenses);
     } catch (error) {
